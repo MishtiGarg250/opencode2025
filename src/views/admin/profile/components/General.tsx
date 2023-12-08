@@ -15,8 +15,9 @@ export default function GeneralInformation(props: { [x: string]: any }) {
     const GitDatalocal = localStorage.getItem('GithubData');
     const ParseData = JSON.parse(GitDatalocal);
     setTempData(ParseData.data);
-  }, []);
-  
+}, []);
+
+console.log("Tempdata from general: ")
   console.log(TempData)
 	const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
 	const textColorSecondary = 'gray.400';

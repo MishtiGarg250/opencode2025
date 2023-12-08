@@ -8,20 +8,27 @@ import Project3 from 'img/profile/Project3.png'
 // Custom components
 import Card from 'components/card/Card'
 import Project from 'views/admin/profile/components/Project'
+import axios from 'axios';
+import { min } from '@floating-ui/utils'
 
 export default function Projects (props: { [x: string]: any }) {
   const { ...rest } = props
   // Chakra Color Mode
-  const[TempData,setTempData] = useState(' ');
-  const[Repos,setRepos] = useState([]);
+  const[TempData,setTempData] = useState(null);
+  const[PRs,setPRs] = useState([]);
 
   useEffect(() => {
-    const GitDatalocal = localStorage.getItem('GithubData');
-    const ParseData = JSON.parse(GitDatalocal);
-    setTempData(ParseData.data);
-    setRepos(ParseData.data.PR
-
-      )
+        async function fetchData() {
+            const response = await fetch('http://localhost:4000/api/v1/participant', {
+                headers: {
+                    'authorization': `Bearer ${localStorage.getItem('token')}`,
+                }
+            })
+            const GitDatalocal = await response.json();
+            setTempData(GitDatalocal.data);
+            setPRs(GitDatalocal.data.PR)
+        }
+        fetchData();
   }, []);
   
   console.log(TempData)
@@ -31,6 +38,7 @@ export default function Projects (props: { [x: string]: any }) {
     '0px 18px 40px rgba(112, 144, 176, 0.12)',
     'unset'
   )
+  const noOfRepos = min(PRs.length, 5)
   return (
     <Card mb={{ base: '0px', '2xl': '20px' }} {...rest}>
       <Text
@@ -40,24 +48,25 @@ export default function Projects (props: { [x: string]: any }) {
         mt='10px'
         mb='4px'
       >
-       Recent Contributed Repositeries
+       Recent Contributions
       </Text>
       <Text color={textColorSecondary} fontSize='md' me='26px' mb='40px'>
-        Here you can find more details about your merged prs. Keep you user
-        engaged by providing meaningful information.
+        Here you can find more details about your prs.
       </Text>
 
       {
-  Repos.slice(0,5).map((repo, index) => (
+    
+  PRs.slice(0, noOfRepos).map((pr, index) => (
     // <li key={index}>{repo.name}</li>
-    <Project
+    <Project key={index}
         boxShadow={cardShadow}
         mb='20px'
         image={Project1}
-        ranking='1'
-        language='English'
-        link={repo.githubUrl}
-        title={repo.title}
+        ranking={pr.prNumber}
+        language={pr.issue.repoName}
+        repoName={pr.issue.repoName}
+        title={pr.issue.issueNumber}
+        status={pr.status}
       />
   ))
 }

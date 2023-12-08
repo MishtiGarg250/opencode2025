@@ -18,12 +18,13 @@ import { MdEdit } from 'react-icons/md';
 export default function Project(props: {
   title: string;
   ranking: number | string;
-  link: string;
+  repoName: string;
   image: string;
   language:string
+  status:string
   [x: string]: any;
 }) {
-  const { title, ranking, link,language, image, ...rest } = props;
+  const { title, ranking, repoName,language, image, status, ...rest } = props;
   // Chakra Color Mode
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
   const textColorSecondary = 'gray.400';
@@ -49,7 +50,7 @@ export default function Project(props: {
             fontSize="md"
             mb="4px"
           >
-            {title}
+            Issue #{title}
           </Text>
           <Flex>
             <Text
@@ -58,15 +59,23 @@ export default function Project(props: {
               fontSize="sm"
               me="4px"
             >
-              {language} #{ranking} •{' '}
+              PR #{ranking} • Repo: 
             </Text>
-            <Link fontWeight="500" color={brandColor} href={link} fontSize="sm">
-              See project details
+            <Link fontWeight="500" color={textColorSecondary} href={JSON.parse(localStorage.getItem('GithubData')).data.githubUrl+"/"+repoName} fontSize="sm">
+              {language}
             </Link>
           </Flex>
+            <Text
+              fontWeight="500"
+              color={textColorPrimary}
+              fontSize="sm"
+              me="4px"
+            >
+                Status: {status}
+            </Text>
         </Box>
         <Link
-          href={link}
+          href={JSON.parse(localStorage.getItem('GithubData')).data.githubUrl+"/"+repoName}
           variant="no-hover"
           me="16px"
           ms="auto"
