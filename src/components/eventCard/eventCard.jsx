@@ -40,9 +40,10 @@ return (
               floated={false}
               shadow={false}
               color="transparent"
-              className="absolute inset-0 m-0 h-full w-full rounded-md bg-[url('https://assets.devfolio.co/hackathons/75c819f20105449991e214a03c92b6fd/assets/cover/273.png')] bg-cover bg-center"
+              className="absolute inset-0 m-0 h-full w-full rounded-md bg-cover bg-center"
             >
-              <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-t from-black/100 via-black/30" />
+              {/* <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-t from-black/100 via-black/30" /> */}
+              
             </CardHeader>
             <CardBody className="relative py-14 px-6 md:px-12">
               {/* <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40"/> */}

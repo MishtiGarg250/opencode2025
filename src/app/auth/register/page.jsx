@@ -57,7 +57,6 @@ export default function SignIn() {
     const urlParam = new URLSearchParams(querystring);
     const TokenParam = urlParam.get('token');
     const AvatarUrl = urlParam.get('avatar_url');
-    console.log(AvatarUrl);
     if(TokenParam===null){
       window.location.assign('localhost:3000/auth/sign-in')
     }
