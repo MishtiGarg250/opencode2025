@@ -1,4 +1,4 @@
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Link } from '@chakra-ui/react';
 import * as React from 'react';
 import {FaTrophy} from 'react-icons/fa'
 
@@ -14,10 +14,12 @@ import {
 // Custom components
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
+import { NextAvatar } from 'components/image/Avatar';
 
 type RowObj = {
 	position: string;
 	name: string;
+    avatarUrl: string;
 	githubid: number;
 	prmerged: string;
 	points:string; 
@@ -84,11 +86,23 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={textColor} fontSize='lg' fontWeight='700'>
-					{info.getValue()}
-				</Text>
+                <Link href={"https://github.com/"+info.getValue()} color={textColor} fontSize='lg' fontWeight='700'>
+                    <Flex align='center'>
+                        <NextAvatar
+                            mx='auto'
+                            src={info.row.original.avatarUrl}
+                            h='47px'
+                            w='47px'
+                            border='4px solid'
+                            borderColor={borderColor}
+                            margin="7px"
+                        />
+                        {info.getValue()}
+                    </Flex>
+                </Link>
 			)
 		}),
+		
 		columnHelper.accessor('prmerged', {
 			id: 'prmerged',
 			header: () => (
