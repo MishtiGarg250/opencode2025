@@ -5,7 +5,16 @@ import {
   Box,
   useDisclosure,
   useColorModeValue,
+  Icon
 } from '@chakra-ui/react';
+import { IRoute } from 'types/navigation';
+import {
+  MdBarChart,
+  MdPerson,
+  MdHome,
+  MdLock,
+  MdOutlineShoppingCart,
+} from 'react-icons/md';
 import Footer from 'components/footer/FooterAdmin';
 // Layout components
 import Navbar from 'components/navbar/NavbarAdmin';
@@ -18,13 +27,65 @@ import {
   getActiveNavbarText,
   getActiveRoute,
 } from 'utils/navigation';
-
+import { useAuth } from 'contexts/AuthContext';
 interface DashboardLayoutProps extends PropsWithChildren {
   [x: string]: any;
 }
 
+
 // Custom Chakra theme
 export default function AdminLayout(props: DashboardLayoutProps) {
+  const auth = useAuth();
+  useEffect(() => {
+    auth.check_login();
+  }, []);
+  const Droutes: IRoute[] = [
+    {
+      name: 'Our Events',
+      layout: '/user',
+      path: '/home',
+      icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    },
+    auth.isLoggedIn && 
+    {
+      name: 'Leaderboard',
+      layout: '/user',
+      icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+      path: '/leaderboard',
+    },
+    // {
+    //   name: 'Geek Market',
+    //   layout: '/admin',
+    //   path: '/nft-marketplace',
+    //   icon: (
+    //     <Icon
+    //       as={MdOutlineShoppingCart}
+    //       width="20px"
+    //       height="20px"
+    //       color="inherit"
+    //     />
+    //   ),
+    //   secondary: true,
+    // },
+    auth.isLoggedIn && 
+    {
+      name: 'Profile',
+      layout: '/user',
+      path: '/profile',
+      icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    },
+    // {
+    //   name: 'Sign In',
+    //   layout: '/auth',
+    //   path: '/sign-in',
+    //   icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    // },
+    
+  ];
+
+
+
+
   const { children, ...rest } = props;
   // states and functions
   const [fixed] = useState(false);
@@ -35,6 +96,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   useEffect(() => {
     window.document.documentElement.dir = 'ltr';
   });
+  
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
 
@@ -46,7 +108,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           setToggleSidebar,
         }}
       >
-        <Sidebar routes={routes} display="none" {...rest} />
+        <Sidebar routes={Droutes} display="none" {...rest} />
         <Box
           float="right"
           minHeight="100vh"
