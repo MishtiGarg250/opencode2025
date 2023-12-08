@@ -20,11 +20,11 @@ import { useAuth }  from 'contexts/AuthContext.js';
 import { use } from 'react';
 import { useEffect } from 'react';
 import { MdLeaderboard } from 'react-icons/md';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 const EventCard=({btnStatus,name,des,image,onLeaderboardClick})=> {
-   
+  const imageData = URL.createObjectURL(image?.data);
 return (
     <>
 
@@ -42,7 +42,15 @@ return (
               color="transparent"
               className="absolute inset-0 m-0 h-full w-full rounded-md bg-cover bg-center"
             >
-              {/* <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-t from-black/100 via-black/30" /> */}
+              <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-t from-black/100 via-black/30">
+                <LazyLoadImage
+                  alt={name}
+                  src={imageData}
+                  effect='blur'
+                  width='600px'
+                  height='400px'
+                />
+              </div>
               
             </CardHeader>
             <CardBody className="relative py-14 px-6 md:px-12">
