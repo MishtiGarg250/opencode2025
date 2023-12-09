@@ -4,14 +4,32 @@ import ReactSimplyCarousel from 'react-simply-carousel';
 import { useEffect } from 'react';
 import { Image } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react';
+
+import { Button, ButtonGroup } from '@chakra-ui/react'
 import axios from 'axios';
 
 var eventData = [];
+const deleteHandler = async (eventName) => {
+  const token = localStorage.getItem('token');  
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  }
+ await axios.delete('http://localhost:4000/api/v1/admin/delete/'+eventName, {headers: headers}).
+   then(()=> {
+    alert("YAY! deleted")
+   })
+   .catch(error => {
+    console.error(error )
+   })
+}
 
 export default function viewevents() {
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [dataLoaded, setDataLoaded] = useState(false);
+
+
+  
 
 
   /*THIS WILL HAVE TO BE CHANGED ONCE DATABASE ACCESS IS RECIEVED*/
@@ -44,11 +62,14 @@ export default function viewevents() {
     <div style={{display: "flex", margin: "auto"}}>
     <h1>{i+1}. {item.name}</h1>
     <Image
-    boxSize='80px'
+    boxSize='130px'
     
     src={item.logoImageURL}
+    style={{paddingRight: 30}}
     alt='Dan Abramov'
+
   />
+  <Button colorScheme='red' size='sm' onClick={()=>deleteHandler(item.name)}>DELETE EVENT</Button>
   </div>
   <div>
     <p className="text-sm">{item.description}</p>
