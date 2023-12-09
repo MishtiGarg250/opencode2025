@@ -4,6 +4,7 @@ import ReactSimplyCarousel from 'react-simply-carousel';
 import { useEffect } from 'react';
 import { Image } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react';
+import axios from 'axios';
 
 var eventData = [];
 
@@ -15,14 +16,15 @@ export default function viewevents() {
 
   /*THIS WILL HAVE TO BE CHANGED ONCE DATABASE ACCESS IS RECIEVED*/
   useEffect(() => {
-    // Check if window is defined to ensure it's on the client side
-    if (typeof window !== 'undefined') {
-      // Access localStorage here
-       eventData = JSON.parse(localStorage.getItem('eventsArray'));
-       console.log(eventData)
-      // ...
+   axios.get('http://localhost:4000/api/v1/events/').
+    then((response) => {
+      eventData = response.data;
+      console.log(eventData);
       setDataLoaded(true);
-    }
+    })
+    .catch(error=>{
+      console.error(error)
+    })
   }, []);
   if (!dataLoaded) {
     return <div>Loading...</div>; // or any loading indicator
@@ -36,7 +38,7 @@ export default function viewevents() {
   }
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }} >
-    {eventData.map((item,i)=>
+    {eventData.data.map((item,i)=>
     
     <div style={{paddingTop: 20}}>
     <div style={{display: "flex", margin: "auto"}}>
@@ -44,12 +46,12 @@ export default function viewevents() {
     <Image
     boxSize='80px'
     
-    src={item.logo}
+    src={item.logoImageURL}
     alt='Dan Abramov'
   />
   </div>
   <div>
-    <p className="text-sm">{item.desc}</p>
+    <p className="text-sm">{item.description}</p>
   </div>
     <div >
       <ReactSimplyCarousel
@@ -101,11 +103,11 @@ export default function viewevents() {
         speed={400}
         easing="linear"
       >
-        {item.cover.map((img,j)=><div style={{ width: 300, height: 325,  }}>
+        {item.coverImagesURL?.map((img,j)=><div style={{ width: 300, height: 325,  }}>
         <Image
     boxSize='300px'
     
-    src={img}
+    src={img.url}
     alt='Dan Abramov'
   /><p>Image {j+1}</p></div>
   )}
