@@ -26,10 +26,7 @@ import DefaultAuthLayout from 'layouts/auth/Default';
 // Assets
 import Link from 'next/link';
 import { useEffect } from 'react';
-import { FcGoogle } from 'react-icons/fc';
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
-import { RiEyeCloseLine } from 'react-icons/ri';
-import axios from 'axios';
+
 import { useRouter } from 'next/navigation';
 
 export default function SignIn() {

@@ -28,6 +28,27 @@ export async function getUserPRDetails(githubId,eventName){
 
 }
 
+export async function EditPRPoints(prUpdateData) {
+    try {
+      const token = localStorage.getItem('token');
+  
+      const response = await fetch('http://localhost:4000/api/v1/admin/modify', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(prUpdateData),
+      });
+  
+  
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error sending registration data:', error.message);
+    }
+  }
+
 
 
 
