@@ -55,7 +55,9 @@ export default function GeneralInformation(props: {
           title="Discord ID"
           value={discordId}
         />
-        <Information boxShadow={cardShadow} title="Email" value={email} />
+        <Information boxShadow={cardShadow} title="Email" 
+        value={email}
+        />
       </SimpleGrid>
     </Card>
   );

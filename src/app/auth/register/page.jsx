@@ -17,9 +17,9 @@ import {
   useColorModeValue,
   Select,
 } from '@chakra-ui/react';
-import {FetchedData,sendRegData} from '../../api/profile/profile'
+import { FetchedData, sendRegData } from '../../api/profile/profile';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useToast } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react';
 // Custom components
 import { HSeparator } from 'components/separator/Separator';
 import DefaultAuthLayout from 'layouts/auth/Default';
@@ -30,12 +30,9 @@ import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import axios from 'axios';
-
-
-
+import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
- 
   const [gituser, setGitUser] = useState('');
   const [formData, setformData] = useState({
     name: gituser,
@@ -44,28 +41,27 @@ export default function SignIn() {
     branch: '',
     college: '',
     discordId: '',
-    githubId:'',
+    githubId: '',
     graduationYear: '',
-    avatarUrl:'',
-
+    avatarUrl: '',
   });
 
-  const toast = useToast()
+  const toast = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
     const TokenParam = urlParam.get('token');
     const AvatarUrl = urlParam.get('avatar_url');
-    if(TokenParam===null){
-      window.location.assign('localhost:3000/auth/sign-in')
+    if (TokenParam === null) {
+      window.location.assign('localhost:3000/auth/sign-in');
     }
     const avatarUrl = urlParam.get('avatarUrl');
     setformData({
       ...formData,
-      avatarUrl: avatarUrl
+      avatarUrl: avatarUrl,
     });
-    
 
     localStorage.setItem('token', TokenParam);
 
@@ -73,24 +69,14 @@ export default function SignIn() {
       ...prevData,
       avatarUrl: AvatarUrl || '',
     }));
-  
-
-
   }, []);
-
- 
-
-
-
-   
-  
 
   const textColor = useColorModeValue('navy.700', 'white');
   const textColorSecondary = 'gray.400';
   const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
- 
+
   const googleActive = useColorModeValue(
     { bg: 'secondaryGray.300' },
     { bg: 'whiteAlpha.200' },
@@ -98,35 +84,27 @@ export default function SignIn() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
 
-  
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setformData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  
   };
-  
-
-
 
   const registerMutation = useMutation({
-    mutationFn:sendRegData,
-    onSuccess:()=>{
-      console.log("Success")
+    mutationFn: sendRegData,
+    onSuccess: () => {
+      router.push('/user/home');
     },
-    onError:()=>{
-      console.log("Error");
-    }
-  })
+    onError: () => {
+      console.log('Error');
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     registerMutation.mutate(formData);
-
-    
 
     for (const key in formData) {
       if (formData.hasOwnProperty(key) && formData[key].trim() === '') {
@@ -137,24 +115,15 @@ export default function SignIn() {
           status: 'error',
           duration: 9000,
           isClosable: true,
-        })
-        return; 
+        });
+        return;
       }
     }
-
-  
-   
-  
 
     console.log(formData);
   };
 
- 
-
-
-
   return (
-
     <DefaultAuthLayout>
       <Container maxW="full" centerContent>
         <Flex
@@ -216,8 +185,6 @@ export default function SignIn() {
                   placeholder="Enter Name"
                   name="name"
                   onChange={handleChange}
-
-                  
                   mb="24px"
                   fontWeight="500"
                   size="lg"
@@ -324,7 +291,6 @@ export default function SignIn() {
                   fontWeight="500"
                   color={textColor}
                   mb="8px"
-                  
                 >
                   Enter College<Text color={brandStars}>*</Text>
                 </FormLabel>

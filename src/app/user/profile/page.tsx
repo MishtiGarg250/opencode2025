@@ -92,7 +92,7 @@ export default function ProfileOverview() {
       >
         
         <Projects
-          name='akshayw1'
+          name={JSON.parse(localStorage.getItem('GithubData')).data.githubId}
         />
         <General
         name={TempData.name}

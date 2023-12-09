@@ -86,7 +86,7 @@ export default function Projects (props: { name:string, [x: string]: any }) {
       />
     ))
   ) : (
-    <div className='flex justify-center items-center text-xl' >{profName} have made 0 PRs.</div>
+    <div className='flex justify-center items-center text-xl' >{name} has made 0 PRs.</div>
   )
 }
      
