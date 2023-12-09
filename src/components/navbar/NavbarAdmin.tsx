@@ -36,7 +36,7 @@ useEffect(() => {
  
 }, []);
 
-console.log(TempData)
+
 
   useEffect(() => {
     if (isWindowAvailable()) {

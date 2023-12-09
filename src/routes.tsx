@@ -15,9 +15,27 @@ import { IRoute } from 'types/navigation';
 
 const routes: IRoute[] = [
   {
-    name: 'Our Events',
+    name: 'All Events',
     layout: '/user',
     path: '/home',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: 'Add Events',
+    layout: '/admin',
+    path: '/addevent',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: 'View Events',
+    layout: '/admin',
+    path: '/viewevents',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: 'Change Points',
+    layout: '/admin',
+    path: '/changepoints',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
   },
   

@@ -11,6 +11,8 @@ import { useAuth } from 'contexts/AuthContext.js';
 import { use } from 'react';
 import { useEffect } from 'react';
 import EventCard from 'components/eventCard/eventCard';
+import { RingLoader } from 'react-spinners';
+import testImage from '../../../img/avatars/avatar3.png'
 
 export default function Dashboard() {
   const router = useRouter();
@@ -30,10 +32,12 @@ export default function Dashboard() {
     queryFn: FetchedData,
   });
 
-  const { data: eventData } = useQuery({
+  const { data: eventData,isLoading } = useQuery({
     queryKey: ['EventInfo'],
     queryFn: FetchedEvents,
   });
+
+ 
 
   const events = eventData?.data;
 
@@ -51,8 +55,13 @@ export default function Dashboard() {
     setGitData(ParseData?.data);
   }, []);
 
-  if (!eventData) {
-    return <div>No event data available</div>;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <RingLoader color="#36d7b7" />
+      </div>
+    );
   }
 
   const brandColor = useColorModeValue('brand.500', 'white');
@@ -68,7 +77,7 @@ export default function Dashboard() {
           }
           name={event.name}
           des={event.description}
-          image={event.logoUrl}
+          image={event.logoUrl || testImage}
           onLeaderboardClick={handleLeaderboardclick}
         />
       ))}

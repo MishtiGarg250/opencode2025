@@ -18,17 +18,28 @@ import { useRouter } from 'next/navigation';
 import NFT from '../../../components/card/NFT'
 import { FetchedEvents } from 'app/api/events/events';
 import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
+import testImage from '../../../img/avatars/avatar3.png'
+import { RingLoader } from 'react-spinners';
 
 
 
 export default function DataTables() {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const textColorBrand = useColorModeValue('brand.500', 'white');
-  const { data: eventData } = useQuery({
+  
+  
+  const { data: eventData,isLoading } = useQuery({
     queryKey: ['EventInfo'],
     queryFn: FetchedEvents,
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <RingLoader color="#36d7b7" />
+      </div>
+    );
+  }
 
 
   const events = eventData?.data;
@@ -51,18 +62,18 @@ export default function DataTables() {
   
       <Grid
         mb="20px"
-        gridTemplateColumns={{ xl: 'repeat(3, 1fr)', '2xl': '1fr 0.46fr' }}
+        gridTemplateColumns={{ xl: 'repeat(2, 1fr)', '2xl': '1fr 0.46fr' }}
         gap={{ base: '20px', xl: '20px' }}
         display={{ base: 'block', xl: 'grid' }}
       >
         <Flex
           flexDirection="column"
-          gridArea={{ xl: '1 / 1 / 2 / 3', '2xl': '1 / 1 / 2 / 2' }}
+          gridArea={{ xl: '1 / 1 / 2 / 3', '2xl': '1 / 3 / 2 / 2' }}
         >
        
           <Flex direction="column">
             <Flex
-              mt="45px"
+              mt="25px"
               mb="20px"
               justifyContent="space-between"
               direction={{ base: 'column', md: 'row' }}
@@ -87,7 +98,7 @@ export default function DataTables() {
         name={event.name}
         des={event.description}
         key={event.name}
-        image={`data:image/png;base64,${event.logoUrl?.data}`}
+        image={event.logoUrl || testImage  }
         download={`/user/leaderboard/${event.name}`}
       />
         

@@ -53,20 +53,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
       icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
       path: '/leaderboard',
     },
-    // {
-    //   name: 'Geek Market',
-    //   layout: '/admin',
-    //   path: '/nft-marketplace',
-    //   icon: (
-    //     <Icon
-    //       as={MdOutlineShoppingCart}
-    //       width="20px"
-    //       height="20px"
-    //       color="inherit"
-    //     />
-    //   ),
-    //   secondary: true,
-    // },
+  
     auth.isLoggedIn && 
     {
       name: 'Profile',
@@ -74,13 +61,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
       path: '/profile',
       icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     },
-    // {
-    //   name: 'Sign In',
-    //   layout: '/auth',
-    //   path: '/sign-in',
-    //   icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-    // },
-    
+   
   ];
 
 
@@ -127,7 +108,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
             <Box>
               <Navbar
                 onOpen={onOpen}
-                logoText={'Horizon UI Dashboard PRO'}
+                logoText={'Geekhaven'}
                 brandText={getActiveRoute(routes)}
                 secondary={getActiveNavbar(routes)}
                 message={getActiveNavbarText(routes)}

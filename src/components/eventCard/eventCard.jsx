@@ -13,7 +13,8 @@ import { use } from 'react';
 import { useEffect } from 'react';
 import { MdLeaderboard } from 'react-icons/md';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-
+import testImg from '../../img/avatars/avatar2.png'
+import Image from 'next/image';
 const EventCard = ({ btnStatus, name, des, image, onLeaderboardClick }) => {
   return (
     <>
@@ -31,12 +32,14 @@ const EventCard = ({ btnStatus, name, des, image, onLeaderboardClick }) => {
               className="absolute inset-0 m-0 h-full w-full rounded-md bg-cover bg-center"
             >
               <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-t from-black/100 via-black/30">
-                <LazyLoadImage
-                  alt={name}
-                  effect="blur"
-                  width="600px"
-                  height="400px"
-                />
+              
+     <LazyLoadImage
+    alt={name}
+    effect="blur"
+    width="600px"
+    height="400px"
+    src={image} // Adjust the path to your image
+  />
               </div>
             </CardHeader>
             <CardBody className="relative py-14 px-6 md:px-12">

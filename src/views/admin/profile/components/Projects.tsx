@@ -10,28 +10,42 @@ import Card from 'components/card/Card'
 import Project from 'views/admin/profile/components/Project'
 import axios from 'axios';
 import { min } from '@floating-ui/utils'
-
-export default function Projects (props: { [x: string]: any }) {
-  const { ...rest } = props
+import { RingLoader } from 'react-spinners'
+import { getPRDetails } from 'app/api/profile/profile'
+import { useQuery } from '@tanstack/react-query'
+export default function Projects (props: { name:string, [x: string]: any }) {
+  const {name ,...rest } = props
   // Chakra Color Mode
   const[TempData,setTempData] = useState(null);
   const[PRs,setPRs] = useState([]);
 
-  useEffect(() => {
-        async function fetchData() {
-            const response = await fetch('http://localhost:4000/api/v1/participant', {
-                headers: {
-                    'authorization': `Bearer ${localStorage.getItem('token')}`,
-                }
-            })
-            const GitDatalocal = await response.json();
-            setTempData(GitDatalocal.data);
-            setPRs(GitDatalocal.data.PR)
-        }
-        fetchData();
-  }, []);
+  const profName = name;
+ 
+  const { data: PrDetails, isLoading } = useQuery({
+    queryKey: ['PrDetails'],
+    queryFn: () => getPRDetails(profName),
+  });
+
+  useEffect(()=>{
+    if(PrDetails){
+      setPRs(PrDetails)
+    }
+  },[PrDetails])
+
+  console.log(PRs)
   
-  console.log(TempData)
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <RingLoader color="#36d7b7" />
+      </div>
+    );
+  }
+
+  
+  
+  
+
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white')
   const textColorSecondary = 'gray.400'
   const cardShadow = useColorModeValue(
@@ -54,11 +68,13 @@ export default function Projects (props: { [x: string]: any }) {
         Here you can find more details about your prs.
       </Text>
 
+
+
       {
-    
-  PRs.slice(0, noOfRepos).map((pr, index) => (
-    // <li key={index}>{repo.name}</li>
-    <Project key={index}
+  PRs.length ? (
+    PRs.slice(0, noOfRepos).map((pr, index) => (
+      <Project
+        key={index}
         boxShadow={cardShadow}
         mb='20px'
         image={Project1}
@@ -68,7 +84,10 @@ export default function Projects (props: { [x: string]: any }) {
         title={pr.issue.issueNumber}
         status={pr.status}
       />
-  ))
+    ))
+  ) : (
+    <div className='flex justify-center items-center text-xl' >{profName} have made 0 PRs.</div>
+  )
 }
      
     </Card>

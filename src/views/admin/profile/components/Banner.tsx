@@ -7,17 +7,22 @@ export default function Banner (props: {
   banner: string
   avatar: string
   name: string
-  job: string
-  posts: number | string
-  followers: number | string
-  following: number | string
+  
+  githubUrl:string
+  prMerged: number | string
+  prContributed: number | string
+  pointsEarned: number | string
   [x: string]: any
 }) {
   const {
     banner,
+    githubUrl,
     avatar,
     name,
-    job,
+    pointsEarned,
+  
+    prMerged,
+    prContributed,
     posts,
     followers,
     following,
@@ -33,7 +38,6 @@ export default function Banner (props: {
     setTempData(ParseData.data);
   }, []);
   
-  console.log(TempData)
   
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white')
   const textColorSecondary = 'gray.400'
@@ -44,7 +48,7 @@ export default function Banner (props: {
   return (
     <Card mb={{ base: '0px', lg: '20px' }} mt={{base: '20px'}} padding="0" paddingBottom="20px" alignItems='center' {...rest}>
       <Box
-        bg={`url(${TempData.avatarUrl})`}
+        bg={banner}
         bgSize='cover'
         borderRadius='16px'
         h='100%'
@@ -54,8 +58,7 @@ export default function Banner (props: {
       />
       <NextAvatar
         mx='auto'
-        src={TempData.avatarUrl
-        }
+        src={avatar}
         h='87px'
         w='87px'
         mt='-43px'
@@ -65,16 +68,15 @@ export default function Banner (props: {
         top='10px'
       />
       <Text color={textColorPrimary} fontWeight='bold' fontSize='xl' mt='10px'>
-     {TempData.name}
+    {name}
       </Text>
       <Text color={textColorSecondary} fontSize='sm'>
-      {TempData.githubId
-}
+     {githubUrl}
       </Text>
       <Flex w='max-content' mx='auto' mt='26px' position='relative' left='30px'>
         <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
-            {TempData.PR?.length}
+          {prContributed}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
             Recent PRs <br/>Contributed
@@ -82,7 +84,7 @@ export default function Banner (props: {
         </Flex>
         <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
-            {TempData.prMerged}
+           {prMerged}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
             Recent PRs <br/>Merged
@@ -90,7 +92,7 @@ export default function Banner (props: {
         </Flex>
         <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
-            {TempData.points}
+           {pointsEarned}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
 Recent Points <br/>Earned         </Text>

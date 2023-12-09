@@ -86,7 +86,7 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 				</Text>
 			),
 			cell: (info) => (
-                <Link href={"https://github.com/"+info.getValue()} color={textColor} fontSize='lg' fontWeight='700'>
+                <Link href={"/user/profile/"+info.getValue()} color={textColor} fontSize='lg' fontWeight='700'>
                     <Flex align='center'>
                         <NextAvatar
                             mx='auto'

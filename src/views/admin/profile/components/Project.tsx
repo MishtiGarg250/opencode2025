@@ -13,7 +13,7 @@ import Card from 'components/card/Card';
 import { FaGithub } from "react-icons/fa";
 import { Image } from 'components/image/Image';
 // Assets
-import { MdEdit } from 'react-icons/md';
+
 
 export default function Project(props: {
   title: string;

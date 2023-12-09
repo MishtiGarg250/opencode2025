@@ -4,7 +4,7 @@ import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
 import { useQuery } from '@tanstack/react-query';
 // import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
-import React from 'react';
+import React, { useState } from 'react';
 import AdminLayout from 'layouts/admin';
 import { useRouter } from 'next/navigation';
 import { FetchedLeaderboard } from '../../../api/leaderboard/leaderboard';
@@ -13,6 +13,7 @@ import { RingLoader } from 'react-spinners';
 
 export default function EventName({ params }: { params: { eventName: string } }) {
   const eventName = params.eventName;
+
 
   const { data: LeadData, isLoading } = useQuery({
     queryKey: ['LeadInfo'],
