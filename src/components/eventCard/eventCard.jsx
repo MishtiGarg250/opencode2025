@@ -35,7 +35,7 @@ const EventCard = ({ btnStatus, name, des, image, onLeaderboardClick }) => {
               
      <LazyLoadImage
     alt={name}
-    effect="blur"
+    effect="opacity"
     width="600px"
     height="400px"
     src={image} // Adjust the path to your image

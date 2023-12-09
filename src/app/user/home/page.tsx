@@ -77,7 +77,7 @@ export default function Dashboard() {
           }
           name={event.name}
           des={event.description}
-          image={event.logoUrl || testImage}
+          image={event.logoImageURL}
           onLeaderboardClick={handleLeaderboardclick}
         />
       ))}

@@ -98,7 +98,7 @@ export default function DataTables() {
         name={event.name}
         des={event.description}
         key={event.name}
-        image={event.logoUrl || testImage  }
+        image={event.logoImageURL}
         download={`/user/leaderboard/${event.name}`}
       />
         

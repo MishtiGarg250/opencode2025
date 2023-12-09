@@ -35,7 +35,7 @@ const targetDate = new Date(currentDate.getFullYear(), 11, 14);
         top="-47px"
         transform="translate(-50%, 0%)"
       >
-        <Image alt="" src={logoWhite} w="40px" h="40px" />
+        <Image alt="gh-white-logo" src={logoWhite} w="40px" h="40px" />
       </Flex>
       <Flex
         direction="column"
@@ -66,7 +66,7 @@ const targetDate = new Date(currentDate.getFullYear(), 11, 14);
          Start your Open Source Contribution journey from here! at IIIT Allahabad
         </Text>
       </Flex>
-      <Link href="opencodeiiita.devfolio.co">
+      <Link href="https://opencodeiiita.devfolio.co">
         <Button
           bg="whiteAlpha.300"
           _hover={{ bg: 'whiteAlpha.200' }}

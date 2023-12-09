@@ -3,9 +3,8 @@ import * as React from 'react'
 import NextImage from 'next/image'
 import { ComponentProps } from 'react'
 
-interface ImageProps extends ComponentProps<ChakraComponent<'div', {}>> {}
 
-export const Image = (props: ImageProps) => {
+export const Image = (props: any) => {
   const { src, alt, ...rest } = props
   return (
     <Box overflow={'hidden'} position='relative' {...rest}>
