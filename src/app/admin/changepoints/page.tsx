@@ -87,7 +87,7 @@ export default function Dashboard() {
     mutationFn: EditPRPoints,
     onSuccess: () => {
       console.log('Success');
-      // Show a success toast
+      
       toast({
         title: 'Points Updated',
         description: 'PR points were successfully updated.',
@@ -134,10 +134,10 @@ export default function Dashboard() {
         eventName,
       };
   
-      // Log the updated data
+      
       console.log(prUpdateData);
   
-      // Mutate the data
+      
       pointUpdate.mutate(prUpdateData);
     }
   };

@@ -8,17 +8,17 @@ export const AuthProvider = ({ children }) => {
 
   const check_login = () => {
     
-    //alert("I'm called")
+
     if (localStorage.getItem('GithubData') !== null && localStorage.getItem('token')) {
 
       setLoggedIn(true);
-     // alert("I'm set to true");
+    
     }
 
   };
 
   const logout = () => {
-    // Perform your logout logic here
+  
     localStorage.removeItem('token');
     localStorage.removeItem('GithubData');
     setLoggedIn(false);

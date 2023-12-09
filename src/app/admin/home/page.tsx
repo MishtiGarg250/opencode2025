@@ -29,6 +29,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { getUserPRDetails } from 'app/api/admin/admin';
 import { RingLoader } from 'react-spinners';
 import {useAuth} from '../../../contexts/AuthContext.js';
+import { FetchedData } from 'app/api/profile/profile.js';
 
 import {
   Modal,
@@ -67,13 +68,22 @@ export default function Dashboard() {
   };
 
   const [userPrDetails, setuserPrDetails] = useState([]);
+  const [GitData, setGitData] = useState({});
 
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
+  const auth = useAuth();
+
+  const { data: userData } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: FetchedData,
+  });
+
+
   useEffect(() => {
-    const auth = useAuth();
+    
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
     const TokenParam = urlParam.get('token');
@@ -81,6 +91,10 @@ export default function Dashboard() {
       auth.check_login();
     }
     else localStorage.setItem('token',TokenParam);
+    const GitDatalocal = localStorage.getItem('GithubData');
+
+    const ParseData = JSON.parse(GitDatalocal);
+    setGitData(ParseData?.data);
   }, []);
 
   interface Event {
@@ -91,7 +105,7 @@ export default function Dashboard() {
     mutationFn: EditPRPoints,
     onSuccess: () => {
       console.log('Success');
-      // Show a success toast
+      
       toast({
         title: 'Points Updated',
         description: 'PR points were successfully updated.',
@@ -138,10 +152,10 @@ export default function Dashboard() {
         eventName,
       };
   
-      // Log the updated data
+      
       console.log(prUpdateData);
   
-      // Mutate the data
+      
       pointUpdate.mutate(prUpdateData);
     }
   };
@@ -151,10 +165,7 @@ export default function Dashboard() {
     queryFn: FetchedEvents,
   });
 
-  const handleSubmit = (data: any) => {
-    console.log(data);
-    pointUpdate.mutate(data);
-  };
+
 
   const {
     data: userPrDeatils,

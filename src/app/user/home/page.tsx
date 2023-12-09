@@ -55,7 +55,7 @@ export default function Dashboard() {
     setGitData(ParseData?.data);
   }, []);
 
-
+  
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
