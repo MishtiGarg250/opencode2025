@@ -203,7 +203,9 @@ const brandColor = useColorModeValue('brand.500', 'white');
  
 
   if(!eventData){
-    return <div> No data</div>
+    return  <div className="flex justify-center items-center h-screen">
+    <RingLoader color="#36d7b7" />
+  </div>
   }
 
 

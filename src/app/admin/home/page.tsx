@@ -47,35 +47,37 @@ import { useToast } from '@chakra-ui/react'
 
 export default function Dashboard() {
 
-  const toast = useToast();
-  const [githubId, setGithubId] = useState('');
-  const [eventName, setEventName] = useState('');
-  const [selectedPrDetails, setSelectedPrDetails] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [changePointData, setChangePointData] = useState(null);
+const toast = useToast();
+const [githubId, setGithubId] = useState('');
+const [eventName, setEventName] = useState('');
+const [selectedPrDetails, setSelectedPrDetails] = useState(null);
+const [isModalOpen, setIsModalOpen] = useState(false);
+const [changePointData, setChangePointData] = useState(null);
 const [incrementPoints, setIncrementPoints] = useState('');
+const [userPrDetails,setuserPrDetails] = useState([])
+
 
 
 const handleIncrementPointsChange = (e) => {
   setIncrementPoints(e.target.value);
 };
-  const handleOpenModal = (prDetails:any) => {
+
+const handleOpenModal = (prDetails:any) => {
     setSelectedPrDetails(prDetails);
     setIsModalOpen(true);
-  };
+};
 
-  const handleCloseModal = () => {
+const handleCloseModal = () => {
     setSelectedPrDetails(null);
     setIncrementPoints('');
     setIsModalOpen(false);
-  };
+};
  
-  const [userPrDetails,setuserPrDetails] = useState([])
 
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
+const textColor = useColorModeValue('secondaryGray.900', 'white');
+const textColorBrand = useColorModeValue('brand.500', 'white');
 const brandColor = useColorModeValue('brand.500', 'white');
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
+const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
   useEffect(() => {
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
@@ -94,19 +96,16 @@ const brandColor = useColorModeValue('brand.500', 'white');
     mutationFn:EditPRPoints,
     onSuccess:()=>{
       console.log("Success");
-      // Show a success toast
+
       toast({
         title: 'Points Updated',
         description: 'PR points were successfully updated.',
         status: 'success',
-        duration: 10000,
+        duration: 9000,
         isClosable: true,
       });
 
       setIsModalOpen(false);
-
-      
-
     },
     onError:()=>{
       console.log("Error");
@@ -120,11 +119,8 @@ const brandColor = useColorModeValue('brand.500', 'white');
     }
   })
 
-
-  
-
   const handleChangePoints = () => {
-    if (incrementPoints == '') {
+    if (incrementPoints === '') {
       toast({
         title: 'Enter a point to increment!',
         status: 'warning',
@@ -134,41 +130,34 @@ const brandColor = useColorModeValue('brand.500', 'white');
       return;
     }
   
-   
     if (selectedPrDetails) {
       const { repoName, prNumber, issueNumber } = selectedPrDetails;
-      const incrementPointsAsNumber = parseInt(incrementPoints, 10) || 0; // Assuming it's an integer
+      const incrementPointsAsNumber = parseInt(incrementPoints, 10);
   
       const prUpdateData = {
         repoName,
         prNumber,
         issueNumber,
         pointIncrement: incrementPointsAsNumber,
-        githubId: githubId,
-        eventName: eventName,
+        githubId,
+        eventName,
       };
   
-   
-      setChangePointData(prUpdateData);
-      setChangePointData((prevData:any) => {
-        handleSubmit(prevData);
-      });
+      // Log the updated data
+      console.log(prUpdateData);
   
-     
+      // Mutate the data
+      pointUpdate.mutate(prUpdateData);
     }
   };
+  
   
   const { data: eventData } = useQuery({
     queryKey: ['EventInfo'],
     queryFn: FetchedEvents,
-  });
+    });
 
-  const handleSubmit = (data:any) => {
-  
-   console.log(data)
-    pointUpdate.mutate(data);
-
-  }
+ 
  
 
   const { data: userPrDeatils,refetch,isLoading,isError } = useQuery({
