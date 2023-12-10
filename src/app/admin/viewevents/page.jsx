@@ -34,7 +34,7 @@ export default function Viewevents() {
 
   /*THIS WILL HAVE TO BE CHANGED ONCE DATABASE ACCESS IS RECIEVED*/
   useEffect(() => {
-   axios.get(`${process.env.BACKEND_URL}/api/v1/events/`).
+   axios.get(`http://localhost:4000/api/v1/events/`).
     then((response) => {
       eventData = response.data;
       console.log(eventData);
@@ -49,9 +49,9 @@ export default function Viewevents() {
   }
   if(!eventData){
     return (
-      <div>
-         <Image src='https://imageio.forbes.com/blogs-images/zarastone/files/2017/05/21Amazon-Barkley-404.jpg?height=711&width=711&fit=bounds' width={500} height={500} alt='no data'></Image>
-      </div>
+      <Box pt={{ base: '130px', md: '80px', xl: '80px' }} >
+        <h1>NO DATA FOUND</h1>
+     </Box>
     )
   }
   return (
