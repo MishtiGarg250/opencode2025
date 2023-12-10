@@ -29,7 +29,7 @@ import { RiEyeCloseLine } from 'react-icons/ri';
 export default function SignIn() {
 
   const handleLoginWithGitHub = () => {
-    window.location.assign(`${process.env.BACKEND_URL}/api/v1/auth/github`);
+    window.location.assign(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/github`);
   };
 
   

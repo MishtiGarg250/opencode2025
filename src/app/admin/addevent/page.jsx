@@ -77,7 +77,7 @@ const addevent = () => {
       const token = localStorage.getItem('token');
 
       const response = await axios.post(
-        `${process.env.BACKEND_URL}/api/v1/admin/create`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/create`,
         formData,
         {
           headers: {

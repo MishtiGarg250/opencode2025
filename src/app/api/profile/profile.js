@@ -5,7 +5,7 @@ export async function FetchedData() {
   if (token === null) {
     auth.check_login();
   } else {
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/participant/`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export async function sendRegData(formData) {
   try {
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/register`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export async function otherUserProfile(profileName) {
   const token = localStorage.getItem('token');
 
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/v1/participant/${profileName}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/${profileName}`,
     {
       method: 'GET',
       headers: {
@@ -91,7 +91,7 @@ export async function getPRDetails(name) {
   const token = localStorage.getItem('token');
 
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/v1/participant/${name}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/${name}`,
     {
       method: 'GET',
       headers: {

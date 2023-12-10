@@ -1,7 +1,7 @@
 export async function getUserPRDetails(githubId,eventName){
   
     const response = await fetch(
-      `${process.env.BACKEND_URL}/api/v1/participant/${githubId}/${eventName}/pr`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/${githubId}/${eventName}/pr`,
       {
         method: 'GET',
         headers: {
@@ -32,7 +32,7 @@ export async function EditPRPoints(prUpdateData) {
     try {
       const token = localStorage.getItem('token');
   
-      const response = await fetch(`${process.env.BACKEND_URL}/api/v1/admin/modify`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/modify`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

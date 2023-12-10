@@ -14,7 +14,7 @@ const deleteHandler = async (eventName) => {
   const headers = {
     'Authorization': `Bearer ${token}`,
   }
- await axios.delete(`${process.env.BACKEND_URL}/api/v1/admin/delete/`+eventName, {headers: headers}).
+ await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/delete/`+eventName, {headers: headers}).
    then(()=> {
     alert("YAY! deleted")
    })
@@ -34,7 +34,7 @@ export default function viewevents() {
 
   /*THIS WILL HAVE TO BE CHANGED ONCE DATABASE ACCESS IS RECIEVED*/
   useEffect(() => {
-   axios.get(`${process.env.BACKEND_URL}/api/v1/events/`).
+   axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/events/`).
     then((response) => {
       eventData = response.data;
       console.log(eventData);

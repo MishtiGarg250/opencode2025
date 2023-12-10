@@ -1,7 +1,7 @@
 export async function FetchedEvents(){
   
     const response = await fetch(
-      `${process.env.BACKEND_URL}/api/v1/events/`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/events/`,
       {
         method: 'GET',
         headers: {
