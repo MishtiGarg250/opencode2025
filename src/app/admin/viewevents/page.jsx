@@ -23,7 +23,7 @@ const deleteHandler = async (eventName) => {
    })
 }
 
-export default function viewevents() {
+export default function Viewevents() {
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -50,7 +50,7 @@ export default function viewevents() {
   if(!eventData){
     return (
       <div>
-        <img src="https://imageio.forbes.com/blogs-images/zarastone/files/2017/05/21Amazon-Barkley-404.jpg?height=711&width=711&fit=bounds"></img>
+         <Image src='https://imageio.forbes.com/blogs-images/zarastone/files/2017/05/21Amazon-Barkley-404.jpg?height=711&width=711&fit=bounds' width={500} height={500} alt='no data'></Image>
       </div>
     )
   }
@@ -58,7 +58,7 @@ export default function viewevents() {
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }} >
     {eventData.data.map((item,i)=>
     
-    <div style={{paddingTop: 20}}>
+    <div style={{paddingTop: 20}} key={i}>
     <div style={{display: "flex", margin: "auto"}}>
     <h1>{i+1}. {item.name}</h1>
     <Image
@@ -124,7 +124,7 @@ export default function viewevents() {
         speed={400}
         easing="linear"
       >
-        {item.coverImagesURL?.map((img,j)=><div style={{ width: 300, height: 325,  }}>
+        {item.coverImagesURL?.map((img,j)=><div style={{ width: 300, height: 325,  }} key={j}>
         <Image
     boxSize='300px'
     

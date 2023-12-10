@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const formData = new FormData();
 
-const addevent = () => {
+export default function Addevent  ()  {
   const [eventData, setEventData] = useState({
     Fullname: '',
     Description: '',
@@ -200,5 +200,3 @@ const addevent = () => {
     </Box>
   );
 };
-
-export default addevent;
