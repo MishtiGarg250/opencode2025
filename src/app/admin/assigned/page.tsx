@@ -16,7 +16,7 @@ export default function Assigned() {
           // Simulate fetching data from the backend
           var newData=[{ username: "om222", issues: 5 }, { username: "om333", issues: 10 }, { username: "aksahyw", issues: 69 }];
           setSamplespace(newData);
-          alert("Data fetched successfully!");
+          //alert("Data fetched successfully!");
         } catch (error) {
           console.error('Error fetching data:', error);
         }
@@ -25,7 +25,7 @@ export default function Assigned() {
       fetchData();
       setSearchClicked(false);
     }
-  }, [searchClicked]);
+  });
 
   function handleSearch() {
     setSearchClicked(true);
