@@ -37,7 +37,7 @@ export default function Banner (props: {
   useEffect(() => {
     const GitDatalocal = localStorage.getItem('GithubData');
     const ParseData = JSON.parse(GitDatalocal);
-    setTempData(ParseData.data);
+    setTempData(ParseData?.data);
   }, []);
   
   

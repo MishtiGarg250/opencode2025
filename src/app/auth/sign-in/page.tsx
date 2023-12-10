@@ -25,18 +25,12 @@ import { FaGithub } from 'react-icons/fa';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 
-
 export default function SignIn() {
-
   const handleLoginWithGitHub = () => {
-    window.location.assign(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/github`);
+    window.location.assign(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/github`,
+    );
   };
-
-  
-
-
-
-
 
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
@@ -96,12 +90,10 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-
           <Button
             fontSize="sm"
             me="0px"
             mb="26px"
-          
             py="15px"
             h="50px"
             borderRadius="16px"
@@ -111,43 +103,11 @@ export default function SignIn() {
             _hover={googleHover}
             _active={googleActive}
             _focus={googleActive}
-          onClick={handleLoginWithGitHub}
-           
+            onClick={handleLoginWithGitHub}
           >
             <Icon as={FaGithub} w="20px" h="20px" me="10px" />
             Sign in with Github
           </Button>
-       
-          
-          {/* <Flex align="center" mb="25px">
-            <HSeparator />
-            <Text color="gray.400" mx="14px">
-              or
-            </Text>
-            <HSeparator />
-          </Flex> */}
-         
-          {/* <Flex
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="start"
-            maxW="100%"
-            mt="0px"
-          >
-            <Link href="/auth/sign-up">
-              <Text color={textColorDetails} fontWeight="400" fontSize="14px">
-                Not registered yet?
-                <Text
-                  color={textColorBrand}
-                  as="span"
-                  ms="5px"
-                  fontWeight="500"
-                >
-                  Create an Account
-                </Text>
-              </Text>
-            </Link>
-          </Flex> */}
         </Flex>
       </Flex>
     </DefaultAuthLayout>

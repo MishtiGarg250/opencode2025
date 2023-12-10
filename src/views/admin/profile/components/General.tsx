@@ -21,7 +21,7 @@ export default function GeneralInformation(props: {
   useEffect(() => {
     const GitDatalocal = localStorage.getItem('GithubData');
     const ParseData = JSON.parse(GitDatalocal);
-    setTempData(ParseData.data);
+    setTempData(ParseData?.data);
   }, []);
 
 
