@@ -22,8 +22,7 @@ import DefaultAuthLayout from 'layouts/auth/Default';
 // Assets
 import Link from 'next/link';
 import { FaGithub } from 'react-icons/fa';
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
-import { RiEyeCloseLine } from 'react-icons/ri';
+
 
 export default function SignIn() {
   const handleLoginWithGitHub = () => {
@@ -51,7 +50,7 @@ export default function SignIn() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   return (
-    <DefaultAuthLayout illustrationBackground={'/img/avatars/avatar1.png'}>
+    <DefaultAuthLayout illustrationBackground={'/img/dashboards/Debit.png'}>
       <Flex
         maxW={{ base: '100%', md: 'max-content' }}
         w="100%"

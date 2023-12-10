@@ -174,9 +174,9 @@ useEffect(() => {
         </Box>
         <Box ms="auto" w={{ sm: '100%', md: 'unset' }}>
           <AdminNavbarLinks
-            onOpen={props.onOpen}
+          
             secondary={props.secondary}
-            fixed={props.fixed}
+            
           />
         </Box>
       </Flex>
