@@ -3,7 +3,6 @@ import { Button, Icon, useColorMode } from '@chakra-ui/react'
 // Custom Icons
 import { IoMdMoon, IoMdSunny } from 'react-icons/io'
 import React, { useEffect } from 'react'
-import { isWindowAvailable } from 'utils/navigation'
 
 export default function FixedPlugin (props: { [x: string]: any }) {
   const { ...rest } = props
@@ -12,11 +11,6 @@ export default function FixedPlugin (props: { [x: string]: any }) {
 
   let left = ''
   let right = '35px'
-  useEffect(() => {
-    if (isWindowAvailable() || window.document.documentElement.dir !== 'rtl')
-      return
-    ;[left, right] = [right, left]
-  })
 
   return (
     <Button

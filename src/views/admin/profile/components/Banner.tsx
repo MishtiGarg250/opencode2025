@@ -12,7 +12,7 @@ export default function Banner (props: {
   prMerged: number
   prContributed: number
   pointsEarned: number
-  rank: number
+ 
   [x: string]: any
 }) {
   const {
@@ -27,7 +27,7 @@ export default function Banner (props: {
     posts,
     followers,
     following,
-    rank,
+ 
     ...rest
   } = props
   // Chakra Color Mode
@@ -76,14 +76,7 @@ export default function Banner (props: {
      {githubUrl}
       </Text>
       <Flex w='max-content' mx='auto' mt='26px' position='relative' left='30px'>
-        {rank && <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
-          <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
-          {rank}
-          </Text>
-          <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
-            Rank
-          </Text>
-        </Flex>}
+       
         <Flex mx='auto' me='60px' alignItems='center' flexDirection='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
            {prMerged}

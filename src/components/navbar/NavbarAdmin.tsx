@@ -22,7 +22,9 @@ export default function AdminNavbar(props: {
   brandText: string;
   logoText: string;
   fixed: boolean;
-  profilename: string;
+ 
+
+ 
   onOpen: (...args: any[]) => any;
 }) {
   const [scrolled, setScrolled] = useState(false);

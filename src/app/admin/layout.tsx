@@ -70,7 +70,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
                 secondary={getActiveNavbar(routes)}
                 message={getActiveNavbarText(routes)}
                 fixed={fixed}
-                profilename='asa'
+                
                 {...rest}
               />
             </Box>

@@ -14,6 +14,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 
+
 const queryClient = new QueryClient()
 
 export default function AppWrappers({ children }: { children: ReactNode }) {

@@ -13,15 +13,9 @@ import {
   getActiveRoute,
   isWindowAvailable
 } from 'utils/navigation'
-import { ThemeProvider, createTheme, makeStyles } from '@material-ui/core/styles';
 
-const theme = createTheme();
-
-const useStyles = makeStyles((theme) => {
-  root: {
-    // some CSS that accesses the theme
-  }
-});
+import { ThemeProvider } from '@chakra-ui/react'
+import theme from 'theme/theme'
 
 interface DashboardLayoutProps extends PropsWithChildren {
   [x: string]: any
@@ -73,6 +67,7 @@ export default function AdminLayout (props: DashboardLayoutProps) {
                 secondary={getActiveNavbar(routes)}
                 message={getActiveNavbarText(routes)}
                 fixed={fixed}
+               
                 {...rest}
               />
             </Box>

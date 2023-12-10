@@ -54,7 +54,7 @@ const targetDate = new Date(currentDate.getFullYear(), 11, 14);
           px="10px"
           mb="14px"
         >
-          OpenCode'23
+         OpenCode&lsquo;23
         </Text>
         <Text
           fontSize="14px"

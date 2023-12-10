@@ -14,6 +14,13 @@ import { RingLoader } from 'react-spinners';
 import { getPRDetails } from 'app/api/profile/profile';
 import { useQuery } from '@tanstack/react-query';
 export default function Projects(props: { name: string; [x: string]: any }) {
+
+  const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
+  const textColorSecondary = 'gray.400';
+  const cardShadow = useColorModeValue(
+    '0px 18px 40px rgba(112, 144, 176, 0.12)',
+    'unset',
+  );
   const { name, ...rest } = props;
   // Chakra Color Mode
   const [TempData, setTempData] = useState(null);
@@ -42,12 +49,7 @@ export default function Projects(props: { name: string; [x: string]: any }) {
     );
   }
 
-  const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
-  const textColorSecondary = 'gray.400';
-  const cardShadow = useColorModeValue(
-    '0px 18px 40px rgba(112, 144, 176, 0.12)',
-    'unset',
-  );
+
   return (
     <Card mb={{ base: '0px', '2xl': '20px' }} {...rest}>
       <Text

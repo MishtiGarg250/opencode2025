@@ -33,9 +33,10 @@ interface DashboardLayoutProps extends PropsWithChildren {
 }
 
 
-// Custom Chakra theme
 export default function AdminLayout(props: DashboardLayoutProps) {
+  
   const auth = useAuth();
+ 
   useEffect(() => {
     auth.check_login();
   }, [auth.isLoggedIn]);
@@ -113,7 +114,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
                 secondary={getActiveNavbar(routes)}
                 message={getActiveNavbarText(routes)}
                 fixed={fixed}
-                profilename='asa'
+               
                 {...rest}
               />
             </Box>
