@@ -7,7 +7,6 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { CacheProvider } from '@chakra-ui/next-js';
 import theme from '../theme/theme';
 import { AuthProvider } from 'contexts/AuthContext';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import {
  

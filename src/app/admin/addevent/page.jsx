@@ -81,20 +81,6 @@ console.log(file)
 
         });
         coverimages = [];
-
-
-        //storing event details in local storage
-        /* if(!localStorage.getItem("eventsArray")){
-             var eventsArray = [];
-             eventsArray.push(finalData);
-             localStorage.setItem("eventsArray", JSON.stringify(eventsArray));
-         }
-         else{
-             var eventsArray = JSON.parse(localStorage.getItem("eventsArray"));
-             eventsArray.push(finalData);
-             localStorage.setItem("eventsArray", JSON.stringify(eventsArray));
-             
-         }*/
         
             try {
                 formData.append("title", finalData.title);
@@ -119,14 +105,14 @@ console.log(file)
                   body: formData,
                 });*/
 
-                const response = await axios.post('http://localhost:4000/api/v1/admin/create', formData, {
-                    'headers': {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${token}`,
+                // const response = await axios.post('http://localhost:4000/api/v1/admin/create', formData, {
+                //     'headers': {
+                //         'Content-Type': 'multipart/form-data',
+                //         Authorization: `Bearer ${token}`,
 
-                    }
-                });
-                console.log(response.data)
+                //     }
+                // });
+                // console.log(response.data)
 
                 if (!response.ok) {
                     throw new Error('Failed to create event');
