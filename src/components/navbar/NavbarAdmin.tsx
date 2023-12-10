@@ -28,13 +28,14 @@ export default function AdminNavbar(props: {
   onOpen: (...args: any[]) => any;
 }) {
   const [scrolled, setScrolled] = useState(false);
-  const[TempData,setTempData] = useState(' ');
+  const[naam,setNaam] = useState(' ');
 
 useEffect(() => {
   if(localStorage.getItem('GithubData') !== null){
   const GitDatalocal = localStorage.getItem('GithubData');
   const ParseData = JSON.parse(GitDatalocal);
-  setTempData(ParseData?.data);}
+  setNaam(ParseData?.data.name);
+ }
  
 }, []);
 
@@ -168,7 +169,7 @@ useEffect(() => {
               boxShadow: 'none',
             }}
           >
-            <Box>👋&nbsp;{TempData?.name}</Box>
+            <Box>👋&nbsp;{naam}</Box>
           </Link>
         </Box>
         <Box ms="auto" w={{ sm: '100%', md: 'unset' }}>

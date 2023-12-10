@@ -1,56 +1,86 @@
 'use client';
 
 import { Box, Grid } from '@chakra-ui/react';
-import AdminLayout from 'layouts/admin';
-import { useState,useEffect } from 'react';
+
 // Custom components
 import Banner from 'views/admin/profile/components/Banner';
 import General from 'views/admin/profile/components/General';
-import Notifications from 'views/admin/profile/components/Notifications';
+
 import Projects from 'views/admin/profile/components/Projects';
-import Storage from 'views/admin/profile/components/Storage';
-import Upload from 'views/admin/profile/components/Upload';
 
-// Assets
+import { useQuery } from '@tanstack/react-query';
+
+import { useEffect, useState } from 'react';
 import banner from 'img/auth/banner.png';
-import avatar from 'img/avatars/avatar4.png';
+import { otherUserProfile } from 'app/api/profile/profile';
+import { RingLoader } from 'react-spinners';
+import { Profiler } from 'inspector';
 
+interface PullRequest {
+  prNumber: number;
+  status: string;
+  title: string;
+  issue: {
+    issueNumber: number;
+    currentPoints: number;
+  };
+}
 
-// const GitDatanew = localStorage.getItem('GithubData');
-// const Parseata = JSON.parse(GitDatanew);
-// const profilename = Parseata.data.name;
-// const githubusername= Parseata.data.githubUsername;
-// const repos = Parseata.data.repositories;
-// console.log(repos);
+interface ProfileData {
+  name: string;
+  email: string;
+  college: string;
+  avatarUrl: string;
+  githubId: string;
+  discordId: string;
+  PR: PullRequest[]; // Update this with the actual type of PR array
+  prMerged: number;
+  pointsEarned: number;
 
+}
 
-export default function ProfileOverview() {
-
-  const[TempData,setTempData] = useState(' ');
-
+export default function ProfileOverviewOther({
+  params,
+}: {
+  params: { profileName: string };
+}) {
+  const [profileName,setProfileName] = useState('');
   useEffect(() => {
-    const GitDatalocal = localStorage.getItem('GithubData');
-    const ParseData = JSON.parse(GitDatalocal);
-    setTempData(ParseData.data);
-  }, []);
-  
-  console.log(TempData)
-  interface TempDatatype {
-    name: string;
-    githubId: string;
-    college: string;
-    discordId: string;
-    email: string;
-   
+    const naam = JSON.parse(localStorage.getItem('GithubData'));
+    if(naam) setProfileName(naam.data.githubId);
+
+  })
+ 
+  const [TempData, setTempData] = useState<ProfileData | undefined>(undefined);
+
+
+  const { data: profileData, isLoading } = useQuery({
+    queryKey: ['profileInfo'],
+    queryFn: () => otherUserProfile(profileName),
+  });
+
+ useEffect(()=>{
+  if(profileData){
+    setTempData(profileData.data);
+  }
+ },[profileData])
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <RingLoader color="#36d7b7" />
+      </div>
+    );
   }
 
 
-  return (
-    localStorage.getItem('GithubData') === null ? <Box 
-    pt={{ base: '130px', md: '80px', xl: '80px' }}><a href='/auth/sign-in'><h1>SIGN IN (click) TO VIEW YOUR PROFILE</h1></a></Box> : 
 
-    <Box 
-    pt={{ base: '130px', md: '80px', xl: '80px' }}>
+
+
+  
+
+  return (
+    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       {/* Main Fields */}
       <Grid
         templateColumns={{
@@ -63,20 +93,19 @@ export default function ProfileOverview() {
         }}
         gap={{ base: '20px', xl: '20px' }}
       >
-
       
-        <Banner
+      <Banner
+      
           gridArea="1 / 4 / 4 / 1"
-          banner={`url(${TempData.avatarUrl})`}
-          avatar={TempData.avatarUrl}
-          name= {TempData.name}
-          githubUrl={TempData.githubId}
-          prMerged={TempData.prMerged || 0}
-          prContributed={TempData.PR?.length}
-          pointsEarned={TempData.pointsEarned || 0}
+          banner={TempData?.avatarUrl}
+          avatar={TempData?.avatarUrl}
+          name= {TempData?.name}
+          githubUrl={TempData?.githubId}
+          prMerged={ TempData?.prMerged||0}
+          prContributed={TempData?.PR?.length}
+          pointsEarned={TempData?.pointsEarned||0 }
           
         />
-       
       </Grid>
       <Grid
         mb="20px"
@@ -90,21 +119,19 @@ export default function ProfileOverview() {
         }}
         gap={{ base: '20px', xl: '20px' }}
       >
-        
-        <Projects
-          name={JSON.parse(localStorage.getItem('GithubData')).data.githubId}
-        />
+        {TempData?.PR ? <Projects
+          name={profileName}
+        /> : <div className='flex justify-center items-center text-xl'>Sign in to view recent PRs</div>}
         <General
-        name={TempData.name}
-        githubId={TempData.githubId}
-        college={TempData.college}
-        discordId={TempData.discordId}
-        email={TempData.email}
+        name={TempData?.name}
+        githubId={TempData?.githubId}
+        college={TempData?.college}
+        discordId={TempData?.discordId}
+        email={TempData?.email}
           gridArea={{ base: '2 / 1 / 3 / 2', lg: '1 / 2 / 2 / 3' }}
           minH="365px"
           pe="20px"
         />
-        
       </Grid>
     </Box>
   );
