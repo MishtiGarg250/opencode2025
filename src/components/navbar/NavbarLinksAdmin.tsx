@@ -17,21 +17,17 @@ import {
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 // Custom Components
-import { Image } from 'components/image/Image';
-import { ItemContent } from 'components/menu/ItemContent';
 import { SidebarResponsive } from 'components/sidebar/Sidebar';
 // Assets
-import navImage from '/public/img/layout/Navbar.png';
 import { FaEthereum } from 'react-icons/fa';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
-import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md';
 import routes from 'routes';
 import { useAuth } from 'contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+
 export default function HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
-  const [TempData, setTempData] = useState({});
   const [ProfileInitals, setProfileInitials] = useState(' ');
   const auth = useAuth();
   const router = useRouter();
@@ -47,7 +43,6 @@ export default function HeaderLinks(props: { secondary: boolean }) {
 
     if (ParseData && ParseData.data && ParseData.data.name) {
       // Ensure TempData is defined and has the expected structure
-      setTempData(ParseData.data);
 
       const words = ParseData.data.name.split(' ');
 
@@ -65,17 +60,13 @@ export default function HeaderLinks(props: { secondary: boolean }) {
   // Chakra Color Mode
   const navbarIcon = useColorModeValue('gray.400', 'white');
   let menuBg = useColorModeValue('white', 'navy.800');
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const textColorBrand = useColorModeValue('brand.700', 'brand.400');
   const ethColor = useColorModeValue('gray.700', 'white');
-  const borderColor = useColorModeValue('#E6ECFA', 'rgba(135, 140, 189, 0.3)');
   const ethBg = useColorModeValue('secondaryGray.300', 'navy.900');
   const ethBox = useColorModeValue('white', 'navy.800');
   const shadow = useColorModeValue(
     '14px 17px 40px 4px rgba(112, 144, 176, 0.18)',
     '14px 17px 40px 4px rgba(112, 144, 176, 0.06)',
   );
-  const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
 
   return (
     <Flex
@@ -117,7 +108,6 @@ export default function HeaderLinks(props: { secondary: boolean }) {
         >
           1,924
           <Text as="span" display={{ base: 'none', md: 'unset' }}>
-            {' '}
             ETH
           </Text>
         </Text>
@@ -176,7 +166,6 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               bg={'none'}
             >
               <Link href="/user/profile">
-                {' '}
                 <Text fontSize="sm">Profile Settings</Text>
               </Link>
             </MenuItem>

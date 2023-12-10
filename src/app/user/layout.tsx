@@ -5,7 +5,7 @@ import {
   Box,
   useDisclosure,
   useColorModeValue,
-  Icon
+  Icon,
 } from '@chakra-ui/react';
 import { IRoute } from 'types/navigation';
 import {
@@ -32,11 +32,9 @@ interface DashboardLayoutProps extends PropsWithChildren {
   [x: string]: any;
 }
 
-
 export default function AdminLayout(props: DashboardLayoutProps) {
-  
   const auth = useAuth();
- 
+
   useEffect(() => {
     auth.check_login();
   }, [auth]);
@@ -47,26 +45,20 @@ export default function AdminLayout(props: DashboardLayoutProps) {
       path: '/home',
       icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     },
-    auth.isLoggedIn && 
-    {
+    auth.isLoggedIn && {
       name: 'Leaderboard',
       layout: '/user',
       icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
       path: '/leaderboard',
     },
-  
-    auth.isLoggedIn && 
-    {
+
+    auth.isLoggedIn && {
       name: 'Profile',
       layout: '/user',
       path: '/profile',
       icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     },
-   
   ];
-
-
-
 
   const { children, ...rest } = props;
   // states and functions
@@ -74,11 +66,6 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   // functions for changing the states from components
   const { onOpen } = useDisclosure();
-
-  useEffect(() => {
-    window.document.documentElement.dir = 'ltr';
-  },[]);
-  
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
 
@@ -114,7 +101,6 @@ export default function AdminLayout(props: DashboardLayoutProps) {
                 secondary={getActiveNavbar(routes)}
                 message={getActiveNavbarText(routes)}
                 fixed={fixed}
-               
                 {...rest}
               />
             </Box>

@@ -1,13 +1,6 @@
-'use client'
+'use client';
 import { Icon } from '@chakra-ui/react';
-import {
-  MdBarChart,
-  MdPerson,
-  MdHome
-} from 'react-icons/md';
-import { useEffect } from 'react';
-import { useAuth } from './contexts/AuthContext.js';
-
+import { MdBarChart, MdPerson, MdHome } from 'react-icons/md';
 
 import { IRoute } from 'types/navigation';
 
@@ -36,7 +29,7 @@ const routes: IRoute[] = [
     path: '/changepoints',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
   },
-  
+
   {
     name: 'Leaderboard',
     layout: '/user',
@@ -57,7 +50,7 @@ const routes: IRoute[] = [
   //   ),
   //   secondary: true,
   // },
- 
+
   {
     name: 'Profile',
     layout: '/user',
@@ -70,7 +63,6 @@ const routes: IRoute[] = [
   //   path: '/sign-in',
   //   icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
   // },
-  
 ];
 
 export default routes;

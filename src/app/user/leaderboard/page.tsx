@@ -1,34 +1,22 @@
 'use client';
-import CheckTable from 'views/admin/dataTables/components/CheckTable';
-import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
 import {
   Box,
-  Button,
   Flex,
   Grid,
   Text,
   useColorModeValue,
   SimpleGrid,
-  Link,
 } from '@chakra-ui/react';
-import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
 import React from 'react';
-import AdminLayout from 'layouts/admin';
-import { useRouter } from 'next/navigation';
-import NFT from '../../../components/card/NFT'
-import { FetchedEvents } from 'app/api/events/events';
+import NFT from '../../../components/card/NFT';
+import { FetchedEvents } from 'api/events/events';
 import { useQuery } from '@tanstack/react-query';
-import testImage from '../../../img/avatars/avatar3.png'
 import { RingLoader } from 'react-spinners';
-
-
 
 export default function DataTables() {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
-  
-  
-  const { data: eventData,isLoading } = useQuery({
+
+  const { data: eventData, isLoading } = useQuery({
     queryKey: ['EventInfo'],
     queryFn: FetchedEvents,
   });
@@ -41,25 +29,14 @@ export default function DataTables() {
     );
   }
 
-
   const events = eventData?.data;
 
-
-
- 
   if (!eventData) {
     return <div>No event data available</div>;
   }
-  
+
   return (
-
-    
     <Box pt={{ base: '180px', md: '80px', xl: '80px' }}>
-
-    
-
- 
-  
       <Grid
         mb="20px"
         gridTemplateColumns={{ xl: 'repeat(2, 1fr)', '2xl': '1fr 0.46fr' }}
@@ -70,7 +47,6 @@ export default function DataTables() {
           flexDirection="column"
           gridArea={{ xl: '1 / 1 / 2 / 3', '2xl': '1 / 3 / 2 / 2' }}
         >
-       
           <Flex direction="column">
             <Flex
               mt="25px"
@@ -80,34 +56,23 @@ export default function DataTables() {
               align={{ base: 'start', md: 'center' }}
             >
               <Text color={textColor} fontSize="2xl" ms="24px" fontWeight="700">
-               Events
+                Events
               </Text>
-
-                 
             </Flex>
-          
-    
-       
+
             <SimpleGrid columns={{ base: 1, md: 3 }} gap="20px">
-              
-            {events.map((event : any) => (
-
-
-        <NFT
-        name={event.name}
-        des={event.description}
-        key={event.name}
-        image={event.logoImageURL}
-        download={`/user/leaderboard/${event.name}`}
-      />
-        
-        ))} 
-             
+              {events.map((event: any) => (
+                <NFT
+                  name={event.name}
+                  des={event.description}
+                  key={event.name}
+                  image={event.logoImageURL}
+                  download={`/user/leaderboard/${event.name}`}
+                />
+              ))}
             </SimpleGrid>
-          
           </Flex>
         </Flex>
-       
       </Grid>
     </Box>
   );

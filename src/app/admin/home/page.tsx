@@ -4,7 +4,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -14,22 +13,18 @@ import {
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
   Button,
   Select,
 } from '@chakra-ui/react';
 import { Box, useColorModeValue, Text, Flex } from '@chakra-ui/react';
-import { Toast } from '@chakra-ui/react';
 
 import { useEffect, useState } from 'react';
-import { FetchedEvents } from 'app/api/events/events';
+import { FetchedEvents } from 'api/events/events.js';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { getUserPRDetails } from 'app/api/admin/admin';
+import { getUserPRDetails } from 'api/admin/admin.js';
 import { RingLoader } from 'react-spinners';
-import {useAuth} from '../../../contexts/AuthContext.js';
-import { FetchedData } from 'app/api/profile/profile.js';
+import { useAuth } from '../../../contexts/AuthContext.js';
 
 import {
   Modal,
@@ -40,7 +35,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { EditPRPoints } from 'app/api/admin/admin';
+import { EditPRPoints } from 'api/admin/admin.js';
 import { useToast } from '@chakra-ui/react';
 
 export default function Dashboard() {
@@ -49,11 +44,10 @@ export default function Dashboard() {
   const [eventName, setEventName] = useState('');
   const [selectedPrDetails, setSelectedPrDetails] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [changePointData, setChangePointData] = useState(null);
   const [incrementPoints, setIncrementPoints] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleIncrementPointsChange = (e : any) => {
+  const handleIncrementPointsChange = (e: any) => {
     setIncrementPoints(e.target.value);
   };
   const handleOpenModal = (prDetails: any) => {
@@ -71,26 +65,15 @@ export default function Dashboard() {
   const [GitData, setGitData] = useState({});
 
   const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
-  const brandColor = useColorModeValue('brand.500', 'white');
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
   const auth = useAuth();
 
-  const { data: userData } = useQuery({
-    queryKey: ['userInfo'],
-    queryFn: FetchedData,
-  });
-
-
   useEffect(() => {
-    
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
     const TokenParam = urlParam.get('token');
-    if(TokenParam===null){
+    if (TokenParam === null) {
       auth.check_login();
-    }
-    else localStorage.setItem('token',TokenParam);
+    } else localStorage.setItem('token', TokenParam);
     const GitDatalocal = localStorage.getItem('GithubData');
 
     const ParseData = JSON.parse(GitDatalocal);
@@ -105,7 +88,7 @@ export default function Dashboard() {
     mutationFn: EditPRPoints,
     onSuccess: () => {
       console.log('Success');
-      
+
       toast({
         title: 'Points Updated',
         description: 'PR points were successfully updated.',
@@ -138,11 +121,11 @@ export default function Dashboard() {
       });
       return;
     }
-  
+
     if (selectedPrDetails) {
       const { repoName, prNumber, issueNumber } = selectedPrDetails;
       const incrementPointsAsNumber = parseInt(incrementPoints, 10);
-  
+
       const prUpdateData = {
         repoName,
         prNumber,
@@ -151,21 +134,17 @@ export default function Dashboard() {
         githubId,
         eventName,
       };
-  
-      
+
       console.log(prUpdateData);
-  
-      
+
       pointUpdate.mutate(prUpdateData);
     }
   };
-  
+
   const { data: eventData } = useQuery({
     queryKey: ['EventInfo'],
     queryFn: FetchedEvents,
   });
-
-
 
   const {
     data: userPrDeatils,

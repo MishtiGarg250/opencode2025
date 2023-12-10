@@ -17,7 +17,7 @@ import {
   useColorModeValue,
   Select,
 } from '@chakra-ui/react';
-import { FetchedData, sendRegData } from '../../api/profile/profile';
+import { FetchedData, sendRegData } from '../../../api/profile/profile';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useToast } from '@chakra-ui/react';
 // Custom components
@@ -56,7 +56,7 @@ export default function SignIn() {
     });
 
     localStorage.setItem('token', TokenParam);
-  }, [formData]);
+  }, []);
 
   const textColor = useColorModeValue('navy.700', 'white');
   const textColorSecondary = 'gray.400';
@@ -64,12 +64,7 @@ export default function SignIn() {
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
 
-  const googleActive = useColorModeValue(
-    { bg: 'secondaryGray.300' },
-    { bg: 'whiteAlpha.200' },
-  );
   const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow(!show);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

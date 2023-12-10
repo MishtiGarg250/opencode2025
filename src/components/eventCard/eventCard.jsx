@@ -1,13 +1,12 @@
 'use client';
 import { Card, CardHeader, CardBody } from '@material-tailwind/react';
-
-import { Box, useColorModeValue } from '@chakra-ui/react';
-
+import { Box } from '@chakra-ui/react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+
 const EventCard = ({ btnStatus, name, des, image, onLeaderboardClick }) => {
   return (
     <>
-      <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
+      <Box>
         <div className="w-full  p-4 ">
           <Card
             shadow={false}
@@ -21,14 +20,13 @@ const EventCard = ({ btnStatus, name, des, image, onLeaderboardClick }) => {
               className="absolute inset-0 m-0 h-full w-full rounded-md bg-cover bg-center"
             >
               <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-t from-black/100 via-black/30">
-              
-     <LazyLoadImage
-    alt={name}
-    effect="opacity"
-    width="600px"
-    height="400px"
-    src={image} // Adjust the path to your image
-  />
+                <LazyLoadImage
+                  alt={name}
+                  effect="opacity"
+                  width="600px"
+                  height="400px"
+                  src={image} // Adjust the path to your image
+                />
               </div>
             </CardHeader>
             <CardBody className="relative py-14 px-6 md:px-12">
@@ -41,7 +39,6 @@ const EventCard = ({ btnStatus, name, des, image, onLeaderboardClick }) => {
                 type="button"
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 my-7"
               >
-                {/* {auth.isLoggedIn ? 'Yayy! Successfully Registered' : 'Register now'} */}
                 {btnStatus}
               </button>
               <button
@@ -49,7 +46,6 @@ const EventCard = ({ btnStatus, name, des, image, onLeaderboardClick }) => {
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 my-7"
                 onClick={() => onLeaderboardClick(name)}
               >
-                {/* {auth.isLoggedIn ? 'Yayy! Successfully Registered' : 'Register now'} */}
                 Leaderboard
               </button>
             </CardBody>

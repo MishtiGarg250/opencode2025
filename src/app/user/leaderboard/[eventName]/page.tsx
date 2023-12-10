@@ -1,19 +1,18 @@
 'use client';
 import { Box, SimpleGrid } from '@chakra-ui/react';
-import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
 import { useQuery } from '@tanstack/react-query';
 // import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
-import React, { useState } from 'react';
-import AdminLayout from 'layouts/admin';
-import { useRouter } from 'next/navigation';
-import { FetchedLeaderboard } from '../../../api/leaderboard/leaderboard';
-import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
+import React from 'react';
+import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 import { RingLoader } from 'react-spinners';
 
-export default function EventName({ params }: { params: { eventName: string } }) {
+export default function EventName({
+  params,
+}: {
+  params: { eventName: string };
+}) {
   const eventName = params.eventName;
-
 
   const { data: LeadData, isLoading } = useQuery({
     queryKey: ['LeadInfo'],
@@ -47,15 +46,13 @@ export default function EventName({ params }: { params: { eventName: string } })
       points: item.points,
       avatarUrl: item.avatarUrl,
       prDetailsURL: item.prDetailsURL,
-      };
-  }
-  );
+    };
+  });
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <ColumnsTable tableData={tableDataColumns} eventName={params.eventName} />
-      <SimpleGrid columns={3} spacing={4}>
-      </SimpleGrid>
+      <SimpleGrid columns={3} spacing={4}></SimpleGrid>
     </Box>
   );
 }

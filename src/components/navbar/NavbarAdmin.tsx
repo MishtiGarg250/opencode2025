@@ -7,14 +7,11 @@ import {
   BreadcrumbLink,
   Flex,
   Link,
-  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import AdminNavbarLinks from 'components/navbar/NavbarLinksAdmin';
-import { isWindowAvailable } from 'utils/navigation';
 
 export default function AdminNavbar(props: {
   secondary: boolean;
@@ -22,41 +19,22 @@ export default function AdminNavbar(props: {
   brandText: string;
   logoText: string;
   fixed: boolean;
- 
 
- 
   onOpen: (...args: any[]) => any;
 }) {
-  const [scrolled, setScrolled] = useState(false);
-  const[naam,setNaam] = useState(' ');
-
-useEffect(() => {
-  if(localStorage.getItem('GithubData') !== null){
-  const GitDatalocal = localStorage.getItem('GithubData');
-  const ParseData = JSON.parse(GitDatalocal);
-  setNaam(ParseData?.data.name);
- }
- 
-}, []);
-
-
+  const [naam, setNaam] = useState(' ');
 
   useEffect(() => {
-    if (isWindowAvailable()) {
-      // You now have access to `window`
-      window.addEventListener('scroll', changeNavbar);
-
-      return () => {
-        window.removeEventListener('scroll', changeNavbar);
-      };
+    if (localStorage.getItem('GithubData') !== null) {
+      const GitDatalocal = localStorage.getItem('GithubData');
+      const ParseData = JSON.parse(GitDatalocal);
+      setNaam(ParseData?.data.name);
     }
-  },[]);
+  }, []);
 
-//   const GitDatanew = localStorage.getItem('GithubData');
-//   const Parseata = JSON.parse(GitDatanew);
-//  const profilename = Parseata.data.name;
-
-
+  //   const GitDatanew = localStorage.getItem('GithubData');
+  //   const Parseata = JSON.parse(GitDatanew);
+  //  const profilename = Parseata.data.name;
 
   const { secondary, message, brandText } = props;
 
@@ -75,15 +53,6 @@ useEffect(() => {
   let secondaryMargin = '0px';
   let paddingX = '15px';
   let gap = '0px';
-  const changeNavbar = () => {
-    if (isWindowAvailable() && window.scrollY > 1) {
-      setScrolled(true);
-    } else {
-      setScrolled(false);
-    }
-  };
-
-  
 
   return (
     <Box
@@ -173,11 +142,7 @@ useEffect(() => {
           </Link>
         </Box>
         <Box ms="auto" w={{ sm: '100%', md: 'unset' }}>
-          <AdminNavbarLinks
-          
-            secondary={props.secondary}
-            
-          />
+          <AdminNavbarLinks secondary={props.secondary} />
         </Box>
       </Flex>
     </Box>

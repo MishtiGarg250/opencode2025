@@ -11,10 +11,8 @@ import Projects from 'views/admin/profile/components/Projects';
 import { useQuery } from '@tanstack/react-query';
 
 import { useEffect, useState } from 'react';
-import banner from 'img/auth/banner.png';
-import { otherUserProfile } from 'app/api/profile/profile';
+import { otherUserProfile } from 'api/profile/profile';
 import { RingLoader } from 'react-spinners';
-import { Profiler } from 'inspector';
 
 interface PullRequest {
   prNumber: number;
@@ -36,7 +34,6 @@ interface ProfileData {
   PR: PullRequest[]; // Update this with the actual type of PR array
   prMerged: number;
   pointsEarned: number;
-
 }
 
 export default function ProfileOverviewOther({
@@ -47,17 +44,16 @@ export default function ProfileOverviewOther({
   const profileName = params.profileName;
   const [TempData, setTempData] = useState<ProfileData | undefined>(undefined);
 
-
   const { data: profileData, isLoading } = useQuery({
     queryKey: ['profileInfo'],
     queryFn: () => otherUserProfile(profileName),
   });
 
- useEffect(()=>{
-  if(profileData){
-    setTempData(profileData.data);
-  }
- },[profileData])
+  useEffect(() => {
+    if (profileData) {
+      setTempData(profileData.data);
+    }
+  }, [profileData]);
 
   if (isLoading) {
     return (
@@ -66,12 +62,6 @@ export default function ProfileOverviewOther({
       </div>
     );
   }
-
-
-
-
-
-  
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
@@ -87,18 +77,15 @@ export default function ProfileOverviewOther({
         }}
         gap={{ base: '20px', xl: '20px' }}
       >
-      
-      <Banner
-      
+        <Banner
           gridArea="1 / 4 / 4 / 1"
           banner={TempData?.avatarUrl}
           avatar={TempData?.avatarUrl}
-          name= {TempData?.name}
+          name={TempData?.name}
           githubUrl={TempData?.githubId}
-          prMerged={ TempData?.prMerged||0}
+          prMerged={TempData?.prMerged || 0}
           prContributed={TempData?.PR?.length}
-          pointsEarned={TempData?.pointsEarned||0 }
-          
+          pointsEarned={TempData?.pointsEarned || 0}
         />
       </Grid>
       <Grid
@@ -113,15 +100,19 @@ export default function ProfileOverviewOther({
         }}
         gap={{ base: '20px', xl: '20px' }}
       >
-        {TempData?.PR ? <Projects
-          name={profileName}
-        /> : <div className='flex justify-center items-center text-xl'>Sign in to view recent PRs</div>}
+        {TempData?.PR ? (
+          <Projects name={profileName} />
+        ) : (
+          <div className="flex justify-center items-center text-xl">
+            Sign in to view recent PRs
+          </div>
+        )}
         <General
-        name={TempData?.name}
-        githubId={TempData?.githubId}
-        college={TempData?.college}
-        discordId={TempData?.discordId}
-        email={TempData?.email}
+          name={TempData?.name}
+          githubId={TempData?.githubId}
+          college={TempData?.college}
+          discordId={TempData?.discordId}
+          email={TempData?.email}
           gridArea={{ base: '2 / 1 / 3 / 2', lg: '1 / 2 / 2 / 3' }}
           minH="365px"
           pe="20px"

@@ -1,5 +1,4 @@
 // Chakra imports
-import { useState, useEffect } from 'react';
 import { SimpleGrid, Text, useColorModeValue } from '@chakra-ui/react';
 // Custom components
 import Card from 'components/card/Card';
@@ -8,25 +7,16 @@ import Information from 'views/admin/profile/components/Information';
 // Assets
 export default function GeneralInformation(props: {
   name: string;
-  githubId:string;
-  discordId : string;
-  college:string;
-  email:string;
+  githubId: string;
+  discordId: string;
+  college: string;
+  email: string;
   [x: string]: any;
 }) {
-  const {name,githubId,discordId,college,email, ...rest } = props;
+  const { name, githubId, discordId, college, email, ...rest } = props;
   // Chakra Color Mode
-  const [TempData, setTempData] = useState(' ');
-
-  useEffect(() => {
-    const GitDatalocal = localStorage.getItem('GithubData');
-    const ParseData = JSON.parse(GitDatalocal);
-    setTempData(ParseData?.data);
-  }, []);
-
 
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
-  const textColorSecondary = 'gray.400';
   const cardShadow = useColorModeValue(
     '0px 18px 40px rgba(112, 144, 176, 0.12)',
     'unset',
@@ -49,15 +39,19 @@ export default function GeneralInformation(props: {
           title="Github Username"
           value={githubId}
         />
-        {college && <Information boxShadow={cardShadow} title="College" value={college} />}
-        {discordId && <Information
-          boxShadow={cardShadow}
-          title="Discord ID"
-          value={discordId}
-        />}
-        { email && <Information boxShadow={cardShadow} title="Email" 
-        value={email}
-        />}
+        {college && (
+          <Information boxShadow={cardShadow} title="College" value={college} />
+        )}
+        {discordId && (
+          <Information
+            boxShadow={cardShadow}
+            title="Discord ID"
+            value={discordId}
+          />
+        )}
+        {email && (
+          <Information boxShadow={cardShadow} title="Email" value={email} />
+        )}
       </SimpleGrid>
     </Card>
   );

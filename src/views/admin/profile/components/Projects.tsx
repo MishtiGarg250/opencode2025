@@ -3,18 +3,13 @@ import { Text, useColorModeValue } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 // Assets
 import Project1 from 'img/profile/Project1.png';
-import Project2 from 'img/profile/Project2.png';
-import Project3 from 'img/profile/Project3.png';
 // Custom components
 import Card from 'components/card/Card';
 import Project from 'views/admin/profile/components/Project';
-import axios from 'axios';
-import { min } from '@floating-ui/utils';
 import { RingLoader } from 'react-spinners';
-import { getPRDetails } from 'app/api/profile/profile';
+import { getPRDetails } from 'api/profile/profile';
 import { useQuery } from '@tanstack/react-query';
 export default function Projects(props: { name: string; [x: string]: any }) {
-
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
   const textColorSecondary = 'gray.400';
   const cardShadow = useColorModeValue(
@@ -23,7 +18,6 @@ export default function Projects(props: { name: string; [x: string]: any }) {
   );
   const { name, ...rest } = props;
   // Chakra Color Mode
-  const [TempData, setTempData] = useState(null);
   const [PRs, setPRs] = useState([]);
 
   const profName = name;
@@ -39,8 +33,6 @@ export default function Projects(props: { name: string; [x: string]: any }) {
     }
   }, [PrDetails]);
 
-  console.log(PRs);
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -48,7 +40,6 @@ export default function Projects(props: { name: string; [x: string]: any }) {
       </div>
     );
   }
-
 
   return (
     <Card mb={{ base: '0px', '2xl': '20px' }} {...rest}>

@@ -19,12 +19,11 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { Box, useColorModeValue, Text, Flex } from '@chakra-ui/react';
-import { Toast } from '@chakra-ui/react';
 
-import { useEffect, useState } from 'react';
-import { FetchedEvents } from 'app/api/events/events';
+import { useState } from 'react';
+import { FetchedEvents } from 'api/events/events';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { getUserPRDetails } from 'app/api/admin/admin';
+import { getUserPRDetails } from 'api/admin/admin';
 import { RingLoader } from 'react-spinners';
 import {
   Modal,
@@ -35,18 +34,15 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { EditPRPoints } from 'app/api/admin/admin';
+import { EditPRPoints } from 'api/admin/admin';
 import { useToast } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
   const toast = useToast();
-  const router = useRouter();
   const [githubId, setGithubId] = useState('');
   const [eventName, setEventName] = useState('');
   const [selectedPrDetails, setSelectedPrDetails] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [changePointData, setChangePointData] = useState(null);
   const [incrementPoints, setIncrementPoints] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,17 +63,6 @@ export default function Dashboard() {
   const [userPrDetails, setuserPrDetails] = useState([]);
 
   const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
-  const brandColor = useColorModeValue('brand.500', 'white');
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
-  useEffect(() => {
-    // const querystring = window.location.search;
-    // const urlParam = new URLSearchParams(querystring);
-    // const TokenParam = urlParam.get('token');
-    // if (TokenParam === null) {
-    //   router.push('/auth/sign-in');
-    // } else localStorage.setItem('token', TokenParam);
-  }, []);
 
   interface Event {
     name: string;
@@ -87,7 +72,7 @@ export default function Dashboard() {
     mutationFn: EditPRPoints,
     onSuccess: () => {
       console.log('Success');
-      
+
       toast({
         title: 'Points Updated',
         description: 'PR points were successfully updated.',
@@ -120,11 +105,11 @@ export default function Dashboard() {
       });
       return;
     }
-  
+
     if (selectedPrDetails) {
       const { repoName, prNumber, issueNumber } = selectedPrDetails;
       const incrementPointsAsNumber = parseInt(incrementPoints, 10);
-  
+
       const prUpdateData = {
         repoName,
         prNumber,
@@ -133,15 +118,13 @@ export default function Dashboard() {
         githubId,
         eventName,
       };
-  
-      
+
       console.log(prUpdateData);
-  
-      
+
       pointUpdate.mutate(prUpdateData);
     }
   };
-  
+
   const { data: eventData } = useQuery({
     queryKey: ['EventInfo'],
     queryFn: FetchedEvents,
