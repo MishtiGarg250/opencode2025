@@ -1,20 +1,9 @@
 'use client';
 import { Card, CardHeader, CardBody } from '@material-tailwind/react';
-import { useState } from 'react';
-import { FetchedData } from 'app/api/profile/profile';
-import { FetchedEvents } from 'app/api/events/events';
-import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { Box, useColorModeValue } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 
-import { useAuth } from 'contexts/AuthContext.js';
-import { use } from 'react';
-import { useEffect } from 'react';
-import { MdLeaderboard } from 'react-icons/md';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import testImg from '../../img/avatars/avatar2.png'
-import Image from 'next/image';
 const EventCard = ({ btnStatus, name, des, image, onLeaderboardClick }) => {
   return (
     <>

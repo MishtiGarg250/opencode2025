@@ -25,7 +25,7 @@ export default function Dashboard() {
   const auth = useAuth();
   useEffect(() => {
     auth.check_login();
-  }, []);
+  }, [auth]);
 
   const { data: userData } = useQuery({
     queryKey: ['userInfo'],
@@ -53,7 +53,7 @@ export default function Dashboard() {
 
     const ParseData = JSON.parse(GitDatalocal);
     setGitData(ParseData?.data);
-  }, []);
+  }, [auth]);
 
   
   if (isLoading) {

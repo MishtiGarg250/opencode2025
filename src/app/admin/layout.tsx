@@ -34,7 +34,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
 
   useEffect(() => {
     window.document.documentElement.dir = 'ltr';
-  });
+  },[]);
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
 

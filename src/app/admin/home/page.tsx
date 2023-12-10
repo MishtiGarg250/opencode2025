@@ -95,7 +95,7 @@ export default function Dashboard() {
 
     const ParseData = JSON.parse(GitDatalocal);
     setGitData(ParseData?.data);
-  }, []);
+  }, [auth]);
 
   interface Event {
     name: string;

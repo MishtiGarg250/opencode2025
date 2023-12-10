@@ -50,7 +50,7 @@ useEffect(() => {
         window.removeEventListener('scroll', changeNavbar);
       };
     }
-  });
+  },[]);
 
 //   const GitDatanew = localStorage.getItem('GithubData');
 //   const Parseata = JSON.parse(GitDatanew);

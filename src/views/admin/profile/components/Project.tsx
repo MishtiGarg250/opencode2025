@@ -8,7 +8,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom components
-import { useState,useEffect } from 'react';
 import Card from 'components/card/Card';
 import { FaGithub } from "react-icons/fa";
 import { Image } from 'components/image/Image';

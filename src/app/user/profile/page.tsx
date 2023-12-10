@@ -49,7 +49,7 @@ export default function ProfileOverviewOther({
     const naam = JSON.parse(localStorage.getItem('GithubData'));
     if(naam) setProfileName(naam.data.githubId);
 
-  })
+  },[])
  
   const [TempData, setTempData] = useState<ProfileData | undefined>(undefined);
 

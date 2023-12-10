@@ -32,7 +32,7 @@ export default function AdminLayout (props: DashboardLayoutProps) {
 
   useEffect(() => {
     window.document.documentElement.dir = 'ltr'
-  })
+  },[])
 
   return (
     <ThemeProvider theme={theme}>
