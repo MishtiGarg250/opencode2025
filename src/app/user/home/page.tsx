@@ -12,7 +12,7 @@ import EventCard from '../../../components/eventCard/eventCard';
 import { RingLoader } from 'react-spinners';
 import testImage from '../../../img/avatars/avatar3.png'
 import Image from 'next/image';
-
+import Link from 'next/link';
 
 export default function Dashboard() {
   const[GitData,setGitData] = useState([])
@@ -123,9 +123,16 @@ export default function Dashboard() {
         zIndex="2"
         textAlign="center"
       >
+        {auth.isLoggedIn?
+        
+         <Button colorScheme="teal" mr="4">
+          Registered
+         </Button>
+        :
+        <Link href= {`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/sign-in`}>
         <Button colorScheme="teal" mr="4">
-          Register
-        </Button>
+        Login
+        </Button></Link>}
         <Button colorScheme="teal" mr="4" onClick={()=>handleLeaderboardclick(event.name)}>
           Leaderboard
         </Button>
