@@ -1,24 +1,29 @@
 export async function FetchedData() {
-  const token = localStorage.getItem('token');
+  const querystring = window.location.search;
+  const urlParam = new URLSearchParams(querystring);
+  const token = urlParam.get('token');
+  if (token === null) {
+    auth.check_login();
+  } else {
+    const response = await fetch('http://localhost:4000/api/v1/participant/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  const response = await fetch('http://localhost:4000/api/v1/participant/', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    if (!response.ok) {
+      throw new Error('Failed to fetch user info');
+    }
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch user info');
+    const newData = await response.json();
+
+    localStorage.setItem('GithubData', JSON.stringify(newData));
+    console.log(GithubData);
+
+    return newData;
   }
-
-  const newData = await response.json();
-
-  localStorage.setItem('GithubData', JSON.stringify(newData));
-  console.log(GithubData);
-
-  return newData;
 }
 
 export async function sendRegData(formData) {

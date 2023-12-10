@@ -45,7 +45,6 @@ export default function SignIn() {
 
   const toast = useToast();
   const router = useRouter();
-
   useEffect(() => {
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
@@ -83,7 +82,11 @@ export default function SignIn() {
   const registerMutation = useMutation({
     mutationFn: sendRegData,
     onSuccess: () => {
-      router.push('/user/home');
+      router.push(
+        `/user/home?token=${localStorage.getItem('token')}&avatar_url=${
+          formData.avatarUrl
+        }`,
+      );
     },
     onError: () => {
       console.log('Error');

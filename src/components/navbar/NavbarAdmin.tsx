@@ -32,7 +32,7 @@ useEffect(() => {
   if(localStorage.getItem('GithubData') !== null){
   const GitDatalocal = localStorage.getItem('GithubData');
   const ParseData = JSON.parse(GitDatalocal);
-  setTempData(ParseData.data);}
+  setTempData(ParseData?.data);}
  
 }, []);
 
@@ -166,7 +166,7 @@ useEffect(() => {
               boxShadow: 'none',
             }}
           >
-            <Box>👋&nbsp;{TempData.name}</Box>
+            <Box>👋&nbsp;{TempData?.name}</Box>
           </Link>
         </Box>
         <Box ms="auto" w={{ sm: '100%', md: 'unset' }}>
