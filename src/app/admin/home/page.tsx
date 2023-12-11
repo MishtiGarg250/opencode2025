@@ -37,6 +37,7 @@ import {
 } from '@chakra-ui/react';
 import { EditPRPoints } from 'api/admin/admin.js';
 import { useToast } from '@chakra-ui/react';
+import { FetchedData } from 'api/profile/profile.js';
 
 export default function Dashboard() {
   const toast = useToast();
@@ -61,6 +62,11 @@ export default function Dashboard() {
     setIsModalOpen(false);
   };
 
+  const { data: userData } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: FetchedData,
+  });
+
   const [userPrDetails, setuserPrDetails] = useState([]);
   const [GitData, setGitData] = useState({});
 
@@ -78,7 +84,7 @@ export default function Dashboard() {
 
     const ParseData = JSON.parse(GitDatalocal);
     setGitData(ParseData?.data);
-  }, [auth]);
+  }, []);
 
   interface Event {
     name: string;

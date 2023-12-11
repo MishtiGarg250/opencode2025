@@ -84,7 +84,7 @@ export default function Dashboard() {
         w="100%"
         h="100%"
         bgGradient="linear(to-b, rgba(0,0,0,0.6), rgba(0,0,0,0.9))"
-        zIndex="1"
+        
       />
 
      
