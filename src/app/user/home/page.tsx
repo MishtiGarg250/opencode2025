@@ -13,6 +13,7 @@ import { RingLoader } from 'react-spinners';
 import testImage from '../../../img/avatars/avatar3.png';
 import { Image } from '@chakra-ui/react';
 import Link from 'next/link';
+import axios from 'axios';
 
 export default function Dashboard() {
   const [GitData, setGitData] = useState([]);
@@ -48,6 +49,13 @@ export default function Dashboard() {
       auth.check_login();
     } else localStorage.setItem('token', TokenParam);
     const GitDatalocal = localStorage.getItem('GithubData');
+    if (localStorage.getItem('token')) {
+      axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/events/register?eventName=${encodeURIComponent('Opencode\'23')}`,{},{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    }
 
     const ParseData = JSON.parse(GitDatalocal);
     setGitData(ParseData?.data);
