@@ -32,25 +32,27 @@ export default function GeneralInformation(props: {
       >
         General Information
       </Text>
-      <SimpleGrid columns={2} gap="20px">
-        <Information boxShadow={cardShadow} title="Name" value={name} />
+      <SimpleGrid columns={2} row={3} rowGap="10px" columnGap='15px'>
+        <Information boxShadow={cardShadow} title="Name" value={name} gridArea="1 / 1 / 2 / 2"/>
         <Information
           boxShadow={cardShadow}
           title="Github Username"
           value={githubId}
+          gridArea="1 / 2 / 2 / 3"
         />
-        {college && (
-          <Information boxShadow={cardShadow} title="College" value={college} />
+       {college && (
+          <Information boxShadow={cardShadow} title="College" value={college} gridArea="2 / 1 / 3 / 2"/>
         )}
         {discordId && (
           <Information
             boxShadow={cardShadow}
             title="Discord ID"
             value={discordId}
+            gridArea="2 / 2 / 3 / 3"
           />
         )}
         {email && (
-          <Information boxShadow={cardShadow} title="Email" value={email} />
+          <Information boxShadow={cardShadow} title="Email" value={email} gridArea="3 / 1 / 4 / 3"/>
         )}
       </SimpleGrid>
     </Card>

@@ -15,7 +15,7 @@ export default function Information(props: { title: string; value: number | stri
 				<Text fontWeight='500' color={textColorSecondary} fontSize='sm'>
 					{title}
 				</Text>
-				<Text color={textColorPrimary} fontWeight='500' fontSize='md'>
+				<Text color={textColorPrimary} fontWeight='500' fontSize='lg' className='tracking-wide'>
 					{value}
 				</Text>
 			</Box>
