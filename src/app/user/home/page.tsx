@@ -80,7 +80,7 @@ export default function Dashboard() {
           left="0"
           w="100%"
           h="100%"
-          bgGradient="linear(to-b, rgba(0,0,0,0.6), rgba(0,0,0,0.9))"
+          bgGradient="linear(to-b, rgba(0,0,0,0.1), rgba(0,0,0.3,0.9))"
         />
     
         <Image

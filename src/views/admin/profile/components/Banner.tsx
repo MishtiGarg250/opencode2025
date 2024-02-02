@@ -78,18 +78,16 @@ export default function Banner(props: {
           <Text color={textColorPrimary} fontSize="2xl" fontWeight="700">
             {prMerged}
           </Text>
-          <Text color={textColorSecondary} fontSize="sm" fontWeight="400">
-            PRs <br />
-            Merged
+          <Text color={textColorSecondary} fontSize="sm" fontWeight="400" w={150} textAlign='center'>
+            PRs Merged
           </Text>
         </Flex>
         <Flex mx="auto" me="60px" alignItems="center" flexDirection="column">
           <Text color={textColorPrimary} fontSize="2xl" fontWeight="700">
             {pointsEarned}
           </Text>
-          <Text color={textColorSecondary} fontSize="sm" fontWeight="400">
-            Recent Points <br />
-            Earned{' '}
+          <Text color={textColorSecondary} fontSize="sm" fontWeight="400" w={150} textAlign='center'>
+            Recent Points Earned{' '}
           </Text>
         </Flex>
       </Flex>

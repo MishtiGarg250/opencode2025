@@ -8,7 +8,7 @@ export const Image = (props: any) => {
   const { src, alt, ...rest } = props
   return (
     <Box overflow={'hidden'} position='relative' {...rest}>
-      <NextImage  layout='fill' src={src} alt={alt} />
+      <NextImage  layout='fill' src={src} alt={alt} objectFit='cover'/>
     </Box>
   )
 }

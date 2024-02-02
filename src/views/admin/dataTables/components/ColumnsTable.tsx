@@ -15,6 +15,8 @@ import {
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { NextAvatar } from 'components/image/Avatar';
+import Confetti from 'react-confetti';
+import { color } from '@chakra-ui/system';
 
 type RowObj = {
 	position: string;
@@ -33,6 +35,13 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 	const [ sorting, setSorting ] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+
+	const firstPos = useColorModeValue('#6464ce', '#2B2D9A');
+	const secondPos = useColorModeValue('#9292dd', '#1A1C7C');
+	const thirdPos = useColorModeValue('#c1c1ec', '#0D0F66');
+	const defaultPos = useColorModeValue('white', 'navy.800');
+
+
 	let defaultData= tableData;
 	
 	const columns = [
@@ -85,7 +94,7 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 					GITHUB ID
 				</Text>
 			),
-			cell: (info) => (
+			cell: (info : any) => (
                 <Link href={"/user/profile/"+info.getValue()} color={textColor} fontSize='lg' fontWeight='700'>
                     <Flex align='center'>
                         <NextAvatar
@@ -114,7 +123,7 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 					PR MERGED
 				</Text>
 			),
-			cell: (info) => (
+			cell: (info : any) => (
 				<Text color={textColor} fontSize='lg' fontWeight='700'>
 					{info.getValue()}
 				</Text>
@@ -131,7 +140,7 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 					TOTAL POINTS	
 				</Text>
 			),
-			cell: (info) => (
+			cell: (info : any) => (
 				
 				<Flex align='center' gap='4'> 
 					<Text color={textColor} fontSize='lg' fontWeight='700'>
@@ -162,6 +171,10 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 		getSortedRowModel: getSortedRowModel(),
 		debugTable: true
 	});
+
+	const width = window.innerWidth;
+	const height = window.innerHeight;
+
 	return (
     <>
       <Card
@@ -184,10 +197,10 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
         <Box>
           <Table variant="simple" color="gray.500" mb="24px" mt="12px">
             <Thead>
-              {table.getHeaderGroups().map((headerGroup) => (
+              {table.getHeaderGroups().map((headerGroup : any) => (
                 <Tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
+                  {headerGroup.headers.map((header : any) => {
+                    return ( 	
                       <Th
                         key={header.id}
                         colSpan={header.colSpan}
@@ -220,32 +233,113 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
             <Tbody>
               {table
                 .getRowModel()
-                .rows.slice(0, 11)
-                .map((row) => {
-                  return (
-                    <Tr key={row.id}>
-                      {row.getVisibleCells().map((cell) => {
-                        return (
-                          <Td
-                            key={cell.id}
-                            fontSize={{ sm: '14px' }}
-                            minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-                            borderColor="transparent"
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </Td>
-                        );
-                      })}
-                    </Tr>
-                  );
+                .rows
+                .map((row : any) => {
+				
+					if(row.original.position === 1){
+						return (
+							<Tr key={row.id} bg={firstPos}>
+							  {row.getVisibleCells().map((cell : any) => {
+									return (
+										<Td
+										  key={cell.id}
+										  fontSize={{ sm: '14px' }}
+										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+										  borderColor="transparent"
+										  bg={firstPos}
+										>
+										  {flexRender(
+											cell.column.columnDef.cell,
+											cell.getContext(),
+										  )}
+										</Td>
+									  );
+							  })}
+							</Tr>
+						  );
+					}
+					else if(row.original.position === 2){
+						return (
+							<Tr key={row.id} bg={secondPos}>
+							  {row.getVisibleCells().map((cell : any) => {
+									return (
+										<Td
+										  key={cell.id}
+										  fontSize={{ sm: '14px' }}
+										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+										  borderColor="transparent"
+										  
+										>
+										  {flexRender(
+											cell.column.columnDef.cell,
+											cell.getContext(),
+										  )}
+										</Td>
+									  );
+							  })}
+							</Tr>
+						  );
+					}
+					else if(row.original.position === 3){
+						return (
+							<Tr key={row.id} bg={thirdPos}>
+							  {row.getVisibleCells().map((cell : any) => {
+									return (
+										<Td
+										  key={cell.id}
+										  fontSize={{ sm: '14px' }}
+										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+										  borderColor="transparent"
+										  
+										>
+										  {flexRender(
+											cell.column.columnDef.cell,
+											cell.getContext(),
+										  )}
+										</Td>
+									  );
+							  })}
+							</Tr>
+						  );
+					}
+					else{
+						return (
+							<Tr key={row.id} bg={defaultPos}>
+							  {row.getVisibleCells().map((cell : any) => {
+									return (
+										<Td
+										  key={cell.id}
+										  fontSize={{ sm: '14px' }}
+										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+										  borderColor="transparent"
+										  
+										>
+										  {flexRender(
+											cell.column.columnDef.cell,
+											cell.getContext(),
+										  )}
+										</Td>
+									  );
+							  })}
+							</Tr>
+						  );
+					}
+                  
                 })}
             </Tbody>
           </Table>
         </Box>
       </Card>
+	  <Confetti 
+	  	width={width}
+		height={height}
+		numberOfPieces={700}
+		friction={1.005}
+		gravity={0.15}
+		initialVelocityY ={20}
+		tweenDuration={10000}
+		recycle={false}
+		/>
     </>
   );
 } 

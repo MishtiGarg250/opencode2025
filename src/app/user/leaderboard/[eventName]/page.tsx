@@ -19,6 +19,8 @@ export default function EventName({
     queryFn: () => FetchedLeaderboard(eventName),
   });
 
+  console.log(LeadData);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -39,7 +41,8 @@ export default function EventName({
 
   const tableDataColumns: RowObj[] = LeadData.map((item, index) => {
     return {
-      position: index + 1,
+      key:index,
+      position: item.position,
       name: item.name,
       prmerged: item.prmerged,
       githubid: item.githubid,

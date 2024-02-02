@@ -427,7 +427,7 @@ export default function SignIn() {
               maxW="100%"
               mt="0px"
             >
-              <Link href="/auth/sign-up">
+              <Link href="/auth/sign-in">
                 <Text color={textColorDetails} fontWeight="400" fontSize="14px">
                   Having a existing account?
                   <Text
@@ -436,8 +436,9 @@ export default function SignIn() {
                     ms="5px"
                     fontWeight="500"
                   >
-                    Login
+                    Login  
                   </Text>
+                 
                 </Text>
               </Link>
             </Flex>

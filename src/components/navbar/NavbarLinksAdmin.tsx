@@ -25,7 +25,7 @@ import routes from 'routes';
 import { useAuth } from 'contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
-export default function HeaderLinks(props: { secondary: boolean }) {
+export default function   HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
   const [ProfileInitals, setProfileInitials] = useState(' ');
@@ -69,12 +69,16 @@ export default function HeaderLinks(props: { secondary: boolean }) {
   );
 
   return (
+    <Flex  justifyContent="right" w={{ sm: 'fit-content', md: 'auto' }}>
+
+   
     <Flex
-      w={{ sm: '100%', md: 'auto' }}
+      w={{ sm: 'fit-content', md: 'auto' }}
       alignItems="center"
+      justifyContent="right"
       flexDirection="row"
       bg={menuBg}
-      flexWrap={secondary ? { base: 'wrap', md: 'nowrap' } : 'unset'}
+      flexWrap={secondary ? { base: 'nowrap', md: 'nowrap' } : 'unset'}
       p="10px"
       borderRadius="30px"
       boxShadow={shadow}
@@ -201,6 +205,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
           </MenuList>
         </Menu>
       )}
+    </Flex>
     </Flex>
   );
 }

@@ -78,9 +78,9 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   // functions for changing the states from components
   const { onOpen } = useDisclosure();
 
-  // useEffect(() => {
-  //   window.document.documentElement.dir = 'ltr';
-  // },[]);
+  useEffect(() => {
+    window.document.documentElement.dir = 'ltr';
+  },[]);
   
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
@@ -97,8 +97,8 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         <Box
           float="right"
           minHeight="100vh"
-          height="100%"
-          overflow="auto"
+          height="100%" 
+          overflowX="hidden"
           position="relative"
           maxHeight="100%"
           w={{ base: '100%', xl: 'calc( 100% - 290px )' }}

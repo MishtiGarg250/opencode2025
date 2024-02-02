@@ -15,6 +15,7 @@ import {
 // Custom components
 import Card from 'components/card/Card';
 import { NextAvatar } from 'components/image/Avatar';
+
 import { Image } from 'components/image/Image';
 // Assets
 import { useState } from 'react';
@@ -27,16 +28,17 @@ export default function NFT(props: {
 	download:string;
 	
 }) {
-	const { image, name,des ,download} = props;
+	const { image, name,des ,download } = props;
 	const [ like, setLike ] = useState(false);
 	const textColor = useColorModeValue('navy.700', 'white');
 	const textColorBid = useColorModeValue('brand.500', 'white');
+	
 	return (
-		<Card p='20px'>
+		<Card p='14px' className="shadow-lg">
 			<Flex direction={{ base: 'column' }} justify='center'>
 				<Box mb={{ base: '20px', '2xl': '20px' }} position='relative'>
 					<AspectRatio ratio={7 / 5}>
-						<Image src={image} w={'100%'} borderRadius='20px' alt='' />
+						<Image src={image} w={'100%'} borderRadius='20px' alt=''/>
 					</AspectRatio>
 					
 				</Box>
@@ -58,17 +60,17 @@ export default function NFT(props: {
 									base: 'xl',
 									md: 'lg',
 									lg: 'lg',
-									xl: 'lg',
+									xl: 'xl',
 									'2xl': 'md',
 									'3xl': 'lg'
 								}}
-								mb='5px'
+								mb='3px'
 								fontWeight='bold'
 								me='14px'>
 								{name}
 							</Text>
 							<Text
-								color='secondaryGray.600'
+								color='secondaryGray.700'
 								fontSize={{
 									base: 'sm'
 								}}
@@ -95,7 +97,7 @@ export default function NFT(props: {
 							xl: 'column',
 							'2xl': 'row'
 						}}
-						mt='25px'>
+						mt='10px'>
 						
 						<Link href={download}
 							
@@ -107,6 +109,7 @@ export default function NFT(props: {
 								'2xl': '0px'
 							}}>
 							<Button
+								className='confet'
 								variant='darkBrand'
 								color='white'
 								fontSize='sm'
@@ -116,7 +119,9 @@ export default function NFT(props: {
 								py='5px'>
 								Leaderboard
 							</Button>
+							
 						</Link>
+
 					</Flex>
 				</Flex>
 			</Flex>

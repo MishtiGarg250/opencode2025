@@ -38,7 +38,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
   const createLinks = (routes: IRoute[]) => {
     return routes.map((route, index: number) => {
       if (
-        route.layout === '/admin' ||
+        
         route.layout === '/auth' ||
         route.layout === '/user'
       ) {
