@@ -1,15 +1,10 @@
 'use client';
 
 import { Box, Grid } from '@chakra-ui/react';
-
-// Custom components
 import Banner from 'views/admin/profile/components/Banner';
 import General from 'views/admin/profile/components/General';
-
 import Projects from 'views/admin/profile/components/Projects';
-
 import { useQuery } from '@tanstack/react-query';
-
 import { useEffect, useState } from 'react';
 import { otherUserProfile } from 'api/profile/profile';
 import { RingLoader } from 'react-spinners';

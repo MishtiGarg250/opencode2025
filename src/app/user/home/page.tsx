@@ -3,14 +3,12 @@
 import { useState } from 'react';
 import { FetchedData } from 'api/profile/profile';
 import { FetchedEvents } from 'api/events/events';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { Box, useColorModeValue, Button, Text } from '@chakra-ui/react';
+import { Box, Button, Text } from '@chakra-ui/react';
 import { useAuth } from 'contexts/AuthContext.js';
 import { useEffect } from 'react';
-import EventCard from '../../../components/eventCard/eventCard';
 import { RingLoader } from 'react-spinners';
-import testImage from '../../../img/avatars/avatar3.png';
 import { Image } from '@chakra-ui/react';
 import Link from 'next/link';
 import axios from 'axios';
@@ -28,11 +26,6 @@ export default function Dashboard() {
   useEffect(() => {
     auth.check_login();
   }, [auth]);
-
-  const { data: userData } = useQuery({
-    queryKey: ['userInfo'],
-    queryFn: FetchedData,
-  });
 
   const { data: eventData, isLoading } = useQuery({
     queryKey: ['EventInfo'],
@@ -82,7 +75,6 @@ export default function Dashboard() {
           h="100%"
           bgGradient="linear(to-b, rgba(0,0,0,0.1), rgba(0,0,0.3,0.9))"
         />
-    
         <Image
           src={event.logoImageURL}
           alt={event.name}
@@ -90,7 +82,6 @@ export default function Dashboard() {
           width="100%"
           height="100%"
         />
-    
         <Box
           position="absolute"
           top={{ base: '70%', md: '70%' }}
@@ -105,7 +96,6 @@ export default function Dashboard() {
           </Text>
           <Text fontSize={{ base: 'md', md: 'xl' }}>{event.description}</Text>
         </Box>
-    
         <Box
           position="absolute"
           bottom="8"
@@ -136,9 +126,6 @@ export default function Dashboard() {
         </Box>
       </Box>
     </Box>
-    
-     
-      
       ))}
     </>
   );

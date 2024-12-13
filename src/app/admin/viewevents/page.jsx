@@ -13,13 +13,12 @@ var eventData = [];
 
 const deleteHandler = async (eventName) => {
   const token = localStorage.getItem('token');
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
   await axios
     .delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/delete/` + eventName,
-      { headers: headers },
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/delete/${eventName}`,
+      { headers: {
+        Authorization: `Bearer ${token}`,
+      } },
     )
     .then(() => {
       alert('YAY! deleted');
@@ -69,7 +68,7 @@ export default function Viewevents() {
               boxSize="130px"
               src={item.logoImageURL}
               style={{ paddingRight: 30 }}
-              alt="Dan Abramov"
+              alt={item.name}
             />
             <Button
               colorScheme="red"

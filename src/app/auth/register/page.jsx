@@ -3,25 +3,20 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   FormControl,
   FormLabel,
   Heading,
-  Icon,
   Input,
   Container,
-  InputGroup,
-  InputRightElement,
   Text,
   useColorModeValue,
   Select,
 } from '@chakra-ui/react';
-import { FetchedData, sendRegData } from '../../../api/profile/profile';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { sendRegData } from '../../../api/profile/profile';
+import { useMutation } from '@tanstack/react-query';
 import { useToast } from '@chakra-ui/react';
 // Custom components
-import { HSeparator } from 'components/separator/Separator';
 import DefaultAuthLayout from 'layouts/auth/Default';
 // Assets
 import Link from 'next/link';
@@ -50,10 +45,10 @@ export default function SignIn() {
     const urlParam = new URLSearchParams(querystring);
     const TokenParam = urlParam.get('token');
     const avatarUrl = urlParam.get('avatar_url');
-    setformData({
+    setformData((formData) => ({
       ...formData,
       avatarUrl: avatarUrl || '',
-    });
+    }));
 
     localStorage.setItem('token', TokenParam);
   }, []);
@@ -63,8 +58,6 @@ export default function SignIn() {
   const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
-
-  const [show, setShow] = React.useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

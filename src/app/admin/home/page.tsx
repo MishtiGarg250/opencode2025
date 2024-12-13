@@ -37,7 +37,6 @@ import {
 } from '@chakra-ui/react';
 import { EditPRPoints } from 'api/admin/admin.js';
 import { useToast } from '@chakra-ui/react';
-import { FetchedData } from 'api/profile/profile.js';
 
 export default function Dashboard() {
   const toast = useToast();
@@ -62,14 +61,7 @@ export default function Dashboard() {
     setIsModalOpen(false);
   };
 
-  const { data: userData } = useQuery({
-    queryKey: ['userInfo'],
-    queryFn: FetchedData,
-  });
-
   const [userPrDetails, setuserPrDetails] = useState([]);
-  const [GitData, setGitData] = useState({});
-
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const auth = useAuth();
 
@@ -80,15 +72,7 @@ export default function Dashboard() {
     if (TokenParam === null) {
       auth.check_login();
     } else localStorage.setItem('token', TokenParam);
-    const GitDatalocal = localStorage.getItem('GithubData');
-
-    const ParseData = JSON.parse(GitDatalocal);
-    setGitData(ParseData?.data);
-  }, []);
-
-  interface Event {
-    name: string;
-  }
+  }, [auth]);
 
   const pointUpdate = useMutation({
     mutationFn: EditPRPoints,
@@ -147,16 +131,12 @@ export default function Dashboard() {
     }
   };
 
-  const { data: eventData } = useQuery({
+  const { data: eventData } = useQuery<{ data: Array<{ name: string }> }>({
     queryKey: ['EventInfo'],
     queryFn: FetchedEvents,
   });
 
-  const {
-    data: userPrDeatils,
-    refetch,
-    isError,
-  } = useQuery({
+  const { data: userPrDeatils, refetch } = useQuery({
     queryKey: ['userPrDeatilsInfo'],
     queryFn: () => getUserPRDetails(githubId, eventName),
     enabled: false,
@@ -173,14 +153,9 @@ export default function Dashboard() {
   const handlePrClick = async () => {
     try {
       setIsLoading(true);
-
       await refetch();
-
       setuserPrDetails(userPrDeatils);
-
       setIsLoading(false);
-
-      console.log(userPrDeatils);
     } catch (error) {
       setIsLoading(false);
       console.error('Error fetching data:', error);
@@ -194,8 +169,6 @@ export default function Dashboard() {
       </div>
     );
   }
-
-  const Events = eventData.data;
 
   return (
     <>
@@ -228,13 +201,11 @@ export default function Dashboard() {
               value={eventName}
               onChange={(e) => setEventName(e.target.value)}
             >
-              {Events.map((e: Event, key: number) => {
-                return (
-                  <option key={key} value={e.name}>
-                    {e.name}
-                  </option>
-                );
-              })}
+              {eventData.data.map((e) => (
+                <option key={e.name} value={e.name}>
+                  {e.name}
+                </option>
+              ))}
             </Select>
           </FormControl>
         </Flex>

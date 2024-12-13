@@ -1,8 +1,6 @@
 'use client';
 
 import React from 'react';
-import { FaGithub } from 'react-icons/fa';
-import Link from 'next/link';
 import { useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import axios from 'axios';

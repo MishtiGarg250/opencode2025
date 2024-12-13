@@ -1,15 +1,10 @@
 'use client';
 
 import { Box, Grid } from '@chakra-ui/react';
-
-// Custom components
 import Banner from 'views/admin/profile/components/Banner';
 import General from 'views/admin/profile/components/General';
-
 import Projects from 'views/admin/profile/components/Projects';
-
 import { useQuery } from '@tanstack/react-query';
-
 import { useEffect, useState } from 'react';
 import { otherUserProfile } from 'api/profile/profile';
 import { RingLoader } from 'react-spinners';
@@ -55,8 +50,12 @@ export default function ProfileOverviewOther({
   useEffect(() => {
     async function fetchPointsAndPr() {
       try {
-        const leaderboard = await FetchedLeaderboard(process.env.NEXT_PUBLIC_EVENT_NAME);
-        const user = leaderboard.find((entry) => entry.githubid === profileName);
+        const leaderboard = await FetchedLeaderboard(
+          process.env.NEXT_PUBLIC_EVENT_NAME,
+        );
+        const user = leaderboard.find(
+          (entry) => entry.githubid === profileName,
+        );
         setPoints(user?.points ? parseInt(user.points, 10) : 0);
         setPrMerged(user?.prmerged ? parseInt(user.prmerged, 10) : 0);
       } catch (error) {
