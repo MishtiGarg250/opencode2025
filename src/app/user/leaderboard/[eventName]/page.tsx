@@ -1,8 +1,7 @@
 'use client';
-import { Box, SimpleGrid } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
 import { useQuery } from '@tanstack/react-query';
-// import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
 import React from 'react';
 import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 import { RingLoader } from 'react-spinners';
@@ -18,6 +17,8 @@ export default function EventName({
     queryKey: ['LeadInfo'],
     queryFn: () => FetchedLeaderboard(eventName),
   });
+
+  console.log(LeadData);
 
   if (isLoading) {
     return (
@@ -50,10 +51,22 @@ export default function EventName({
     };
   });
 
+  const participantCount = tableDataColumns.length;
+
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
+      <Text
+        fontSize="2xl"
+        fontWeight="bold"
+        mb={6}
+        color="white"
+        textShadow="0px 0px 10px rgba(0,0,0,0.3)"
+      >
+        Total Participants: {participantCount}
+      </Text>
       <ColumnsTable tableData={tableDataColumns} eventName={params.eventName} />
       <SimpleGrid columns={3} spacing={4}></SimpleGrid>
     </Box>
   );
 }
+
