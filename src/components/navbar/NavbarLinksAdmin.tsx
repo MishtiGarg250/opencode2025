@@ -25,7 +25,7 @@ import routes from 'routes';
 import { useAuth } from 'contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
-export default function   HeaderLinks(props: { secondary: boolean }) {
+export default function HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
   const [ProfileInitals, setProfileInitials] = useState(' ');
@@ -38,23 +38,8 @@ export default function   HeaderLinks(props: { secondary: boolean }) {
   };
 
   useEffect(() => {
-    const GitDatalocal = localStorage.getItem('GithubData');
-    const ParseData = JSON.parse(GitDatalocal);
-
-    if (ParseData && ParseData.data && ParseData.data.name) {
-      // Ensure TempData is defined and has the expected structure
-
-      const words = ParseData.data.name.split(' ');
-
-      // Get the first character of the first word
-      const firstCharFirstWord = words[0].slice(0, 1);
-
-      // Get the first character of the last word
-      const lastWordIndex = words.length - 1;
-      const firstCharLastWord = words[lastWordIndex].slice(0, 1);
-
-      setProfileInitials(firstCharFirstWord + firstCharLastWord);
-    }
+    const name: string = JSON.parse(localStorage.getItem('user') ?? '{}')?.name ?? '';
+    setProfileInitials(name.split(' ').map((n) => n?.[0]).slice(0, 2).join(''));
   }, []);
 
   // Chakra Color Mode

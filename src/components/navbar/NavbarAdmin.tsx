@@ -22,19 +22,11 @@ export default function AdminNavbar(props: {
 
   onOpen: (...args: any[]) => any;
 }) {
-  const [naam, setNaam] = useState(' ');
+  const [name, setName] = useState('');
 
   useEffect(() => {
-    if (localStorage.getItem('GithubData') !== null) {
-      const GitDatalocal = localStorage.getItem('GithubData');
-      const ParseData = JSON.parse(GitDatalocal);
-      setNaam(ParseData?.data.name);
-    }
+    setName(JSON.parse(localStorage.getItem('user') ?? '{}')?.name ?? 'Guest');
   }, []);
-
-  //   const GitDatanew = localStorage.getItem('GithubData');
-  //   const Parseata = JSON.parse(GitDatanew);
-  //  const profilename = Parseata.data.name;
 
   const { secondary, message, brandText } = props;
 
@@ -110,7 +102,7 @@ export default function AdminNavbar(props: {
 
         <Breadcrumb>
             <BreadcrumbItem color={secondaryText} fontSize="sm" mb="5px">
-              <BreadcrumbLink href="#" color={secondaryText}>
+              <BreadcrumbLink href="home" color={secondaryText}>
                 Home
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -140,7 +132,7 @@ export default function AdminNavbar(props: {
               boxShadow: 'none',
             }}
           >
-            <Box>👋&nbsp;{naam}</Box>
+            <Box>👋&nbsp;{name}</Box>
           </Link>
         </Box>
         <Box ms="auto" w={{ sm: '100%', md: 'unset' }}>

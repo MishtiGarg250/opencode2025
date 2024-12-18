@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { FetchedData } from 'api/profile/profile';
 import { FetchedEvents } from 'api/events/events';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -12,9 +11,9 @@ import { RingLoader } from 'react-spinners';
 import { Image } from '@chakra-ui/react';
 import Link from 'next/link';
 import axios from 'axios';
+import { fetchLoggedInBasicDetails } from 'api/profile/profile';
 
 export default function Dashboard() {
-  const [GitData, setGitData] = useState([]);
   const router = useRouter();
 
   const handleLeaderboardclick = (eventName: string) => {
@@ -41,17 +40,14 @@ export default function Dashboard() {
     if (TokenParam === null) {
       auth.check_login();
     } else localStorage.setItem('token', TokenParam);
-    const GitDatalocal = localStorage.getItem('GithubData');
     if (localStorage.getItem('token')) {
+      fetchLoggedInBasicDetails();
       axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/events/register?eventName=${encodeURIComponent(`${process.env.NEXT_PUBLIC_EVENT_NAME}`)}`,{},{
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
     }
-
-    const ParseData = JSON.parse(GitDatalocal);
-    setGitData(ParseData?.data);
   }, [auth]);
 
   if (isLoading) {

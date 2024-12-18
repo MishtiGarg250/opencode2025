@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Grid } from '@chakra-ui/react';
+import { Box, Grid, Text, Flex, useColorMode } from '@chakra-ui/react';
 import Banner from 'views/admin/profile/components/Banner';
 import General from 'views/admin/profile/components/General';
 import Projects from 'views/admin/profile/components/Projects';
@@ -14,11 +14,12 @@ export default function ProfileOverviewOther({
 }: {
   params: { profileName: string };
 }) {
-  const { data, isLoading } = useQuery<{ data: ProfileData}>({
+  const { data, isLoading } = useQuery<{ data: ProfileData }>({
     queryKey: ['profileInfo'],
     queryFn: () => getUserProfileByName(profileName),
   });
   const profileData = data?.data;
+  const { colorMode } = useColorMode();
 
   if (isLoading) {
     return (
@@ -30,6 +31,29 @@ export default function ProfileOverviewOther({
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
+      {/* Top Banner */}
+      <Flex
+        bg={colorMode === 'light' ? 'white' : 'navy.700'}
+        color={colorMode === 'light' ? 'gray.900' : 'white'}
+        justify="center"
+        align="center"
+        p="15px"
+        textAlign="center"
+        mb="15px"
+      >
+        <Text fontSize="m" fontWeight="bold">
+          Please join the Discord server for further communication regarding
+          Opencode&apos;24. Discord server link: {' '}
+          <a
+            href="https://bit.ly/oc-discord"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'underline' }}
+          >
+            https://bit.ly/oc-discord
+          </a>
+        </Text>
+      </Flex>
       {/* Main Fields */}
       <Grid
         templateColumns={{

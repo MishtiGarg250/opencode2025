@@ -1,7 +1,5 @@
-export async function FetchedData() {
-  const querystring = window.location.search;
-  const urlParam = new URLSearchParams(querystring);
-  const token = urlParam.get('token');
+export async function fetchLoggedInBasicDetails() {
+  const token = localStorage.getItem('token');
   if (token === null) {
     auth.check_login();
   } else {
@@ -16,13 +14,9 @@ export async function FetchedData() {
     if (!response.ok) {
       throw new Error('Failed to fetch user info');
     }
-
-    const newData = await response.json();
-
-    localStorage.setItem('GithubData', JSON.stringify(newData));
-    console.log(GithubData);
-
-    return newData;
+    const data = (await response.json()).data;
+    localStorage.setItem('user', JSON.stringify(data));
+    return data;
   }
 }
 

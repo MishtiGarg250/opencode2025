@@ -37,6 +37,7 @@ import {
 } from '@chakra-ui/react';
 import { EditPRPoints } from 'api/admin/admin.js';
 import { useToast } from '@chakra-ui/react';
+import { fetchLoggedInBasicDetails } from 'api/profile/profile.js';
 
 export default function Dashboard() {
   const toast = useToast();
@@ -68,10 +69,13 @@ export default function Dashboard() {
   useEffect(() => {
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
-    const TokenParam = urlParam.get('token');
-    if (TokenParam === null) {
+    const token = urlParam.get('token');
+    if (token === null) {
       auth.check_login();
-    } else localStorage.setItem('token', TokenParam);
+    } else {
+      localStorage.setItem('token', token);
+      fetchLoggedInBasicDetails();
+    }
   }, [auth]);
 
   const pointUpdate = useMutation({

@@ -1,5 +1,5 @@
 'use client';
-import { Box, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text, useColorModeValue } from '@chakra-ui/react';
 import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
@@ -12,13 +12,12 @@ export default function EventName({
   params: { eventName: string };
 }) {
   const eventName = params.eventName;
+  const textThemeColor = useColorModeValue("secondaryGray.900", "gray.100");
 
   const { data: LeadData, isLoading } = useQuery({
     queryKey: ['LeadInfo'],
     queryFn: () => FetchedLeaderboard(eventName),
   });
-
-  console.log(LeadData);
 
   if (isLoading) {
     return (
@@ -59,7 +58,7 @@ export default function EventName({
         fontSize="2xl"
         fontWeight="bold"
         mb={6}
-        color="white"
+        color={textThemeColor}
         textShadow="0px 0px 10px rgba(0,0,0,0.3)"
       >
         Total Participants: {participantCount}

@@ -32,24 +32,29 @@ export default function Project({ pr }: {
       <Flex align="center" direction={{ base: 'column', md: 'row' }}>
         <Icon as={FaGithub} color="secondaryGray.500" h="30px" w="30px" mr="10px"/>
         <Box mt={{ base: '10px', md: '0' }}>
-          <Text
-            color={textColorPrimary}
-            fontWeight="500"
-            fontSize="md"
-            mb="4px"
-          >
-            Issue #{pr.issue.issueNumber}
-          </Text>
-          <Flex>
+          <Link textDecorationLine='underline' href={`https://github.com/opencodeiiita/${pr.issue.repoName}/issues/${pr.issue.issueNumber}`} >
             <Text
+              color={textColorPrimary}
               fontWeight="500"
+              fontSize="md"
+              mb="4px"
+            >
+              Issue #{pr.issue.issueNumber}
+            </Text>
+          </Link>
+          <Flex fontWeight="500"
               color={textColorSecondary}
               fontSize="sm"
-              me="4px"
+              me="4px">
+            <Link
+              mr={2}
+              textDecorationLine='underline'
+              href={`https://github.com/opencodeiiita/${pr.issue.repoName}/pull/${pr.prNumber}`}
             >
-              PR #{pr.prNumber} • Repo: 
-            </Text>
-            <Link className='font-semibold underline text-sm' color={textColorSecondary} href={`https://github.com/opencodeiiita/${pr.issue.repoName}`} >
+              PR #{pr.prNumber}
+            </Link>
+            • Repo:
+            <Link className='font-semibold text-sm ml-2' textDecorationLine='underline' color={textColorSecondary} href={`https://github.com/opencodeiiita/${pr.issue.repoName}`} >
               {pr.issue.repoName}
             </Link>
           </Flex>
@@ -62,15 +67,6 @@ export default function Project({ pr }: {
                 Status: {pr.status}
             </Text>
         </Box>
-        <Link
-          href={JSON.parse(localStorage.getItem('GithubData')).data.githubUrl+"/"+pr.issue.repoName}
-          variant="no-hover"
-          me="16px"
-          ms="auto"
-          p="0px !important"
-        >
-          {/* <Icon as={MdEdit} color="secondaryGray.500" h="18px" w="18px" /> */}
-        </Link>
       </Flex>
     </Card>
   );
