@@ -7,40 +7,29 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { PullRequest } from 'app/user/profile/page';
 // Custom components
 import Card from 'components/card/Card';
 import { FaGithub } from "react-icons/fa";
-import { Image } from 'components/image/Image';
 // Assets
 
 
-export default function Project(props: {
-  title: string;
-  ranking: number | string;
-  repoName: string;
-  image: string;
-  language:string
-  status:string
+export default function Project({ pr }: {
+  pr: PullRequest;
   [x: string]: any;
 }) {
-  const { title, ranking, repoName,language, image, status, ...rest } = props;
   // Chakra Color Mode
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
   const textColorSecondary = 'gray.400';
-  const brandColor = useColorModeValue('brand.500', 'white');
   const bg = useColorModeValue('white', 'navy.700');
-  
+  const cardShadow = useColorModeValue(
+    '0px 18px 40px rgba(112, 144, 176, 0.12)',
+    'unset',
+  );
+
   return (
-    <Card bg={bg} {...rest} p="14px">
+    <Card bg={bg} mb="20px" p="14px" boxShadow={cardShadow}>
       <Flex align="center" direction={{ base: 'column', md: 'row' }}>
-        {/* <Image
-          alt=""
-          h="80px"
-          w="80px"
-          src={image}
-          borderRadius="8px"
-          me="20px"
-        /> */}
         <Icon as={FaGithub} color="secondaryGray.500" h="30px" w="30px" mr="10px"/>
         <Box mt={{ base: '10px', md: '0' }}>
           <Text
@@ -49,7 +38,7 @@ export default function Project(props: {
             fontSize="md"
             mb="4px"
           >
-            Issue #{title}
+            Issue #{pr.issue.issueNumber}
           </Text>
           <Flex>
             <Text
@@ -58,10 +47,10 @@ export default function Project(props: {
               fontSize="sm"
               me="4px"
             >
-              PR #{ranking} • Repo: 
+              PR #{pr.prNumber} • Repo: 
             </Text>
-            <Link fontWeight="500" color={textColorSecondary} href={`https://github.com/opencodeiiita/${repoName}`} fontSize="sm">
-              {repoName}
+            <Link className='font-semibold underline text-sm' color={textColorSecondary} href={`https://github.com/opencodeiiita/${pr.issue.repoName}`} >
+              {pr.issue.repoName}
             </Link>
           </Flex>
             <Text
@@ -70,11 +59,11 @@ export default function Project(props: {
               fontSize="sm"
               me="4px"
             >
-                Status: {status}
+                Status: {pr.status}
             </Text>
         </Box>
         <Link
-          href={JSON.parse(localStorage.getItem('GithubData')).data.githubUrl+"/"+repoName}
+          href={JSON.parse(localStorage.getItem('GithubData')).data.githubUrl+"/"+pr.issue.repoName}
           variant="no-hover"
           me="16px"
           ms="auto"

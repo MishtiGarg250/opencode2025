@@ -1,48 +1,16 @@
 // Chakra imports
 import { Text, useColorModeValue } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
 // Assets
-import Project1 from 'img/profile/Project1.png';
-// Custom components
 import Card from 'components/card/Card';
 import Project from 'views/admin/profile/components/Project';
-import { RingLoader } from 'react-spinners';
-import { getPRDetails } from 'api/profile/profile';
-import { useQuery } from '@tanstack/react-query';
-export default function Projects(props: { name: string; [x: string]: any }) {
+import { PullRequest } from 'app/user/profile/page';
+
+export default function Projects(props: { PRs: PullRequest[] }) {
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
   const textColorSecondary = 'gray.400';
-  const cardShadow = useColorModeValue(
-    '0px 18px 40px rgba(112, 144, 176, 0.12)',
-    'unset',
-  );
-  const { name, ...rest } = props;
-  // Chakra Color Mode
-  const [PRs, setPRs] = useState([]);
-
-  const profName = name;
-
-  const { data: PrDetails, isLoading } = useQuery({
-    queryKey: ['PrDetails'],
-    queryFn: () => getPRDetails(profName),
-  });
-
-  useEffect(() => {
-    if (PrDetails) {
-      setPRs(PrDetails);
-    }
-  }, [PrDetails]);
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <RingLoader color="#36d7b7" />
-      </div>
-    );
-  }
 
   return (
-    <Card mb={{ base: '0px', '2xl': '20px' }} {...rest}>
+    <Card mb={{ base: '0px', '2xl': '20px' }} >
       <Text
         color={textColorPrimary}
         fontWeight="bold"
@@ -56,23 +24,20 @@ export default function Projects(props: { name: string; [x: string]: any }) {
         Here you can find more details about your prs.
       </Text>
 
-      {PRs.length ? (
-        PRs.map((pr, index) => (
+      {props.PRs.length ? (
+        props.PRs.map((pr) => (
           <Project
-            key={index}
-            boxShadow={cardShadow}
-            mb="20px"
-            image={Project1}
-            ranking={pr.prNumber}
-            language={pr.issue.repoName}
-            repoName={pr.issue.repoName}
-            title={pr.issue.issueNumber}
-            status={pr.status}
+            key={pr.title}
+            // ranking={pr.prNumber}
+            // repoName={pr.issue.repoName}
+            // title={String(pr.issue.issueNumber)}
+            // status={pr.status}
+            pr={pr}
           />
         ))
       ) : (
         <div className="flex justify-start items-center text-xl text-red-400">
-          {name} has made 0 PRs.
+          This User has made 0 PRs.
         </div>
       )}
     </Card>
