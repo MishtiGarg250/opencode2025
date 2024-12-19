@@ -20,6 +20,8 @@ export default function EventName({
     refetchInterval: 10000,
   });
 
+  console.log(LeadData);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
