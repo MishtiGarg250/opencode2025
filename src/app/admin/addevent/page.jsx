@@ -108,6 +108,17 @@ export default function Addevent  ()  {
     }
   };
 
+  const token = localStorage.getItem('token');
+  const payload = parseJwt(token);
+
+  // require admin role before calling backend
+  if (!payload?.roles?.isAdmin) {
+    console.error('Only admin can create events');
+    redirect('/user/home')
+    // show UI feedback if needed
+    return;
+  }
+
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <div className="min-h-screen flex items-center justify-center pt-12">

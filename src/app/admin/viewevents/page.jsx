@@ -13,23 +13,23 @@ import axios from 'axios';
 var eventData = [];
 
 
-  // helper to decode JWT payload (browser)
-  function parseJwt(token) {
-    if (!token) return null;
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
-      );
-      return JSON.parse(jsonPayload);
-    } catch {
-      return null;
-    }
+// helper to decode JWT payload (browser)
+function parseJwt(token) {
+  if (!token) return null;
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch {
+    return null;
   }
+}
 
 const deleteHandler = async (eventName) => {
   const token = localStorage.getItem('token');
@@ -92,6 +92,17 @@ export default function Viewevents() {
     return <div>Loading...</div>; // or any loading indicator
   }
 
+
+  const token = localStorage.getItem('token');
+  const payload = parseJwt(token);
+
+  // require admin role before calling backend
+  if (!payload?.roles?.isAdmin) {
+    console.error('Only admin can create events');
+    redirect('/user/home')
+    // show UI feedback if needed
+    return;
+  }
 
   if (!eventData) {
     return (
