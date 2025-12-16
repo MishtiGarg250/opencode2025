@@ -1,5 +1,5 @@
 "use client";
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Link } from '@chakra-ui/react';
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Link, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, ModalFooter, useDisclosure } from '@chakra-ui/react';
 import * as React from 'react';
 import {FaTrophy} from 'react-icons/fa'
 
@@ -15,6 +15,7 @@ import {
 // Custom components
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
+import LeaderboardGraph from './LeadearboardGraph';
 import { NextAvatar } from 'components/image/Avatar';
 import Confetti from 'react-confetti';
 import { color } from '@chakra-ui/system';
@@ -33,6 +34,9 @@ const columnHelper = createColumnHelper<RowObj>();
 // const columns = columnsDataCheck;
 export default function ColumnTable(props: { tableData: any; eventName : string; }) {
 	const { tableData,eventName } = props;
+	const [showProgress, setShowProgress] = React.useState(true);
+	const [showText, setShowText] = React.useState('Show Progress');
+
 	const [ sorting, setSorting ] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
@@ -158,8 +162,6 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
 
 
 	const [data, setData] = React.useState(() => (defaultData ? [...defaultData] : [] ));
-	console.log(data)
-
 	
 	const table = useReactTable({
 		data,
@@ -203,10 +205,16 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
             fontWeight="700"
             lineHeight="100%"
           >
-            {eventName}
+            {eventName} 
           </Text>
-        </Flex>
-        <Box>
+
+			<Button onClick={() => {setShowProgress(!showProgress);
+				 (showProgress? setShowText('Show Leaderboard') : setShowText('Show Progress')
+				 )}}>{showText}</Button>
+				
+        
+		</Flex>
+        {showProgress && <Box>
           <Table variant="simple" color="gray.500" mb="24px" mt="12px">
             <Thead>
               {table.getHeaderGroups().map((headerGroup : any) => (
@@ -340,8 +348,11 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
                 })}
             </Tbody>
           </Table>
-        </Box>
-      </Card>
+        </Box>}
+
+		{!showProgress && <LeaderboardGraph eventName={decodeURIComponent(eventName)} topN={5} startDate="2024-12-26" endDate="2025-01-25" />} 
+	  </Card>
+	  
 	  <Confetti 
 	  	width={width}
 		height={height}
