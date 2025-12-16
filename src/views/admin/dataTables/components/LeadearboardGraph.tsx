@@ -136,7 +136,7 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
   });
 
   const transformed = useMemo(() => {
-    if (!data) return { chartData: [], participants: [] as {participantId:string,name:string}[], dates: [] as string[] };
+    if (!data) return { chartData: [], participants: [] as {participantId:string,name:string,startIndex:number|null,startDate:string|null}[], dates: [] as string[] };
     if (mode === 'daily') {
       // determine earliest date across all participant data
       const allDates: string[] = [];

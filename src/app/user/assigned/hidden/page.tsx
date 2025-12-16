@@ -17,12 +17,18 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getUserIssueDetails } from 'api/events/events';
 import { RingLoader } from 'react-spinners';
-import { useSearchParams } from 'next/navigation';
+// avoid next/navigation useSearchParams to prevent CSR bailout during prerender
 
 export default function Dashboard() {
-  const params = useSearchParams();
-  const repoName = params.get('repoName');
-  const profileName = params.get('profileName');
+  const [repoName, setRepoName] = useState<string | null>(null);
+  const [profileName, setProfileName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    setRepoName(params.get('repoName'));
+    setProfileName(params.get('profileName'));
+  }, []);
 
   interface issues {
     title: string;
@@ -41,13 +47,14 @@ export default function Dashboard() {
   >(undefined);
 
   const { data: UserIssueDetils, isLoading } = useQuery({
-    queryKey: ['profileInfo'],
+    queryKey: ['profileInfo', profileName, repoName],
     queryFn: () =>
       getUserIssueDetails(
         profileName,
         process.env.NEXT_PUBLIC_EVENT_NAME,
         repoName,
       ),
+    enabled: Boolean(profileName && repoName),
   });
 
   useEffect(() => {

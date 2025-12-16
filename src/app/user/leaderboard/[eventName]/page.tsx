@@ -12,7 +12,7 @@ export default function EventName({
   params: any;
 }) {
 
-  const {eventName} = React.use(params);
+  const { eventName } = params;
 
   console.log("Event: ",eventName);
   const textThemeColor = useColorModeValue("secondaryGray.900", "gray.100");
