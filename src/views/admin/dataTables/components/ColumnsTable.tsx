@@ -1,368 +1,260 @@
 "use client";
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Link, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, ModalFooter, useDisclosure } from '@chakra-ui/react';
-import * as React from 'react';
-import {FaTrophy} from 'react-icons/fa'
 
 import {
-	createColumnHelper,
-	flexRender,
-	getCoreRowModel,
-	getSortedRowModel,
-	SortingState,
-	useReactTable
-} from '@tanstack/react-table';
+  Flex,
+  Box,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
+  Link,
+  Button,
+} from "@chakra-ui/react";
+import * as React from "react";
+import { FaTrophy } from "react-icons/fa";
+import Confetti from "react-confetti";
 
-// Custom components
-import Card from 'components/card/Card';
-import Menu from 'components/menu/MainMenu';
-import LeaderboardGraph from './LeadearboardGraph';
-import { NextAvatar } from 'components/image/Avatar';
-import Confetti from 'react-confetti';
-import { color } from '@chakra-ui/system';
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+} from "@tanstack/react-table";
+
+import Card from "components/card/Card";
+import LeaderboardGraph from "./LeadearboardGraph";
+import { NextAvatar } from "components/image/Avatar";
 
 type RowObj = {
-	position: string;
-	name: string;
-    avatarUrl: string;
-	githubid: number;
-	prmerged: string;
-	points:string; 
+  position: number;
+  name: string;
+  avatarUrl: string;
+  githubid: string;
+  prmerged: number;
+  points: number;
 };
- 
+
 const columnHelper = createColumnHelper<RowObj>();
 
-// const columns = columnsDataCheck;
-export default function ColumnTable(props: { tableData: any; eventName : string; }) {
-	const { tableData,eventName } = props;
-	const [showProgress, setShowProgress] = React.useState(true);
-	const [showText, setShowText] = React.useState('Show Progress');
+export default function ColumnTable(props: {
+  tableData: RowObj[];
+  eventName: string;
+}) {
+  const { tableData, eventName } = props;
 
-	const [ sorting, setSorting ] = React.useState<SortingState>([]);
-	const textColor = useColorModeValue('secondaryGray.900', 'white');
-	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [showProgress, setShowProgress] = React.useState(true);
+  const [showText, setShowText] = React.useState("Show Progress");
 
-	const firstPos = useColorModeValue('#6464ce', '#2B2D9A');
-	const secondPos = useColorModeValue('#9292dd', '#1A1C7C');
-	const thirdPos = useColorModeValue('#c1c1ec', '#0D0F66');
-	const defaultPos = useColorModeValue('white', 'navy.800');
+  const textColor = useColorModeValue("gray.800", "white");
+  const glassBg = useColorModeValue(
+    "rgba(255,255,255,0.7)",
+    "rgba(15,23,42,0.7)"
+  );
+  const rowHover = useColorModeValue(
+    "rgba(117,81,255,0.08)",
+    "rgba(117,81,255,0.15)"
+  );
 
+  const columns = [
+    columnHelper.accessor("position", {
+      header: "RANK",
+      cell: (info) => {
+        const pos = info.getValue();
+        return (
+          <Flex align="center" justify="center">
+            {pos <= 3 ? (
+              <Box
+                bg="#FFB547"
+                color="white"
+                p="8px"
+                borderRadius="full"
+              >
+                <FaTrophy size={14} />
+              </Box>
+            ) : (
+              <Text fontWeight="700">{pos}</Text>
+            )}
+          </Flex>
+        );
+      },
+    }),
 
-	let defaultData= tableData;
-	
-	const columns = [
-		columnHelper.accessor('position', {
-			id: 'position',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					SR NO
-				</Text>
-			),
-			cell: (info: any) => (
-				<Flex align='center'> 
-					<Text color={textColor} fontSize='lg' fontWeight='700'>
-						{info.getValue()}
-					</Text>
-				</Flex>
-			)
-		}),
-		columnHelper.accessor('name', {
-			id: 'name',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					NAME
-				</Text>
-			),
-			cell: (info: any) => (
-				<Flex align='center'> 
-					<Text color={textColor} fontSize='lg' fontWeight='700'>
-						{info.getValue()}
-					</Text>
-				</Flex>
-			)
-		}),
-		columnHelper.accessor('githubid', {
-			id: 'githubid',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					GITHUB ID
-				</Text>
-			),
-			cell: (info : any) => (
-                <Link href={"/user/profile/"+info.getValue()} color={textColor} fontSize='lg' fontWeight='700'>
-                    <Flex align='center'>
-                        <NextAvatar
-                            mx='auto'
-                            src={info.row.original.avatarUrl}
-                            h='47px'
-                            w='47px'
-                            border='4px solid'
-                            borderColor={borderColor}
-                            margin="7px"
-                        />
-                        {info.getValue()}
-                    </Flex>
-                </Link>
-			)
-		}),
-		
-		columnHelper.accessor('prmerged', {
-			id: 'prmerged',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					PR MERGED
-				</Text>
-			),
-			cell: (info : any) => (
-				<Text color={textColor} fontSize='lg' fontWeight='700'>
-					{info.getValue()}
-				</Text>
-			)
-		}),
-		columnHelper.accessor('points', {
-			id: 'points',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					TOTAL POINTS	
-				</Text>
-			),
-			cell: (info : any) => (
-				
-				<Flex align='center' gap='4'> 
-					<Text color={textColor} fontSize='lg' fontWeight='700'>
-					{info.getValue()}
-					
-					
-				</Text>
-				<FaTrophy color='#ffae03' fontSize='2xl'/>
-				</Flex>
-				
-			)
-		})
-	];
+    columnHelper.accessor("name", {
+      header: "NAME",
+      cell: (info) => (
+        <Text fontWeight="700">{info.getValue()}</Text>
+      ),
+    }),
 
+    columnHelper.accessor("githubid", {
+      header: "GITHUB ID",
+      cell: (info) => (
+        <Link href={`/user/profile/${info.getValue()}`}>
+          <Flex align="center">
+            <NextAvatar
+              src={info.row.original.avatarUrl}
+              h="42px"
+              w="42px"
+              mr="12px"
+            />
+            <Text fontWeight="700">{info.getValue()}</Text>
+          </Flex>
+        </Link>
+      ),
+    }),
 
-	const [data, setData] = React.useState(() => (defaultData ? [...defaultData] : [] ));
-	
-	const table = useReactTable({
-		data,
-		columns,
-		state: {
-			sorting
-		},
-		onSortingChange: setSorting,
-		getCoreRowModel: getCoreRowModel(),
-		getSortedRowModel: getSortedRowModel(),
-		debugTable: true
-	});
+    columnHelper.accessor("prmerged", {
+      header: "PR MERGED",
+      cell: (info) => (
+        <Box
+          px="12px"
+          py="4px"
+          bg="purple.100"
+          color="purple.700"
+          borderRadius="full"
+          fontSize="14px"
+          fontWeight="700"
+          textAlign="center"
+          w="fit-content"
+        >
+          {info.getValue()}
+        </Box>
+      ),
+    }),
 
-	const [width, setWidth] = React.useState(0);
-	const [height, setHeight] = React.useState(0);
+    columnHelper.accessor("points", {
+      header: "TOTAL POINTS",
+      cell: (info) => (
+        <Flex justify="flex-end" align="center" gap="8px">
+          <Text fontSize="18px" fontWeight="800" color="purple.500">
+            {info.getValue()}
+          </Text>
+          <FaTrophy color="#FFB547" />
+        </Flex>
+      ),
+    }),
+  ];
 
-	React.useEffect(() => {
-		const setSizes = () => {
-			if (typeof window !== 'undefined') {
-				setWidth(window.innerWidth);
-				setHeight(window.innerHeight);
-			}
-		};
-		setSizes();
-		window.addEventListener('resize', setSizes);
-		return () => window.removeEventListener('resize', setSizes);
-	}, []);
-	return (
+  const table = useReactTable({
+    data: tableData,
+    columns,
+    state: { sorting },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
+
+  const [width, setWidth] = React.useState(0);
+  const [height, setHeight] = React.useState(0);
+
+  React.useEffect(() => {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  }, []);
+
+  return (
     <>
       <Card
-        flexDirection="column"
         w="100%"
-        px="0px"
-        overflowX={{ sm: 'scroll', lg: 'hidden' }}
+        px="24px"
+        py="20px"
+        borderRadius="20px"
+        bg={glassBg}
+        backdropFilter="blur(18px)"
+        boxShadow="0 20px 50px rgba(0,0,0,0.08)"
       >
-        <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
-          <Text
-            color={textColor}
-            fontSize="30px"
-            mb="4px"
-            fontWeight="700"
-            lineHeight="100%"
-          >
-            {eventName} 
-          </Text>
+        {/* Header */}
+        <Flex justify="space-between" align="center" mb="20px">
+          <Box>
+            <Text fontSize="32px" fontWeight="800">
+              Leaderboard
+            </Text>
+            <Text fontSize="14px" color="gray.500">
+              Code. Compete. Conquer
+            </Text>
+          </Box>
 
-			<Button onClick={() => {setShowProgress(!showProgress);
-				 (showProgress? setShowText('Show Leaderboard') : setShowText('Show Progress')
-				 )}}>{showText}</Button>
-				
-        
-		</Flex>
-        {showProgress && <Box>
-          <Table variant="simple" color="gray.500" mb="24px" mt="12px">
+          <Button
+            size="sm"
+            borderRadius="full"
+            onClick={() => {
+              setShowProgress(!showProgress);
+              setShowText(
+                showProgress ? "Show Leaderboard" : "Show Progress"
+              );
+            }}
+          >
+            {showText}
+          </Button>
+        </Flex>
+
+        {/* Table */}
+        {showProgress && (
+          <Table variant="unstyled">
             <Thead>
-              {table.getHeaderGroups().map((headerGroup : any) => (
-                <Tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header : any) => {
-                    return ( 	
-                      <Th
-                        key={header.id}
-                        colSpan={header.colSpan}
-                        pe="10px"
-                        borderColor={borderColor}
-                        cursor="pointer"
-                        onClick={header.column.getToggleSortingHandler()}
-                      >
-                        <Flex
-                          justifyContent="space-between"
-                          align="center"
-                          fontSize={{ sm: '10px', lg: '12px' }}
-                          color="gray.400"
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                          {{
-                            asc: '',
-                            desc: '',
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </Flex>
-                      </Th>
-                    );
-                  })}
+              {table.getHeaderGroups().map((hg) => (
+                <Tr key={hg.id}>
+                  {hg.headers.map((header) => (
+                    <Th
+                      key={header.id}
+                      fontSize="11px"
+                      textTransform="uppercase"
+                      color="gray.400"
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                    </Th>
+                  ))}
                 </Tr>
               ))}
             </Thead>
+
             <Tbody>
-              {table
-                .getRowModel()
-                .rows
-                .map((row : any) => {
-				
-					if(row.original.position === 1){
-						return (
-							<Tr key={row.id} bg={firstPos}>
-							  {row.getVisibleCells().map((cell : any) => {
-									return (
-										<Td
-										  key={cell.id}
-										  fontSize={{ sm: '14px' }}
-										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-										  borderColor="transparent"
-										  bg={firstPos}
-										>
-										  {flexRender(
-											cell.column.columnDef.cell,
-											cell.getContext(),
-										  )}
-										</Td>
-									  );
-							  })}
-							</Tr>
-						  );
-					}
-					else if(row.original.position === 2){
-						return (
-							<Tr key={row.id} bg={secondPos}>
-							  {row.getVisibleCells().map((cell : any) => {
-									return (
-										<Td
-										  key={cell.id}
-										  fontSize={{ sm: '14px' }}
-										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-										  borderColor="transparent"
-										  
-										>
-										  {flexRender(
-											cell.column.columnDef.cell,
-											cell.getContext(),
-										  )}
-										</Td>
-									  );
-							  })}
-							</Tr>
-						  );
-					}
-					else if(row.original.position === 3){
-						return (
-							<Tr key={row.id} bg={thirdPos}>
-							  {row.getVisibleCells().map((cell : any) => {
-									return (
-										<Td
-										  key={cell.id}
-										  fontSize={{ sm: '14px' }}
-										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-										  borderColor="transparent"
-										  
-										>
-										  {flexRender(
-											cell.column.columnDef.cell,
-											cell.getContext(),
-										  )}
-										</Td>
-									  );
-							  })}
-							</Tr>
-						  );
-					}
-					else{
-						return (
-							<Tr key={row.id} bg={defaultPos}>
-							  {row.getVisibleCells().map((cell : any) => {
-									return (
-										<Td
-										  key={cell.id}
-										  fontSize={{ sm: '14px' }}
-										  minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-										  borderColor="transparent"
-										  
-										>
-										  {flexRender(
-											cell.column.columnDef.cell,
-											cell.getContext(),
-										  )}
-										</Td>
-									  );
-							  })}
-							</Tr>
-						  );
-					}
-                  
-                })}
+              {table.getRowModel().rows.map((row) => (
+                <Tr
+                  key={row.id}
+                  _hover={{ bg: rowHover }}
+                  transition="background 0.2s ease"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <Td key={cell.id} py="16px">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Td>
+                  ))}
+                </Tr>
+              ))}
             </Tbody>
           </Table>
-        </Box>}
+        )}
 
-		{!showProgress && <LeaderboardGraph eventName={decodeURIComponent(eventName)} topN={5} startDate="2024-12-26" endDate="2025-01-25" />} 
-	  </Card>
-	  
-	  <Confetti 
-	  	width={width}
-		height={height}
-		numberOfPieces={700}
-		friction={1.005}
-		gravity={0.15}
-		initialVelocityY ={20}
-		tweenDuration={10000}
-		recycle={false}
-		/>
+        {!showProgress && (
+          <LeaderboardGraph
+            eventName={decodeURIComponent(eventName)}
+            topN={5}
+            startDate="2024-12-26"
+            endDate="2025-01-25"
+          />
+        )}
+      </Card>
+
+      <Confetti
+        width={width}
+        height={height}
+        numberOfPieces={600}
+        recycle={false}
+      />
     </>
   );
-} 
+}
