@@ -76,7 +76,7 @@ const OpenCodeHero = () => {
 
         
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <Link href="/auth/register">
+            <Link href="/auth/sign-in">
               <button
                 className="px-8 py-3 rounded-full font-semibold text-black
                            bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]
@@ -86,7 +86,7 @@ const OpenCodeHero = () => {
               </button>
             </Link>
 
-            <Link href="https://opencode.geekahven.com">
+            <Link href="https://opencode.geekahven.in">
               <button
                 className="px-8 py-3 rounded-full font-semibold text-white
                            border border-white/20 hover:bg-white/10 transition"
