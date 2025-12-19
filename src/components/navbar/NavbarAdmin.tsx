@@ -1,144 +1,109 @@
 "use client";
 /* eslint-disable */
-// Chakra Imports
+
 import {
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Flex,
-  Link,
+  Text,
+  IconButton,
+  useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react';
-
-import { useState, useEffect } from 'react';
-import AdminNavbarLinks from 'components/navbar/NavbarLinksAdmin';
+  Avatar,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 
 export default function AdminNavbar(props: {
-  secondary: boolean;
-  message: string | boolean;
   brandText: string;
-  logoText: string;
-  fixed: boolean;
-
-  onOpen: (...args: any[]) => any;
 }) {
-  const [name, setName] = useState('');
+  const { colorMode, toggleColorMode } = useColorMode();
+  const [name, setName] = useState("Guest");
 
   useEffect(() => {
-    setName(JSON.parse(localStorage.getItem('user') ?? '{}')?.name ?? 'Guest');
+    const user = localStorage.getItem("user");
+    if (user) {
+      try {
+        setName(JSON.parse(user)?.name ?? "Guest");
+      } catch {
+        setName("Guest");
+      }
+    }
   }, []);
 
-  const { secondary, message, brandText } = props;
+  const subtitleColor = useColorModeValue("gray.600", "gray.400");
+  const navbarBg = useColorModeValue(
+  // Light mode (keep as-is)
+  "linear(to-b, #f6f7ff 0%, #edeaff 70%, rgba(237,234,255,0) 100%)",
 
-  // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
-  let mainText = useColorModeValue('navy.700', 'white');
-  let secondaryText = useColorModeValue('gray.700', 'white');
-  let navbarPosition = 'fixed' as const;
-  let navbarFilter = 'none';
-  let navbarBackdrop = 'blur(20px)';
-  let navbarShadow = 'none';
-  let navbarBg = useColorModeValue(
-    'rgba(244, 247, 254, 0.2)',
-    'rgba(11,20,55,0.5)',
-  );
-  let navbarBorder = 'transparent';
-  let secondaryMargin = '0px';
-  let paddingX = '15px';
-  let gap = '0px';
+  // Dark mode (richer, branded)
+  "linear(to-b, #0b1437 0%, #0e1b4d 60%, rgba(14,27,77,0) 100%)"
+);
+
+
 
   return (
+    
     <Box
-      position={navbarPosition}
-      boxShadow={navbarShadow}
-      bg={navbarBg}
-      borderColor={navbarBorder}
-      filter={navbarFilter}
-      backdropFilter={navbarBackdrop}
-      backgroundPosition="center"
-      backgroundSize="cover"
-      borderRadius="16px"
-      borderWidth="1.5px"
-      borderStyle="solid"
-      transitionDelay="0s, 0s, 0s, 0s"
-      transitionDuration=" 0.25s, 0.25s, 0.25s, 0s"
-      transition-property="box-shadow, background-color, filter, border"
-      transitionTimingFunction="linear, linear, linear, linear"
-      alignItems={{ xl: 'center' }}
-      display={secondary ? 'block' : 'flex'}
-      minH="75px"
-      justifyContent={{ xl: 'center' }}
-      lineHeight="25.6px"
-      mx="auto"
-      mt={secondaryMargin}
-      pb="8px"
-      right={{ base: '12px', md: '30px', lg: '30px', xl: '30px' }}
-      px={{
-        sm: paddingX,
-        md: '10px',
-      }}
-      ps={{
-        xl: '12px',
-      }}
-      pt="8px"
-      top={{ base: '12px', md: '16px', xl: '18px' }}
-      w={{
-        base: 'calc(100vw - 6%)',
-        md: 'calc(100vw - 8%)',
-        lg: 'calc(100vw - 6%)',
-        xl: 'calc(100vw - 350px)',
-        '2xl': 'calc(100vw - 365px)',
-      }}
+      position="fixed"
+  top="0"
+  left={{ base: "0", xl: "300px" }}
+  right="0"
+  h="110px"
+  px={{ base: "20px", md: "40px" }}
+  pt="22px"
+  zIndex="20"
+  bgGradient={navbarBg}
     >
-      <Flex
-        w="100%"
-        flexDirection={{
-          sm: 'column',
-          md: 'row',
-        }}
-        alignItems={{ xl: 'center' }}
-        mb={gap}
-      >
-        <Box mb={{ sm: '8px', md: '0px' }}>
+      <Flex justify="space-between" align="flex-start">
+        {/* LEFT */}
+        <Box>
+          <Flex align="center" gap="10px">
+            <Text fontSize="30px">Hi!</Text>
+            <Text
+              fontSize={{ base: "34px", md: "40px" }}
+              fontWeight="900"
+              color="purple.500"
+              lineHeight="1"
+            >
+              {name}
+            </Text>
+          </Flex>
 
-        <Breadcrumb>
-            <BreadcrumbItem color={secondaryText} fontSize="sm" mb="5px">
-              <BreadcrumbLink href="home" color={secondaryText}>
-                Home
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem color={secondaryText} fontSize="sm">
-              <BreadcrumbLink href="#" color={secondaryText}>
-                {brandText}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
-       
-          {/* Here we create navbar brand, based on route name */}
-          <Link
-            color={mainText}
-            href="#"
-            bg="inherit"
-            borderRadius="inherit"
-            fontWeight="bold"
-            fontSize="34px"
-            _hover={{ color: { mainText } }}
-            _active={{
-              bg: 'inherit',
-              transform: 'none',
-              borderColor: 'transparent',
-            }}
-            _focus={{
-              boxShadow: 'none',
-            }}
+          <Text
+            fontSize="14px"
+            color={subtitleColor}
+            mt="6px"
           >
-            <Box>👋&nbsp;{name}</Box>
-          </Link>
+            Welcome to OPENCODE
+          </Text>
         </Box>
-        <Box ms="auto" w={{ sm: '100%', md: 'unset' }}>
-          <AdminNavbarLinks secondary={props.secondary} />
-        </Box>
+
+        {/* RIGHT */}
+        <Flex align="center" gap="14px">
+         <IconButton
+  aria-label="Toggle theme"
+  icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+  onClick={toggleColorMode}
+  borderRadius="full"
+  bg={useColorModeValue("white", "rgba(255,255,255,0.08)")}
+  color={useColorModeValue("gray.800", "gray.100")}
+  boxShadow={useColorModeValue(
+    "0 6px 18px rgba(0,0,0,0.08)",
+    "none"
+  )}
+  _hover={{
+    bg: useColorModeValue("gray.50", "rgba(255,255,255,0.15)")
+  }}
+/>
+
+          <Avatar
+            size="sm"
+            name={name}
+            bg="gray.100"
+            color="gray.800"
+            boxShadow="0 6px 18px rgba(0,0,0,0.08)"
+          />
+        </Flex>
       </Flex>
     </Box>
   );
