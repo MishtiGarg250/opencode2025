@@ -1,14 +1,8 @@
 'use client';
+import LandingPage from '../components/landing/LandingPage';
 
-import { redirect } from 'next/navigation';
-import { useEffect } from 'react';
-export default function Home({}) {
+export default function Home() {
+  
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      redirect('/user/home');
-    } else {
-      redirect('/auth/sign-in');
-    }
-  }, []);
+  return <LandingPage />;
 }

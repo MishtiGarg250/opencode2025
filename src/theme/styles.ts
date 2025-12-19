@@ -1,5 +1,18 @@
 import { mode, StyleFunctionProps } from "@chakra-ui/theme-tools";
+import { extendTheme } from '@chakra-ui/react';
+
 export const globalStyles = {
+  fonts: {
+    heading: 'Poppins, sans-serif',
+    body: 'Poppins, sans-serif',
+  },
+  styles: {
+    global: (props: any) => ({
+      'html, body': {
+        fontFamily: 'Poppins, sans-serif',
+      },
+    }),
+  },
   colors: {
     brand: {
       100: "#E9E3FF",
