@@ -31,6 +31,7 @@ export default function SignIn() {
   const [formData, setformData] = useState({
     name: gituser,
     email: '',
+    gender: '',
     degree: 'BTECH',
     branch: 'IT',
     college: 'IIIT Allahabad',
@@ -421,6 +422,39 @@ export default function SignIn() {
                   <option value="3rd Year">3rd Year</option>
                   <option value="4th Year">4th Year</option>
                   <option value="Passout">Passout</option>
+                </Select>
+                </FormControl>
+              </GridItem>
+
+              <GridItem colSpan={{ base: 1, md: 2 }}>
+                <FormControl>
+                <FormLabel
+                  display="flex"
+                  ms="4px"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  mb="8px"
+                >
+                  Gender<Text color={brandStars}>*</Text>
+                </FormLabel>
+                <Select
+                  placeholder="Select Gender"
+                  isRequired={true}
+                  variant="auth"
+                  name="gender"
+                  value={formData.gender}
+                  fontSize="sm"
+                  onChange={handleChange}
+                  ms={{ base: '0px', md: '0px' }}
+                  mb="24px"
+                  fontWeight="500"
+                  size="lg"
+                  required
+                >
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </Select>
               </FormControl>
               </GridItem>
