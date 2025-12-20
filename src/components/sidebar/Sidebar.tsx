@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 // Chakra imports
 import {
@@ -29,6 +29,7 @@ import { Scrollbars } from "react-custom-scrollbars-2";
 import { IoMenuOutline } from "react-icons/io5";
 import { IRoute } from "types/navigation";
 import { isWindowAvailable } from "utils/navigation";
+import { gsap } from "gsap";
 
 interface SidebarResponsiveProps {
   routes: IRoute[];
@@ -54,7 +55,26 @@ function Sidebar(props: SidebarProps) {
   );
 
   const [isMounted, setIsMounted] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => setIsMounted(true), []);
+
+  useLayoutEffect(() => {
+    if (!isMounted || !sidebarRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        sidebarRef.current,
+        { x: -18, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.6, ease: "power2.out" }
+      );
+      gsap.fromTo(
+        sidebarRef.current.querySelectorAll("[data-nav-item]"),
+        { x: -10, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.45, ease: "power2.out", stagger: 0.06, delay: 0.2 }
+      );
+    }, sidebarRef);
+    return () => ctx.revert();
+  }, [isMounted]);
+
   if (!isMounted) return null;
 
   return (
@@ -67,6 +87,7 @@ function Sidebar(props: SidebarProps) {
       zIndex="100"
     >
       <Box
+        ref={sidebarRef}
         w="300px"
         h="100vh"
         bg={sidebarBg}

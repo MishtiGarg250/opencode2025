@@ -33,6 +33,8 @@ export default function ProfileOverviewOther() {
   const pageBg = useColorModeValue('gray.50', '#0b1437');
   const cardBg = useColorModeValue('white', 'navy.800');
   const mutedText = useColorModeValue('gray.600', 'gray.400');
+  const discordBg = useColorModeValue('purple.50', 'rgba(117,81,255,0.08)');
+  const discordBorder = useColorModeValue('purple.100', 'whiteAlpha.100');
   const shadow = useColorModeValue(
     '0 16px 32px rgba(0,0,0,0.08)',
     '0 16px 32px rgba(0,0,0,0.45)'
@@ -56,9 +58,9 @@ export default function ProfileOverviewOther() {
     >
       {/* Discord Notice (compact, non-intrusive) */}
       <Flex
-        bg={useColorModeValue('purple.50', 'rgba(117,81,255,0.08)')}
+        bg={discordBg}
         border="1px solid"
-        borderColor={useColorModeValue('purple.100', 'whiteAlpha.100')}
+        borderColor={discordBorder}
         borderRadius="14px"
         px="18px"
         py="12px"
@@ -151,4 +153,3 @@ export default function ProfileOverviewOther() {
     </Box>
   );
 }
-

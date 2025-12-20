@@ -157,7 +157,6 @@ const OpenCodeHero = () => {
                 Explore Projects <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
-
           </div>
         </aside>
       </div>

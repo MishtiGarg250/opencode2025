@@ -25,6 +25,7 @@ export default function Banner(props: {
     name,
     githubUrl,
     prMerged,
+    prContributed,
     pointsEarned,
     ...rest
   } = props;

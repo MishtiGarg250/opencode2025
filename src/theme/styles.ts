@@ -6,13 +6,7 @@ export const globalStyles = {
     heading: 'Poppins, sans-serif',
     body: 'Poppins, sans-serif',
   },
-  styles: {
-    global: (props: any) => ({
-      'html, body': {
-        fontFamily: 'Poppins, sans-serif',
-      },
-    }),
-  },
+  // merged styles are defined later
   colors: {
     brand: {
       100: "#E9E3FF",

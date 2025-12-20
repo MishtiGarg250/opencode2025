@@ -56,13 +56,15 @@ export default function AdminLayout(props: DashboardLayoutProps) {
             <Portal>
               <Box>
                 <Navbar
-                  onOpen={onOpen}
-                  logoText={'Geekhaven'}
-                  brandText={getActiveRoute(routes)}
-                  secondary={getActiveNavbar(routes)}
-                  message={getActiveNavbarText(routes)}
-                  fixed={fixed}
-                  {...rest}
+                  {...({
+                    onOpen,
+                    logoText: 'Geekhaven',
+                    brandText: getActiveRoute(routes),
+                    secondary: getActiveNavbar(routes),
+                    message: getActiveNavbarText(routes),
+                    fixed,
+                    ...rest,
+                  } as any)}
                 />
               </Box>
             </Portal>

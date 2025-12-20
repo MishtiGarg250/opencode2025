@@ -51,9 +51,9 @@ export default function EventName() {
   const tableDataColumns: RowObj[] = (LeadData || []).map((item) => ({
     position: item.position,
     name: item.name,
-    prmerged: item.prmerged,
+    prmerged: Number(item.prmerged),
     githubid: item.githubid,
-    points: item.points,
+    points: Number(item.points),
     avatarUrl: item.avatarUrl,
     prDetailsURL: item.prDetailsURL,
   }));

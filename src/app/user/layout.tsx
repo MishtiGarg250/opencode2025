@@ -85,6 +85,13 @@ export default function AdminLayout(props: DashboardLayoutProps) {
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <Box h="100vh" w="100vw" bg={bg}>
       <SidebarContext.Provider
@@ -111,14 +118,15 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           <Portal>
             <Box>
               <Navbar
-                onOpen={onOpen}
-                logoText={'Geekhaven'}
-                brandText={getActiveRoute(routes)}
-                secondary={getActiveNavbar(routes)}
-                message={getActiveNavbarText(routes)}
-                fixed={fixed}
-               
-                {...rest}
+                {...({
+                  onOpen,
+                  logoText: 'Geekhaven',
+                  brandText: getActiveRoute(routes),
+                  secondary: getActiveNavbar(routes),
+                  message: getActiveNavbarText(routes),
+                  fixed,
+                  ...rest,
+                } as any)}
               />
             </Box>
           </Portal>

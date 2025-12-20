@@ -1,11 +1,13 @@
 /* eslint-disable */
+'use client';
 
 // chakra imports
 import { Box, Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react';
 import Link from 'next/link';
 import { IRoute } from 'types/navigation';
-import { usePathname } from 'next/navigation';
-import { useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useCallback, useLayoutEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 
 interface SidebarLinksProps {
   routes: IRoute[];
@@ -16,6 +18,8 @@ export function SidebarLinks(props: SidebarLinksProps) {
 
   //   Chakra color mode
   const pathname = usePathname();
+  const router = useRouter();
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   let activeColor = useColorModeValue('gray.700', 'white');
   let inactiveColor = useColorModeValue(
@@ -37,13 +41,26 @@ export function SidebarLinks(props: SidebarLinksProps) {
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
   const createLinks = (routes: IRoute[]) => {
     return routes.map((route, index: number) => {
+      const href = route.layout + route.path;
       if (
         
         route.layout === '/auth' ||
         route.layout === '/user'
       ) {
         return (
-          <Link key={index} href={route.layout + route.path}>
+          <Link
+            key={index}
+            href={href}
+            onClick={(event) => {
+              if (typeof window === 'undefined') return;
+              if (window.__startPageTransition) {
+                event.preventDefault();
+                window.__startPageTransition(href);
+                return;
+              }
+              router.push(href);
+            }}
+          >
             {route.icon ? (
               <Box>
                 <HStack
@@ -52,6 +69,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                   }
                   py="5px"
                   ps="10px"
+                  data-nav-item
                 >
                   <Flex w="100%" alignItems="center" justifyContent="center">
                     <Box
@@ -100,6 +118,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                   }
                   py="5px"
                   ps="10px"
+                  data-nav-item
                 >
                   <Text
                     me="auto"
@@ -124,7 +143,19 @@ export function SidebarLinks(props: SidebarLinksProps) {
     });
   };
   //  BRAND
-  return <>{createLinks(routes)}</>;
+  useLayoutEffect(() => {
+    if (!containerRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        containerRef.current.querySelectorAll('[data-nav-item]'),
+        { x: -8, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.35, ease: 'power2.out', stagger: 0.05 }
+      );
+    }, containerRef);
+    return () => ctx.revert();
+  }, [pathname]);
+
+  return <Box ref={containerRef}>{createLinks(routes)}</Box>;
 }
 
 export default SidebarLinks;
