@@ -92,10 +92,10 @@ export default function Dashboard() {
           zIndex="2"
           color="white"
         >
-          <Text fontSize={{ base: '2xl', md: '4xl' }} fontWeight="bold" mb="4">
+          {/* <Text fontSize={{ base: '2xl', md: '4xl' }} fontWeight="bold" mb="4">
             {event.name}
           </Text>
-          <Text fontSize={{ base: 'md', md: 'xl' }}>{event.description}</Text>
+          <Text fontSize={{ base: 'md', md: 'xl' }}>{event.description}</Text> */}
         </Box>
         <Box
           position="absolute"
@@ -118,7 +118,7 @@ export default function Dashboard() {
           <Button
   colorScheme="teal"
   onClick={() => handleLeaderboardclick(event.name)}
-  bg="linear-gradient(to right, #001f3f, #003366)"
+  bg="linear-gradient(to right, #190793, #003366)"
   _hover={{ bg: 'linear-gradient(to right, #001a33, #001f3f)' }}
   color="white"
 >
