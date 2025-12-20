@@ -22,6 +22,7 @@ const queryClient = new QueryClient({
 });
 
 export default function AppWrappers({ children }: { children: ReactNode }) {
+  const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -30,6 +31,10 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const initialVariant =
     pathname && pathname.startsWith('/user/leaderboard') ? 'trophy' : 'seo';
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | null = null;
@@ -60,6 +65,10 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
     const timer = setTimeout(() => setIsLoading(false), 350);
     return () => clearTimeout(timer);
   }, [hasLoaded, minTimeReached, animationDone]);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
