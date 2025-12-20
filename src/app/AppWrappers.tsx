@@ -7,6 +7,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { AuthProvider } from 'contexts/AuthContext';
 import theme from 'theme/theme';
 import InitialLoader from 'components/common/InitialLoader';
+import PageTransition from 'components/common/PageTransition';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
@@ -73,6 +74,7 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
           variant={initialVariant}
         />
       )}
+      <PageTransition />
     </QueryClientProvider>
   );
 }

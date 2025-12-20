@@ -15,6 +15,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 import * as React from "react";
+import { gsap } from "gsap";
+import Flip from "gsap/Flip";
 import { FaTrophy } from "react-icons/fa";
 import Snowfall from "react-snowfall";
 
@@ -41,6 +43,7 @@ type RowObj = {
 };
 
 const columnHelper = createColumnHelper<RowObj>();
+gsap.registerPlugin(Flip);
 
 export default function ColumnTable(props: {
   tableData: RowObj[];
@@ -75,6 +78,7 @@ export default function ColumnTable(props: {
                 color="white"
                 p="8px"
                 borderRadius="full"
+                data-trophy
               >
                 <FaTrophy size={14} />
               </Box>
@@ -149,15 +153,81 @@ export default function ColumnTable(props: {
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getRowId: (row) => row.githubid,
   });
 
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
+  const tbodyRef = React.useRef<HTMLTableSectionElement | null>(null);
+  const prevFlipStateRef = React.useRef<Flip.FlipState | null>(null);
+  const prevRankRef = React.useRef<Record<string, number>>({});
 
   React.useEffect(() => {
     setWidth(window.innerWidth);
     setHeight(window.innerHeight);
   }, []);
+
+  React.useLayoutEffect(() => {
+    if (!showProgress || !tbodyRef.current) return;
+    const rows = Array.from(
+      tbodyRef.current.querySelectorAll<HTMLTableRowElement>("tr[data-row-id]")
+    );
+    if (!rows.length) return;
+
+    const newState = Flip.getState(rows);
+    if (prevFlipStateRef.current) {
+      Flip.from(prevFlipStateRef.current, {
+        duration: 0.65,
+        ease: "power2.out",
+        absolute: true,
+        stagger: 0.02,
+        onEnter: (elements) =>
+          gsap.fromTo(
+            elements,
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
+          ),
+        onLeave: (elements) =>
+          gsap.to(elements, { opacity: 0, y: -12, duration: 0.3, ease: "power2.in" }),
+      });
+    }
+
+    const prevRanks = prevRankRef.current;
+    rows.forEach((row) => {
+      const id = row.getAttribute("data-row-id") ?? "";
+      const newRank = Number(row.getAttribute("data-rank") ?? "");
+      const prevRank = prevRanks[id];
+      if (prevRank && newRank && newRank < prevRank) {
+        gsap.fromTo(
+          row,
+          { boxShadow: "0 0 0 rgba(124,58,237,0)", backgroundColor: "rgba(124,58,237,0)" },
+          {
+            boxShadow: "0 12px 28px rgba(124,58,237,0.25)",
+            backgroundColor: "rgba(124,58,237,0.08)",
+            duration: 0.5,
+            ease: "power2.out",
+            yoyo: true,
+            repeat: 1,
+          }
+        );
+        const trophy = row.querySelector("[data-trophy]");
+        if (trophy) {
+          gsap.fromTo(
+            trophy,
+            { scale: 1 },
+            { scale: 1.25, duration: 0.3, yoyo: true, repeat: 1, ease: "back.out(2)" }
+          );
+        }
+      }
+    });
+    prevRankRef.current = Object.fromEntries(
+      rows.map((row) => [
+        row.getAttribute("data-row-id") ?? "",
+        Number(row.getAttribute("data-rank") ?? ""),
+      ])
+    );
+    prevFlipStateRef.current = newState;
+  }, [tableData, sorting, showProgress]);
 
   return (
     <>
@@ -199,8 +269,8 @@ export default function ColumnTable(props: {
         {showProgress && (
           <Table variant="unstyled">
             <Thead>
-              {table.getHeaderGroups().map((hg) => (
-                <Tr key={hg.id}>
+            {table.getHeaderGroups().map((hg) => (
+              <Tr key={hg.id}>
                   {hg.headers.map((header) => (
                     <Th
                       key={header.id}
@@ -218,10 +288,12 @@ export default function ColumnTable(props: {
               ))}
             </Thead>
 
-            <Tbody>
+            <Tbody ref={tbodyRef}>
               {table.getRowModel().rows.map((row) => (
                 <Tr
                   key={row.id}
+                  data-row-id={row.id}
+                  data-rank={row.original.position}
                   _hover={{ bg: rowHover }}
                   transition="background 0.2s ease"
                 >
@@ -253,7 +325,7 @@ export default function ColumnTable(props: {
         <Snowfall
           width={width}
           height={height}
-          snowflakeCount={140}
+          snowflakeCount={110}
           color="rgba(176, 144, 255, 0.85)"
           style={{ filter: "drop-shadow(0 0 6px rgba(124, 58, 237, 0.35))" }}
         />

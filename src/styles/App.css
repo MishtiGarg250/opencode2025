@@ -7,6 +7,19 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
+.page-transition-overlay {
+  left: 0;
+  width: 100%;
+  --transition-bg: #ffffff;
+}
+
+@media (min-width: 1280px) {
+  .page-transition-overlay {
+    left: 300px;
+    width: calc(100% - 300px);
+  }
+}
+
 
 /* button,
 [type='button'],
@@ -20,4 +33,14 @@ body {
 
 option {
   color: black;
+}
+
+body.chakra-ui-light .page-transition-overlay,
+html.chakra-ui-light .page-transition-overlay {
+  --transition-bg: #ffffff;
+}
+
+body.chakra-ui-dark .page-transition-overlay,
+html.chakra-ui-dark .page-transition-overlay {
+  --transition-bg: #0f172a;
 }
