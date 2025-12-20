@@ -24,8 +24,9 @@ type ParticipantSeries = {
 };
 
 async function fetchProgress(eventName: string) {
+  const token = localStorage.getItem('token');
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/leaderboard/progress?eventName=${encodeURIComponent(eventName)}`;
-  const r = await fetch(url);
+  const r = await fetch(url, {headers: {'Authorization': `Bearer ${token}`}});
   if (!r.ok) throw new Error('Failed to fetch leaderboard progress');
   const json = await r.json();
   console.log(json)
@@ -249,6 +250,8 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
       <div style={{ height: '420px' }}>
         <Line data={chartData} options={options} />
       </div>
+
+      <label style={{display: 'block',textAlign: 'center',fontSize: '14px',marginTop: '12px',color: '#bfc4ceff'}} >Graph will be updated at the end of the day everyday.</label>
     </div>
   );
 }
