@@ -12,6 +12,8 @@ import {
   Text,
   useColorModeValue,
   Select,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 import { sendRegData } from '../../../api/profile/profile';
 import { useMutation } from '@tanstack/react-query';
@@ -145,14 +147,12 @@ export default function SignIn() {
             me="auto"
             mb={{ base: '20px', md: 'auto' }}
           >
-            <Flex
-              w="100%"
-              justifyContent="space-between"
-              align={{ base: 'stretch', md: 'center' }}
-              direction={{ base: 'column', md: 'row' }}
-              gap={{ base: 0, md: 6 }}
+            <Grid
+              templateColumns={{ base: '1fr', md: 'repeat(2, minmax(0, 1fr))' }}
+              gap={{ base: 4, md: 6 }}
             >
-              <FormControl flex="1">
+              <GridItem>
+                <FormControl>
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -178,8 +178,10 @@ export default function SignIn() {
                   required
                 />
               </FormControl>
+              </GridItem>
 
-              <FormControl flex="1">
+              <GridItem>
+                <FormControl>
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -206,15 +208,10 @@ export default function SignIn() {
                   required
                 />
               </FormControl>
-            </Flex>
-            <Flex
-              w="100%"
-              justifyContent="space-between"
-              align={{ base: 'stretch', md: 'center' }}
-              direction={{ base: 'column', md: 'row' }}
-              gap={{ base: 0, md: 6 }}
-            >
-              <FormControl flex="1">
+              </GridItem>
+
+              <GridItem>
+                <FormControl>
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -245,8 +242,10 @@ export default function SignIn() {
                   <option value="Other">Other</option>
                 </Select>
               </FormControl>
+              </GridItem>
 
-              <FormControl flex="1">
+              <GridItem>
+                <FormControl>
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -272,16 +271,10 @@ export default function SignIn() {
                   required
                 />
               </FormControl>
-            </Flex>
+              </GridItem>
 
-            <Flex
-              w="100%"
-              justifyContent="space-between"
-              align={{ base: 'stretch', md: 'center' }}
-              direction={{ base: 'column', md: 'row' }}
-              gap={{ base: 0, md: 6 }}
-            >
-              <FormControl flex="1">
+              <GridItem>
+                <FormControl>
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -307,8 +300,10 @@ export default function SignIn() {
                   required
                 />
               </FormControl>
+              </GridItem>
 
-              <FormControl flex="1">
+              <GridItem>
+                <FormControl>
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -333,15 +328,10 @@ export default function SignIn() {
                   size="lg"
                 />
               </FormControl>
-            </Flex>
-            <Flex
-              w="100%"
-              justifyContent="space-between"
-              align={{ base: 'stretch', md: 'center' }}
-              direction={{ base: 'column', md: 'row' }}
-              gap={{ base: 0, md: 6 }}
-            >
-              <FormControl flex="1">
+              </GridItem>
+
+              <GridItem>
+                <FormControl>
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -368,8 +358,10 @@ export default function SignIn() {
                   required
                 />
               </FormControl>
+              </GridItem>
 
-              <FormControl flex="1">
+              <GridItem>
+                <FormControl>
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -395,17 +387,10 @@ export default function SignIn() {
                   required
                 />
               </FormControl>
-            </Flex>
+              </GridItem>
 
-            {/* NEW: Year select */}
-            <Flex
-              w="100%"
-              justifyContent="space-between"
-              align={{ base: 'stretch', md: 'center' }}
-              direction={{ base: 'column', md: 'row' }}
-              gap={{ base: 0, md: 6 }}
-            >
-              <FormControl flex="1">
+              <GridItem colSpan={{ base: 1, md: 2 }}>
+                <FormControl>
                 <FormLabel
                   display="flex"
                   ms="4px"
@@ -438,7 +423,8 @@ export default function SignIn() {
                   <option value="Passout">Passout</option>
                 </Select>
               </FormControl>
-            </Flex>
+              </GridItem>
+            </Grid>
 
             {/* <Link href="/admin/home"> */}
             <Button
