@@ -157,13 +157,7 @@ const OpenCodeHero = () => {
                 Explore Projects <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
-<<<<<<< HEAD
-            
-=======
-            {/* <Link href="/auth/sign-in">
-              <button className="px-3 py-2 rounded-full border border-white/10">Sign In</button>
-            </Link> */}
->>>>>>> 2f8a3bfc48731d0ae990d9ef6b44239f29fc33c3
+
           </div>
         </aside>
       </div>

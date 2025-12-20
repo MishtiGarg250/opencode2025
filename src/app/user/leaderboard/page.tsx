@@ -71,7 +71,7 @@ export default function DataTables() {
                   name={event.name}
                   des={event.description}
                   key={event.name}
-                  image={event.logoImageURL}
+                  image="/img/dashboards/opencodeBG.png"
                   download={`/user/leaderboard/${encodeURIComponent(event.name)}`}
                 />
               ))}

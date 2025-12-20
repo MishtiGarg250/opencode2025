@@ -77,7 +77,7 @@ export default function Dashboard() {
           bgGradient="linear(to-b, rgba(0,0,0,0.1), rgba(0,0,0.3,0.9))"
         />
         <Image
-          src={event.logoImageURL}
+          src="/img/dashboards/opencodeBG.png"
           alt={event.name}
           objectFit="cover"
           width="100%"
