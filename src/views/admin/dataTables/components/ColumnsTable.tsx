@@ -249,7 +249,7 @@ export default function ColumnTable({
             borderRadius="full"
             onClick={() => setShowProgress(!showProgress)}
           >
-            {showProgress ? "Show Graph" : "Show Leaderboard"}
+            {showProgress ? "Progress" : "Leaderboard"}
           </Button>
         </Flex>
 
