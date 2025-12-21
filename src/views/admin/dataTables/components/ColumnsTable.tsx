@@ -13,6 +13,7 @@ import {
   useColorModeValue,
   Link,
   Button,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { gsap } from "gsap";
@@ -33,6 +34,8 @@ import Card from "components/card/Card";
 import LeaderboardGraph from "./LeadearboardGraph";
 import { NextAvatar } from "components/image/Avatar";
 
+gsap.registerPlugin(Flip);
+
 type RowObj = {
   position: number;
   name: string;
@@ -43,16 +46,70 @@ type RowObj = {
 };
 
 const columnHelper = createColumnHelper<RowObj>();
-gsap.registerPlugin(Flip);
 
-export default function ColumnTable(props: {
+
+
+function MobileLeaderboard({ data }: { data: RowObj[] }) {
+  return (
+    <Flex direction="column" gap="14px">
+      {data.map((user) => (
+        <Flex
+          key={user.githubid}
+          align="center"
+          justify="space-between"
+          p="14px"
+          borderRadius="18px"
+          bg="rgba(255,255,255,0.08)"
+          backdropFilter="blur(14px)"
+        >
+          {/* LEFT */}
+          <Flex align="center" gap="12px">
+            <Text fontWeight="800" fontSize="18px">
+              {user.position}
+            </Text>
+
+            <NextAvatar
+              src={user.avatarUrl}
+              h="44px"
+              w="44px"
+            />
+
+            <Box>
+              <Text fontWeight="700" fontSize="15px">
+                {user.name}
+              </Text>
+              <Text fontSize="12px" color="gray.400">
+                @{user.githubid}
+              </Text>
+            </Box>
+          </Flex>
+
+          
+          <Flex align="center" gap="6px">
+            <Text fontWeight="800" color="purple.400">
+              {user.points}
+            </Text>
+            <FaTrophy color="#FFB547" />
+          </Flex>
+        </Flex>
+      ))}
+    </Flex>
+  );
+}
+
+
+
+export default function ColumnTable({
+  tableData,
+  eventName,
+}: {
   tableData: RowObj[];
   eventName: string;
 }) {
-  const { tableData, eventName } = props;
-
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [showProgress, setShowProgress] = React.useState(true);
+
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const glassBg = useColorModeValue(
     "rgba(255,255,255,0.7)",
@@ -69,21 +126,13 @@ export default function ColumnTable(props: {
       cell: (info) => {
         const pos = info.getValue();
         return (
-          <Flex align="center" justify="center">
+          <Flex justify="center">
             {pos <= 3 ? (
-              <Box
-                bg="#FFB547"
-                color="white"
-                p={{ base: "6px", md: "8px" }}
-                borderRadius="full"
-                data-trophy
-              >
+              <Box bg="#FFB547" p="8px" borderRadius="full">
                 <FaTrophy size={14} />
               </Box>
             ) : (
-              <Text fontWeight="700" fontSize={{ base: "14px", md: "16px" }}>
-                {pos}
-              </Text>
+              <Text fontWeight="700">{pos}</Text>
             )}
           </Flex>
         );
@@ -93,9 +142,7 @@ export default function ColumnTable(props: {
     columnHelper.accessor("name", {
       header: "NAME",
       cell: (info) => (
-        <Text fontWeight="700" fontSize={{ base: "14px", md: "16px" }}>
-          {info.getValue()}
-        </Text>
+        <Text fontWeight="700">{info.getValue()}</Text>
       ),
     }),
 
@@ -103,39 +150,27 @@ export default function ColumnTable(props: {
       header: "GITHUB",
       cell: (info) => (
         <Link href={`/user/profile/${info.getValue()}`}>
-          <Flex
-            align="center"
-            gap="10px"
-            direction={{ base: "column", sm: "row" }}
-          >
+          <Flex align="center" gap="10px">
             <NextAvatar
               src={info.row.original.avatarUrl}
-              h={{ base: "36px", md: "42px" }}
-              w={{ base: "36px", md: "42px" }}
+              h="40px"
+              w="40px"
             />
-            <Text
-              fontWeight="700"
-              fontSize={{ base: "13px", md: "14px" }}
-              textAlign={{ base: "center", sm: "left" }}
-            >
-              {info.getValue()}
-            </Text>
+            <Text fontWeight="700">{info.getValue()}</Text>
           </Flex>
         </Link>
       ),
     }),
 
     columnHelper.accessor("prmerged", {
-      header: "PR MERGED",
+      header: "PRS",
       cell: (info) => (
         <Box
-          display={{ base: "none", md: "inline-block" }}
           px="12px"
           py="4px"
           bg="purple.100"
           color="purple.700"
           borderRadius="full"
-          fontSize="14px"
           fontWeight="700"
         >
           {info.getValue()}
@@ -146,8 +181,8 @@ export default function ColumnTable(props: {
     columnHelper.accessor("points", {
       header: "POINTS",
       cell: (info) => (
-        <Flex justify="flex-end" align="center" gap="6px">
-          <Text fontSize={{ base: "16px", md: "18px" }} fontWeight="800" color="purple.500">
+        <Flex justify="flex-end" gap="6px">
+          <Text fontWeight="800" color="purple.500">
             {info.getValue()}
           </Text>
           <FaTrophy color="#FFB547" />
@@ -170,112 +205,98 @@ export default function ColumnTable(props: {
   const prevFlipStateRef = React.useRef<Flip.FlipState | null>(null);
 
   React.useLayoutEffect(() => {
-    if (!showProgress || !tbodyRef.current) return;
-    const rows = Array.from(
-      tbodyRef.current.querySelectorAll<HTMLTableRowElement>("tr[data-row-id]")
-    );
-    if (!rows.length) return;
+    if (!tbodyRef.current || isMobile || !showProgress) return;
 
-    const newState = Flip.getState(rows);
+    const rows = Array.from(
+      tbodyRef.current.querySelectorAll("tr[data-row-id]")
+    );
+
+    const state = Flip.getState(rows);
     if (prevFlipStateRef.current) {
       Flip.from(prevFlipStateRef.current, {
         duration: 0.6,
+        stagger: 0.02,
         ease: "power2.out",
         absolute: true,
-        stagger: 0.02,
       });
     }
-    prevFlipStateRef.current = newState;
-  }, [tableData, sorting, showProgress]);
+    prevFlipStateRef.current = state;
+  }, [tableData, sorting, isMobile, showProgress]);
 
   return (
     <>
       <Card
         w="100%"
-        px={{ base: "16px", md: "24px" }}
-        py={{ base: "16px", md: "20px" }}
+        px="20px"
+        py="20px"
         borderRadius="20px"
         bg={glassBg}
         backdropFilter="blur(18px)"
-        boxShadow="0 20px 50px rgba(0,0,0,0.08)"
       >
-        {/* Header */}
-        <Flex
-          justify="space-between"
-          align={{ base: "flex-start", md: "center" }}
-          mb="20px"
-          direction={{ base: "column", md: "row" }}
-          gap={{ base: "12px", md: "0" }}
-        >
+        {/* HEADER */}
+        <Flex justify="space-between" mb="20px">
           <Box>
-            <Text fontSize={{ base: "24px", md: "32px" }} fontWeight="800">
+            <Text fontSize="28px" fontWeight="800">
               Leaderboard
             </Text>
             <Text fontSize="14px" color="gray.500">
-              Code. Compete. Conquer
+              Code. Compete. Conquer.
             </Text>
           </Box>
 
           <Button
             size="sm"
             borderRadius="full"
-            w={{ base: "100%", md: "auto" }}
             onClick={() => setShowProgress(!showProgress)}
           >
             {showProgress ? "Show Graph" : "Show Leaderboard"}
           </Button>
         </Flex>
 
-        {/* Table */}
-        {showProgress && (
-          <Box overflowX="auto">
-            <Table variant="unstyled" minW="720px">
-            <Thead>
-            {table.getHeaderGroups().map((hg) => (
-              <Tr key={hg.id}>
-                  {hg.headers.map((header) => (
-                    <Th
-                      key={header.id}
-                      fontSize="11px"
-                      textTransform="uppercase"
-                      color="gray.400"
-                      px={{ base: "10px", md: "16px" }}
+        {/* CONTENT */}
+        {showProgress ? (
+          isMobile ? (
+            <MobileLeaderboard data={tableData} />
+          ) : (
+            <Box overflowX="auto">
+              <Table variant="unstyled" minW="720px">
+                <Thead>
+                  {table.getHeaderGroups().map((hg) => (
+                    <Tr key={hg.id}>
+                      {hg.headers.map((header) => (
+                        <Th key={header.id} fontSize="11px" color="gray.400">
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </Th>
+                      ))}
+                    </Tr>
+                  ))}
+                </Thead>
+
+                <Tbody ref={tbodyRef}>
+                  {table.getRowModel().rows.map((row) => (
+                    <Tr
+                      key={row.id}
+                      data-row-id={row.id}
+                      _hover={{ bg: rowHover }}
                     >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </Th>
+                      {row.getVisibleCells().map((cell) => (
+                        <Td key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </Td>
+                      ))}
+                    </Tr>
                   ))}
-                </Tr>
-              ))}
-            </Thead>
-
-            <Tbody ref={tbodyRef}>
-              {table.getRowModel().rows.map((row) => (
-                <Tr
-                  key={row.id}
-                  data-row-id={row.id}
-                  data-rank={row.original.position}
-                  _hover={{ bg: rowHover }}
-                  transition="background 0.2s ease"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <Td key={cell.id} py="16px" px={{ base: "10px", md: "16px" }}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </Td>
-                  ))}
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-          </Box>
-        )}
-
-        {!showProgress && (
+                </Tbody>
+              </Table>
+            </Box>
+          )
+        ) : (
           <LeaderboardGraph
             eventName={decodeURIComponent(eventName)}
             topN={5}
@@ -285,15 +306,12 @@ export default function ColumnTable(props: {
         )}
       </Card>
 
-      <Box
-        position="fixed"
-        inset={0}
-        pointerEvents="none"
-        zIndex={1}
-        display={{ base: "none", md: "block" }}
-      >
-        <Snowfall snowflakeCount={110} />
-      </Box>
+    
+      {!isMobile && (
+        <Box position="fixed" inset={0} pointerEvents="none" zIndex={1}>
+          <Snowfall snowflakeCount={110} />
+        </Box>
+      )}
     </>
   );
 }
