@@ -1,10 +1,22 @@
 "use client";
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Link, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, ModalFooter, useDisclosure, useBreakpointValue } from '@chakra-ui/react';
-import * as React from 'react';
-import {FaTrophy} from 'react-icons/fa'
-import Snowfall from 'react-snowfall';
-import gsap from 'gsap';
-import Flip from 'gsap/Flip';
+
+import {
+  Flex,
+  Box,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
+  Link,
+  Button,
+  useBreakpointValue,
+} from "@chakra-ui/react";
+import * as React from "react";
+import { FaTrophy } from "react-icons/fa";
 import {
   createColumnHelper,
   flexRender,
@@ -18,6 +30,9 @@ import {
 import Card from "components/card/Card";
 import LeaderboardGraph from "./LeadearboardGraph";
 import { NextAvatar } from "components/image/Avatar";
+import Snowfall from 'react-snowfall';
+import gsap from "gsap";
+import { Flip } from "gsap/Flip";
 
 gsap.registerPlugin(Flip);
 export type RowObj = {
