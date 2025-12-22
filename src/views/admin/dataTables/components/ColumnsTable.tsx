@@ -21,13 +21,14 @@ import gsap from "gsap";
 import { Flip } from "gsap/Flip";
 
 gsap.registerPlugin(Flip);
-type RowObj = {
+export type RowObj = {
 	position: string;
 	name: string;
     avatarUrl: string;
-	githubid: number;
+	githubid: string;
 	prmerged: number;
-	points:number; 
+	points: number;
+	prDetailsURL: string;
 };
  
 const columnHelper = createColumnHelper<RowObj>();
