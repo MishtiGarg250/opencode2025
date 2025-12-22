@@ -115,6 +115,14 @@ const OpenCodeHero = () => {
                 Learn More
               </button>
             </Link>
+            <Link href="/faq">
+              <button
+                className="px-7 sm:px-8 py-3 rounded-full font-semibold text-white
+                           border border-white/20 hover:bg-white/10 transition"
+              >
+                Frequently Asked 
+              </button>
+            </Link>
           </div>
 
         </div>

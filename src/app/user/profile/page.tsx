@@ -21,7 +21,7 @@ export interface ProfileData {
   avatarUrl: string;
   githubId: string;
   discordId: string;
-  PR: PullRequest[]; // Update this with the actual type of PR array
+  PR: PullRequest[]; 
   prMerged: number;
   points: number;
   rank: number;
