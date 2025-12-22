@@ -350,7 +350,7 @@ export default function ColumnTable(props: { tableData: any; eventName : string;
           </Table>
         </Box>}
 
-		{!showProgress && <LeaderboardGraph eventName={decodeURIComponent(eventName)} topN={5} startDate="2024-12-26" endDate="2025-01-25" />} 
+		{!showProgress && <LeaderboardGraph eventName={decodeURIComponent(eventName)} topN={5} />} 
 	  </Card>
 	  
 	  <Confetti 
