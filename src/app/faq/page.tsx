@@ -68,9 +68,9 @@ const OpenCodeFAQ = () => {
 
         <div>
           <h2 className="text-[3rem] sm:text-[4rem] font-normal leading-tight max-w-3xl">
-            Frequently asked
+            Frequently Asked
             <br />
-            questions
+            Questions
           </h2>
 
           <p className="mt-6 text-white/70 max-w-xl">
