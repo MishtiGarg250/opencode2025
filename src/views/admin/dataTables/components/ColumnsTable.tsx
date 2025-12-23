@@ -16,7 +16,9 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import * as React from "react";
+
 import { FaTrophy } from "react-icons/fa";
+
 import {
   createColumnHelper,
   flexRender,
@@ -102,7 +104,7 @@ function MobileLeaderboard({
         );
       })}
 
-      {/* PAGINATION (STABLE) */}
+      
       <Flex direction="column" gap="8px" mt="8px">
         <Text fontSize="12px" color="gray.400" textAlign="center">
           Page {table.getState().pagination.pageIndex + 1} of{" "}

@@ -31,6 +31,7 @@ export default function ProfileOverviewOther() {
   });
 
   const profile = data?.data;
+  console.log(profile);
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
@@ -120,6 +121,8 @@ export default function ProfileOverviewOther() {
               <Info label="Email" value={profile?.email} />
               <Info label="Discord ID" value={profile?.discordId} />
               <Info label="GitHub" value={`@${profile?.githubId}`} />
+              <Info label="Gender" value={(profile?.gender == 'male')? 'Male': 'Female'}/>
+              <Info label='Year' value={profile?.year}/>
             </Grid>
           </Box>
 
