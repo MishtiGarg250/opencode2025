@@ -21,8 +21,8 @@ import {
 } from '@chakra-ui/react';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getUserPRDetails } from 'api/admin/admin.js';
-import { FetchedEvents } from 'api/events/events.js';
+import { getUserPRDetails } from 'api/admin/admin';
+import { FetchedEvents } from 'api/events/events';
 import { useAuth } from 'contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import { RingLoader } from 'react-spinners';
@@ -37,8 +37,8 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/react';
-import { EditPRPoints } from 'api/admin/admin.js';
-import { fetchLoggedInBasicDetails } from 'api/profile/profile.js';
+import { EditPRPoints } from 'api/admin/admin';
+import { fetchLoggedInBasicDetails } from 'api/profile/profile';
 
 export default function Dashboard() {
   const toast = useToast();

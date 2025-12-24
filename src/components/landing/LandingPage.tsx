@@ -100,7 +100,7 @@ const OpenCodeHero = () => {
                           hover:scale-105 transition-transform"
               onClick={handleLoginWithGitHub}
             >
-              Sign In <Icon as={FaGithub} w="20px" h="20px" />
+            Sign In <Icon as={FaGithub} w="20px" h="20px" />
             </button>
 
             <Link href="https://opencode.geekhaven.in">
