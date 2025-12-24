@@ -94,14 +94,28 @@ const OpenCodeHero = () => {
             {/* <Link href="/auth/sign-in">
 
             </Link> */}
-            <button
-              className="flex items-center px-7 sm:px-8 py-3 rounded-full font-semibold text-black
-                          bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]
-                          hover:scale-105 transition-transform"
-              onClick={handleLoginWithGitHub}
-            >
-              <div className="m-2">Sign in</div> <Icon as={FaGithub} w="20px" h="20px" />
-            </button>
+           <button
+  onClick={handleLoginWithGitHub}
+  className="
+    flex items-center justify-center gap-2
+    px-4 py-2
+    sm:px-6 sm:py-3
+    rounded-full
+    text-sm sm:text-base
+    font-semibold text-black
+    bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]
+    active:scale-95
+    sm:hover:scale-105
+    transition-transform
+    w-[60%] sm:w-auto
+    mx-auto
+  "
+>
+  <span>Sign in</span>
+  <Icon as={FaGithub} w="16px" h="16px" className="sm:w-[20px] sm:h-[20px]" />
+</button>
+
+
 
             <Link href="https://opencode.geekhaven.in">
               <button
