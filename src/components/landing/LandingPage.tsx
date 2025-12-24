@@ -95,12 +95,12 @@ const OpenCodeHero = () => {
 
             </Link> */}
             <button
-              className="px-7 sm:px-8 py-3 rounded-full font-semibold text-black
+              className="flex items-center px-7 sm:px-8 py-3 rounded-full font-semibold text-black
                           bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]
                           hover:scale-105 transition-transform"
               onClick={handleLoginWithGitHub}
             >
-            Sign In <Icon as={FaGithub} w="20px" h="20px" />
+              <div className="m-2">Sign in</div> <Icon as={FaGithub} w="20px" h="20px" />
             </button>
 
             <Link href="https://opencode.geekhaven.in">
