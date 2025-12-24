@@ -32,5 +32,5 @@ export function NextAvatar ({
 }
 
 export const ChakraNextAvatar = chakra(NextAvatar, {
-  shouldForwardProp: prop => ['width', 'height', 'src', 'alt'].includes(prop)
+  shouldForwardProp: (prop:string) => ['width', 'height', 'src', 'alt'].includes(prop)
 })

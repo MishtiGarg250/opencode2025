@@ -1,6 +1,5 @@
-import { Box } from '@chakra-ui/react';
-import React, { ReactNode } from 'react';
-import { Inter, Poppins } from 'next/font/google';
+import { Poppins } from 'next/font/google';
+import { ReactNode } from 'react';
 import AppWrappers from './AppWrappers';
 import RootHead from './head';
 
@@ -14,7 +13,7 @@ const poppins = Poppins({
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${poppins.variable}`}>
-      <RootHead/>
+      <RootHead />
       <body id={'root'} style={{ fontFamily: 'Poppins, sans-serif' }}>
         <AppWrappers>{children}</AppWrappers>
       </body>

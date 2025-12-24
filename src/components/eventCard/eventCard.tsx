@@ -1,7 +1,7 @@
 'use client';
 
-import { Card, CardHeader, CardBody } from '@material-tailwind/react';
 import { Box } from '@chakra-ui/react';
+import { Card, CardBody, CardHeader } from '@material-tailwind/react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 interface EventCardProps {
@@ -52,13 +52,9 @@ const EventCard = ({
 
         {/* Content */}
         <CardBody className="relative z-10 flex h-full flex-col justify-end px-6 pb-6 text-left">
-          <h3 className="text-2xl font-bold text-white mb-2">
-            {name}
-          </h3>
+          <h3 className="text-2xl font-bold text-white mb-2">{name}</h3>
 
-          <p className="text-sm text-gray-300 line-clamp-3 mb-4">
-            {des}
-          </p>
+          <p className="text-sm text-gray-300 line-clamp-3 mb-4">{des}</p>
 
           {/* Actions */}
           <div className="flex gap-3">

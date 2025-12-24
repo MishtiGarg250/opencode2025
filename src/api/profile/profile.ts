@@ -1,44 +1,46 @@
 export async function fetchLoggedInBasicDetails() {
+  if (typeof window === 'undefined') return null;
+
   const token = localStorage.getItem('token');
 
   if (token === null) {
     console.log('No token found, redirecting to login.');
-    // NOTE: cannot call hooks (useAuth) from non-component functions.
-    // If you need to trigger an auth check here, call `auth.check_login()` from a component instead.
     return null;
-  } 
-  else {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+  } else {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
-
+    );
 
     if (!response.ok) {
       throw new Error('Failed to fetch user info');
-      return;
     }
     const data = (await response.json()).data;
     localStorage.setItem('user', JSON.stringify(data));
     return data;
   }
-
 }
 
-export async function sendRegData(formData) {
+export async function sendRegData(formData: any) {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/register`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
       },
-      body: JSON.stringify(formData),
-    });
+    );
 
     if (response.status === 200) {
       console.log('Success!');
@@ -48,16 +50,17 @@ export async function sendRegData(formData) {
 
     const data = await response.json();
     console.log(data);
-  } catch (error) {
+    return data;
+  } catch (error: any) {
     console.error('Error sending registration data:', error.message);
   }
 }
 
-export async function getUserProfileByName(profileName) {
+export async function getUserProfileByName(profileName: string) {
   const token = localStorage.getItem('token');
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/${profileName}/${process.env.NEXT_PUBLIC_EVENT_NAME}}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/participant/${profileName}/${process.env.NEXT_PUBLIC_EVENT_NAME}`,
     {
       method: 'GET',
       headers: {

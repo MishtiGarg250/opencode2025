@@ -16,14 +16,17 @@ export default function GeneralInformation(props: {
   discordId?: string;
   college?: string;
   email?: string;
+  gender?: string;
+  year?: string;
   [x: string]: any;
 }) {
-  const { name, githubId, discordId, college, email, ...rest } = props;
+  const { name, githubId, discordId, college, email, gender, year, ...rest } = props;
 
   const titleColor = useColorModeValue('gray.800', 'white');
   const labelColor = useColorModeValue('gray.500', 'gray.400');
   const valueColor = useColorModeValue('gray.800', 'white');
   const itemBg = useColorModeValue('gray.50', 'rgba(255,255,255,0.04)');
+  
 
   const Item = ({
     label,
@@ -70,6 +73,7 @@ export default function GeneralInformation(props: {
       >
         General Information
       </Text>
+    
 
       {/* Grid */}
       <Grid
@@ -79,9 +83,12 @@ export default function GeneralInformation(props: {
         }}
         gap="12px"
       >
+       
         <Item label="Name" value={name} />
-        <Item label="GitHub Username" value={githubId} />
+        <Item label="GitHub" value={githubId} />
         {college && <Item label="College" value={college} />}
+        {gender && <Item label="Gender" value={(gender == 'male')? 'Male': 'Female'} />}
+        {year && <Item label="Year" value={year} />}
         {discordId && <Item label="Discord ID" value={discordId} />}
         {email && <Item label="Email" value={email} />}
       </Grid>

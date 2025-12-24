@@ -10,7 +10,6 @@ type AtmosphereProps = {
   tone?: 'violet' | 'midnight';
 };
 
-// Creates a layered, blobby background similar to the provided artwork.
 export default function Atmosphere({
   children,
   paddingX = { base: 4, md: 10 },
@@ -23,15 +22,23 @@ export default function Atmosphere({
 
   const accentA = useColorModeValue(
     tone === 'violet' ? 'rgba(110, 75, 255, 0.16)' : 'rgba(46, 115, 255, 0.16)',
-    tone === 'violet' ? 'rgba(130, 102, 255, 0.25)' : 'rgba(66, 147, 255, 0.22)'
+    tone === 'violet'
+      ? 'rgba(130, 102, 255, 0.25)'
+      : 'rgba(66, 147, 255, 0.22)',
   );
   const accentB = useColorModeValue(
-    tone === 'violet' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.08)',
-    tone === 'violet' ? 'rgba(255, 255, 255, 0.06)' : 'rgba(255, 255, 255, 0.06)'
+    tone === 'violet'
+      ? 'rgba(255, 255, 255, 0.8)'
+      : 'rgba(255, 255, 255, 0.08)',
+    tone === 'violet'
+      ? 'rgba(255, 255, 255, 0.06)'
+      : 'rgba(255, 255, 255, 0.06)',
   );
   const accentC = useColorModeValue(
-    tone === 'violet' ? 'rgba(255, 121, 198, 0.22)' : 'rgba(95, 238, 255, 0.22)',
-    tone === 'violet' ? 'rgba(255, 121, 198, 0.2)' : 'rgba(95, 238, 255, 0.18)'
+    tone === 'violet'
+      ? 'rgba(255, 121, 198, 0.22)'
+      : 'rgba(95, 238, 255, 0.22)',
+    tone === 'violet' ? 'rgba(255, 121, 198, 0.2)' : 'rgba(95, 238, 255, 0.18)',
   );
 
   return (

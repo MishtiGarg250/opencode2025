@@ -28,10 +28,10 @@ export default function Projects(props: { PRs: PullRequest[] }) {
         props.PRs.map((pr) => (
           <Project
             key={pr.title}
-            // ranking={pr.prNumber}
-            // repoName={pr.issue.repoName}
-            // title={String(pr.issue.issueNumber)}
-            // status={pr.status}
+            ranking={pr.prNumber}
+            repoName={pr.issue.repoName}
+            title={String(pr.issue.issueNumber)}
+            status={pr.status}
             pr={pr}
           />
         ))

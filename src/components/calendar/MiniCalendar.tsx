@@ -1,13 +1,13 @@
 'use client';
 
+import { Icon, Text, useColorModeValue } from '@chakra-ui/react';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
-import { Text, Icon, useColorModeValue } from '@chakra-ui/react';
 import 'react-calendar/dist/Calendar.css';
 import './MiniCalendar.css'; // ⬅️ IMPORTANT
 
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import Card from 'components/card/Card';
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
 export default function MiniCalendar(props: {
   selectRange?: boolean;

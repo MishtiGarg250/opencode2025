@@ -1,11 +1,15 @@
 'use client';
-import React, { ReactNode, useEffect, useState } from 'react';
+
+import { ReactNode, useEffect, useState } from 'react';
 import 'styles/App.css';
 import 'styles/Contact.css';
 import 'styles/MiniCalendar.css';
+
 import { ChakraProvider } from '@chakra-ui/react';
 import { AuthProvider } from 'contexts/AuthContext';
+import { SidebarProvider } from 'contexts/SidebarContext';
 import theme from 'theme/theme';
+
 import InitialLoader from 'components/common/InitialLoader';
 import PageTransition from 'components/common/PageTransition';
 
@@ -28,6 +32,7 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [minTimeReached, setMinTimeReached] = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
+
   const pathname = usePathname();
   const initialVariant =
     pathname && pathname.startsWith('/user/leaderboard') ? 'trophy' : 'seo';
@@ -43,19 +48,18 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
     if (document.readyState === 'complete') {
       setHasLoaded(true);
       timer = setTimeout(() => setMinTimeReached(true), MIN_DURATION_MS);
-      return () => {
-        if (timer) clearTimeout(timer);
-      };
+      return () => timer && clearTimeout(timer);
     }
 
     const handleLoad = () => {
       setHasLoaded(true);
       timer = setTimeout(() => setMinTimeReached(true), MIN_DURATION_MS);
     };
+
     window.addEventListener('load', handleLoad);
     return () => {
       window.removeEventListener('load', handleLoad);
-      if (timer) clearTimeout(timer);
+      timer && clearTimeout(timer);
     };
   }, []);
 
@@ -66,16 +70,16 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
     return () => clearTimeout(timer);
   }, [hasLoaded, minTimeReached, animationDone]);
 
-  if (!mounted) {
-    return null;
-  }
+  if (!mounted) return null;
 
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <ChakraProvider theme={theme}>{children}</ChakraProvider>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <SidebarProvider>
+          <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        </SidebarProvider>
       </AuthProvider>
+
       {isLoading && (
         <InitialLoader
           isExiting={isExiting}
@@ -83,6 +87,7 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
           variant={initialVariant}
         />
       )}
+
       <PageTransition />
     </QueryClientProvider>
   );

@@ -1,17 +1,13 @@
 'use client';
 
-import {
-  Box,
-  Flex,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
+import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import React from 'react';
-import { FaUsers } from 'react-icons/fa';
 import LeaderboardLoader from 'components/common/LeaderboardLoader';
+import { useParams } from 'next/navigation';
+import { FaUsers } from 'react-icons/fa';
+import ColumnsTable, {
+  type RowObj,
+} from 'views/admin/dataTables/components/ColumnsTable';
 import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 
 export default function EventName() {
@@ -21,7 +17,7 @@ export default function EventName() {
   const mutedText = useColorModeValue('gray.500', 'gray.400');
   const glassBg = useColorModeValue(
     'rgba(255,255,255,0.7)',
-    'rgba(15,23,42,0.7)'
+    'rgba(15,23,42,0.7)',
   );
 
   const { data: LeadData, isLoading } = useQuery({
@@ -35,18 +31,8 @@ export default function EventName() {
     return <LeaderboardLoader />;
   }
 
-  type RowObj = {
-    position: number;
-    name: string;
-    prmerged: number;
-    githubid: string;
-    points: number;
-    avatarUrl: string;
-    prDetailsURL: string;
-  };
-
   const tableDataColumns: RowObj[] = (LeadData || []).map((item) => ({
-    position: item.position,
+    position: String(item.position),
     name: item.name,
     prmerged: Number(item.prmerged),
     githubid: item.githubid,
@@ -97,12 +83,7 @@ export default function EventName() {
               bg="purple.500"
               borderRadius="full"
             />
-            <Box
-              w="6px"
-              h="6px"
-              bg="purple.500"
-              borderRadius="full"
-            />
+            <Box w="6px" h="6px" bg="purple.500" borderRadius="full" />
           </Flex>
         </Box>
 

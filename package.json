@@ -43,6 +43,7 @@
     "react-material-ui-carousel": "^3.4.2",
     "react-multi-carousel": "^2.8.4",
     "react-no-ssr": "^1.1.0",
+    "react-responsive": "^10.0.1",
     "react-responsive-carousel": "^3.2.23",
     "react-simply-carousel": "^9.0.5",
     "react-slick": "^0.29.0",

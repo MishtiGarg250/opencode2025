@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, useColorModeValue, Text } from '@chakra-ui/react';
+import { Box, Text, useColorModeValue } from '@chakra-ui/react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { ReactNode, useEffect } from 'react';
 
@@ -14,7 +14,9 @@ const MotionBox = motion(Box);
  * Matte, vector-style animated background inspired by the provided purple-on-navy artwork.
  * Shapes float slowly and react lightly to pointer movement for a premium SaaS feel.
  */
-export default function AnimatedBackground({ children }: AnimatedBackgroundProps) {
+export default function AnimatedBackground({
+  children,
+}: AnimatedBackgroundProps) {
   const base = useColorModeValue('#0b0a18', '#070612');
   const blob = '#7c3aed';
   const blobSoft = '#6d28d9';
@@ -137,7 +139,12 @@ export default function AnimatedBackground({ children }: AnimatedBackgroundProps
         </Text>
       </MotionBox>
 
-      <Box position="relative" zIndex={1} px={{ base: 4, md: 8 }} pb={{ base: 8, md: 12 }}>
+      <Box
+        position="relative"
+        zIndex={1}
+        px={{ base: 4, md: 8 }}
+        pb={{ base: 8, md: 12 }}
+      >
         {children}
       </Box>
     </Box>

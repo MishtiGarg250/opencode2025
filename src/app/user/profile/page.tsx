@@ -21,6 +21,8 @@ export interface ProfileData {
   avatarUrl: string;
   githubId: string;
   discordId: string;
+  gender?: string;
+  year?: string;
   PR: PullRequest[]; 
   prMerged: number;
   points: number;

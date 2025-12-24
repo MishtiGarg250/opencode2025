@@ -1,51 +1,34 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import axios from 'axios';
-import { redirect } from 'next/navigation';
-import { convertSegmentPathToStaticExportFilename } from 'next/dist/shared/lib/segment-cache/segment-value-encoding';
+import { useRouter } from 'next/navigation'; // Use useRouter instead of redirect for client-side logic
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
-export default function Addevent  ()  {
+// Define the shape of the JWT payload
+interface JWTPayload {
+  roles?: {
+    isAdmin: boolean;
+  };
+  [key: string]: any;
+}
+
+export default function Addevent() {
+  const router = useRouter();
   const [eventData, setEventData] = useState({
     Fullname: '',
     Description: '',
   });
-  const [logoFile, setLogoFile] = useState(null);
-  const [coverFiles, setCoverFiles] = useState([]);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [coverFiles, setCoverFiles] = useState<File[]>([]);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) {
-    return null;
-  }
-
-  const logoUpload = (event) => {
-    const file = event.target.files[0];
-    setLogoFile(file);
-
-    
-  };
-
-  const coverUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) setCoverFiles((prev) => [...prev, file]);
-
-    
-  };
-
-  const handleChange = (event) => {
-    setEventData({
-      ...eventData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  // helper to decode JWT payload (browser)
-  function parseJwt(token) {
+  // Helper to decode JWT payload
+  function parseJwt(token: string | null): JWTPayload | null {
     if (!token) return null;
     try {
       const base64Url = token.split('.')[1];
@@ -54,7 +37,7 @@ export default function Addevent  ()  {
         atob(base64)
           .split('')
           .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
+          .join(''),
       );
       return JSON.parse(jsonPayload);
     } catch {
@@ -62,36 +45,76 @@ export default function Addevent  ()  {
     }
   }
 
-  const handleSubmit = async (event) => {
+  // Security check: Redirect if not admin
+  useEffect(() => {
+    if (isMounted) {
+      const token = localStorage.getItem('token');
+      const payload = parseJwt(token);
+      if (!payload?.roles?.isAdmin) {
+        console.error('Only admin can create events');
+        router.push('/user/home');
+      }
+    }
+  }, [isMounted, router]);
+
+  if (!isMounted) {
+    return null;
+  }
+
+  const logoUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setLogoFile(event.target.files[0]);
+    }
+  };
+
+  const coverUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setCoverFiles((prev) => [...prev, file]);
+    }
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEventData({
+      ...eventData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     const token = localStorage.getItem('token');
     const payload = parseJwt(token);
 
-    // require admin role before calling backend
     if (!payload?.roles?.isAdmin) {
-      console.error('Only admin can create events');
-      // show UI feedback if needed
+      alert('Only admin can create events');
       return;
     }
 
     const formData = new FormData();
     formData.append('title', eventData.Fullname);
     formData.append('description', eventData.Description);
+    // Hardcoded dates from your original code
     formData.append('startDate', '2023-12-01T00:00:00Z');
     formData.append('endDate', '2023-12-02T00:00:00Z');
 
-
     if (coverFiles && coverFiles.length > 0) {
+      // Logic from your code: first file is logo, rest are covers?
+      // Note: This logic seems specific to your backend requirement.
+      // If you meant "logoFile" to be the logo, use that variable.
+      // Below preserves your original logic:
       formData.append('logoImage', coverFiles[0]);
       coverFiles.slice(1).forEach((f) => formData.append('coverImages', f));
+
+      // If there is also a separate logoFile uploaded
       if (logoFile) formData.append('coverImages', logoFile);
     } else {
       if (logoFile) formData.append('logoImage', logoFile);
     }
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/create`,
         formData,
         {
@@ -102,22 +125,16 @@ export default function Addevent  ()  {
         },
       );
       alert('Event Created Successfully');
-      redirect('/admin/viewevents');
-    } catch (error) {
-      console.error('Error creating event:', error?.response?.data || error.message);
+      // Use router.push instead of redirect() to prevent try/catch errors
+      router.push('/admin/viewevents');
+    } catch (error: any) {
+      console.error(
+        'Error creating event:',
+        error?.response?.data || error.message,
+      );
+      alert('Failed to create event');
     }
   };
-
-  const token = localStorage.getItem('token');
-  const payload = parseJwt(token);
-
-  // require admin role before calling backend
-  if (!payload?.roles?.isAdmin) {
-    console.error('Only admin can create events');
-    redirect('/user/home')
-    // show UI feedback if needed
-    return;
-  }
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
@@ -158,8 +175,11 @@ export default function Addevent  ()  {
                     </div>
 
                     <div className="md:col-span-3">
-                      <label htmlFor="address">Cover Image (only one)</label>
+                      <label htmlFor="cover_image">
+                        Cover Image (only one)
+                      </label>
                       <input
+                        id="cover_image"
                         type="file"
                         accept="image/*"
                         className="h-10 border mt-1 rounded px-4 w-full text-black"
@@ -168,8 +188,9 @@ export default function Addevent  ()  {
                     </div>
 
                     <div className="md:col-span-3">
-                      <label htmlFor="address">Logo Image</label>
+                      <label htmlFor="logo_image">Logo Image</label>
                       <input
+                        id="logo_image"
                         type="file"
                         accept="image/*"
                         className="h-10 border mt-1 rounded px-4 w-full text-black"
@@ -196,4 +217,4 @@ export default function Addevent  ()  {
       </div>
     </Box>
   );
-};
+}

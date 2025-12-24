@@ -1,13 +1,6 @@
-// Chakra imports
-import {
-  Flex,
-  Text,
-  Box,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import Link from 'next/link';
 
-// Custom components
 import { HorizonLogo } from 'components/icons/Icons';
 import { HSeparator } from 'components/separator/Separator';
 
@@ -17,20 +10,13 @@ export function SidebarBrand() {
   const accentColor = 'purple.500';
 
   return (
-    <Flex
-      align="center"
-      direction="column"
-      py="24px"
-      px="16px"
-    >
+    <Flex align="center" direction="column" py="24px" px="16px">
       <Link href="/user/home">
         <Box cursor="pointer" textAlign="center">
-          
           <Box mb="12px">
             <HorizonLogo h="70px" w="70px" color={textColor} />
           </Box>
 
-        
           <Box position="relative" display="inline-block">
             <Text
               fontSize="22px"
@@ -41,7 +27,6 @@ export function SidebarBrand() {
               Geekhaven Events
             </Text>
 
-        
             <Flex
               position="absolute"
               right="0"
@@ -49,27 +34,12 @@ export function SidebarBrand() {
               align="center"
               gap="6px"
             >
-              <Box
-                w="22px"
-                h="2.5px"
-                bg={accentColor}
-                borderRadius="full"
-              />
-              <Box
-                w="5px"
-                h="5px"
-                bg={accentColor}
-                borderRadius="full"
-              />
+              <Box w="22px" h="2.5px" bg={accentColor} borderRadius="full" />
+              <Box w="5px" h="5px" bg={accentColor} borderRadius="full" />
             </Flex>
           </Box>
 
-    
-          <Text
-            fontSize="12px"
-            color={mutedText}
-            mt="10px"
-          >
+          <Text fontSize="12px" color={mutedText} mt="10px">
             Open source • Events • Community
           </Text>
         </Box>

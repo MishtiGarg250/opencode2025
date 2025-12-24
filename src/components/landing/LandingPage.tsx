@@ -1,12 +1,12 @@
 'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import { SparklesIcon, Users, Star, Github, ArrowRight } from "lucide-react";
-import PixelBlast from "./PixelBlast";
+import { Icon } from '@chakra-ui/react';
+import { ArrowRight, Github, SparklesIcon, Users } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { FaGithub } from 'react-icons/fa';
-import {Icon} from '@chakra-ui/react';
-import { useEffect, useState } from "react";
+import PixelBlast from './PixelBlast';
 
 const OpenCodeHero = () => {
   const [isCompact, setIsCompact] = useState(false);
@@ -14,8 +14,8 @@ const OpenCodeHero = () => {
   useEffect(() => {
     const update = () => setIsCompact(window.innerWidth < 768);
     update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
   }, []);
 
   const handleLoginWithGitHub = () => {
@@ -29,10 +29,12 @@ const OpenCodeHero = () => {
       id="opencode"
       className="relative flex justify-center w-full min-h-screen overflow-hidden bg-[#0b1437]"
     >
-
       <div
         className="absolute inset-0 z-10"
-        style={{ height: isCompact ? "150%" : "140%", top: isCompact ? "-200px" : "-260px" }}
+        style={{
+          height: isCompact ? '150%' : '140%',
+          top: isCompact ? '-200px' : '-260px',
+        }}
       >
         <PixelBlast
           variant="square"
@@ -59,16 +61,13 @@ const OpenCodeHero = () => {
           className="absolute bottom-0 left-0 w-full h-[35%] pointer-events-none"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(11,20,55,0) 0%, rgba(11,20,55,1) 100%)",
+              'linear-gradient(to bottom, rgba(11,20,55,0) 0%, rgba(11,20,55,1) 100%)',
           }}
         />
       </div>
 
-    
       <div className="relative z-20 flex flex-col md:flex-row items-center justify-center text-center md:items-start md:justify-center px-5 sm:px-8 md:px-20 pt-24 sm:pt-28 md:pt-32 pb-20 w-full gap-10">
         <div className="max-w-4xl flex flex-col items-center gap-6 md:items-start md:text-left">
-
-  
           <div className="flex items-center gap-3 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
             <SparklesIcon className="h-5 w-5 text-[#E9E3FF]" />
             <span className="text-[11px] sm:text-xs md:text-sm text-white font-medium">
@@ -76,7 +75,6 @@ const OpenCodeHero = () => {
             </span>
           </div>
 
-        
           <h1 className="font-bold leading-tight text-white">
             <span className="block text-[20px] sm:text-[24px] md:text-[34px]">
               Welcome to
@@ -86,26 +84,38 @@ const OpenCodeHero = () => {
             </span>
           </h1>
 
-  
           <p className="text-[15px] sm:text-[16px] md:text-lg text-[#E0E5F2] max-w-[720px]">
             OpenCode is a month-long open-source journey where students learn by
             building real projects, collaborating with mentors, and contributing
             to impactful codebases.
           </p>
 
-        
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 w-full sm:w-auto">
             {/* <Link href="/auth/sign-in">
-              
+
             </Link> */}
-            <button
-              className="px-7 sm:px-8 py-3 rounded-full font-semibold text-black
-                          bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]
-                          hover:scale-105 transition-transform"
-              onClick={handleLoginWithGitHub}
-            >
-              Sign In <Icon as={FaGithub} w="20px" h="20px"/>
-            </button>
+           <button
+  onClick={handleLoginWithGitHub}
+  className="
+    flex items-center justify-center gap-2
+    px-4 py-2
+    sm:px-6 sm:py-3
+    rounded-full
+    text-sm sm:text-base
+    font-semibold text-black
+    bg-gradient-to-r from-[#7551FF] to-[#E9E3FF]
+    active:scale-95
+    sm:hover:scale-105
+    transition-transform
+    w-[60%] sm:w-auto
+    mx-auto
+  "
+>
+  <span>Sign in</span>
+  <Icon as={FaGithub} w="16px" h="16px" className="sm:w-[20px] sm:h-[20px]" />
+</button>
+
+
 
             <Link href="https://opencode.geekhaven.in">
               <button
@@ -120,11 +130,10 @@ const OpenCodeHero = () => {
                 className="px-7 sm:px-8 py-3 rounded-full font-semibold text-white
                            border border-white/20 hover:bg-white/10 transition"
               >
-                Frequently Asked 
+                Frequently Asked
               </button>
             </Link>
           </div>
-
         </div>
         {/* Sidebar Card */}
         <aside className="flex flex-col w-full max-w-[360px] md:w-80 p-5 rounded-2xl border border-white/6 bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-lg text-white md:mt-4 mt-2">
@@ -140,18 +149,24 @@ const OpenCodeHero = () => {
             </div>
             <div>
               <h3 className="text-lg font-semibold">OpenCode</h3>
-              <p className="text-xs text-white/70">Join projects, earn stars, and grow.</p>
+              <p className="text-xs text-white/70">
+                Join projects, earn stars, and grow.
+              </p>
             </div>
           </div>
 
           <div className="mt-4 flex gap-3 text-sm">
             <div className="flex-1 p-3 rounded-lg bg-white/5 text-center">
               <div className="text-xs text-white/70">Participants</div>
-              <div className="mt-1 font-semibold flex items-center justify-center gap-2"><Users className="w-4 h-4" /> 1.2k</div>
+              <div className="mt-1 font-semibold flex items-center justify-center gap-2">
+                <Users className="w-4 h-4" /> 1.2k
+              </div>
             </div>
             <div className="flex-1 p-3 rounded-lg bg-white/5 text-center">
               <div className="text-xs text-white/70">Repos</div>
-              <div className="mt-1 font-semibold flex items-center justify-center gap-2"><Github className="w-4 h-4" /> 420</div>
+              <div className="mt-1 font-semibold flex items-center justify-center gap-2">
+                <Github className="w-4 h-4" /> 420
+              </div>
             </div>
           </div>
 
@@ -179,7 +194,7 @@ const OpenCodeHero = () => {
           </div> */}
 
           <div className="mt-6 flex gap-2">
-            <Link href="https://github.com/OpenCode2025">
+            <Link href="https://github.com/opencodeiiita">
               <button className="w-full px-3 py-2 rounded-full bg-gradient-to-r from-[#7551FF] to-[#E9E3FF] font-semibold text-black flex items-center justify-center gap-2">
                 Explore Projects <ArrowRight className="w-4 h-4" />
               </button>

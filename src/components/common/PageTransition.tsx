@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { gsap } from "gsap";
+import { gsap } from 'gsap';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 
 declare global {
   interface Window {
@@ -34,8 +34,8 @@ export default function PageTransition() {
       isAnimatingRef.current = true;
       gsap.set(overlay, {
         opacity: 1,
-        pointerEvents: "auto",
-        x: "-110%",
+        pointerEvents: 'auto',
+        x: '-110%',
       });
 
       gsap
@@ -45,17 +45,17 @@ export default function PageTransition() {
           },
         })
         .to(overlay, {
-          x: "0%",
+          x: '0%',
           duration: 0.55,
-          ease: "power2.inOut",
+          ease: 'power2.inOut',
         })
         .call(() => router.push(href))
         .to(overlay, {
-          x: "110%",
+          x: '110%',
           duration: 0.7,
-          ease: "power2.inOut",
+          ease: 'power2.inOut',
         })
-        .set(overlay, { pointerEvents: "none", opacity: 0 });
+        .set(overlay, { pointerEvents: 'none', opacity: 0 });
     };
 
     return () => {
@@ -68,13 +68,13 @@ export default function PageTransition() {
       ref={overlayRef}
       className="page-transition-overlay"
       style={{
-        position: "fixed",
+        position: 'fixed',
         inset: 0,
-        background: "var(--transition-bg)",
+        background: 'var(--transition-bg)',
         zIndex: 90,
         opacity: 0,
-        pointerEvents: "none",
-        willChange: "transform",
+        pointerEvents: 'none',
+        willChange: 'transform',
       }}
       aria-hidden="true"
     />

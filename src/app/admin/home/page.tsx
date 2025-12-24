@@ -1,43 +1,44 @@
 'use client';
 
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/react';
-import {
+  Box,
+  Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
-  Button,
   Select,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
 } from '@chakra-ui/react';
-import { Box, useColorModeValue, Text, Flex } from '@chakra-ui/react';
 
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getUserPRDetails } from 'api/admin/admin';
+import { FetchedEvents } from 'api/events/events';
+import { useAuth } from 'contexts/AuthContext';
 import { useEffect, useState } from 'react';
-import { FetchedEvents } from 'api/events/events.js';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { getUserPRDetails } from 'api/admin/admin.js';
 import { RingLoader } from 'react-spinners';
-import { useAuth } from '../../../contexts/AuthContext.js';
 
 import {
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useToast,
 } from '@chakra-ui/react';
-import { EditPRPoints } from 'api/admin/admin.js';
-import { useToast } from '@chakra-ui/react';
-import { fetchLoggedInBasicDetails } from 'api/profile/profile.js';
+import { EditPRPoints } from 'api/admin/admin';
+import { fetchLoggedInBasicDetails } from 'api/profile/profile';
 
 export default function Dashboard() {
   const toast = useToast();
