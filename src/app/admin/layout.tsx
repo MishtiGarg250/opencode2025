@@ -8,6 +8,8 @@ import Sidebar from 'components/sidebar/Sidebar';
 
 import { PropsWithChildren, useState } from 'react';
 import routes from 'routes';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   getActiveNavbar,
@@ -22,6 +24,46 @@ interface DashboardLayoutProps extends PropsWithChildren {
 export default function AdminLayout(props: DashboardLayoutProps) {
   const { children, ...rest } = props;
   const [fixed] = useState(false);
+  const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+
+  interface JWTPayload {
+    roles?: {
+      isAdmin: boolean;
+    };
+    [key: string]: any;
+  }
+
+  function parseJwt(token: string | null): JWTPayload | null {
+    if (!token) return null;
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join(''),
+      );
+      return JSON.parse(jsonPayload);
+    } catch {
+      return null;
+    }
+  }
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    const token = localStorage.getItem('token');
+    const payload = parseJwt(token);
+    if (!payload?.roles?.isAdmin) {
+      console.error('Only admin can access admin pages');
+      router.push('/user/home');
+    }
+  }, [isMounted, router]);
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
 

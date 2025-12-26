@@ -26,6 +26,7 @@ import { FetchedEvents } from 'api/events/events';
 import { useAuth } from 'contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import { RingLoader } from 'react-spinners';
+import { useRouter } from 'next/navigation';
 
 import {
   Modal,
@@ -41,6 +42,7 @@ import { EditPRPoints } from 'api/admin/admin';
 import { fetchLoggedInBasicDetails } from 'api/profile/profile';
 
 export default function Dashboard() {
+  const router = useRouter();
   const toast = useToast();
   const [githubId, setGithubId] = useState('');
   const [eventName, setEventName] = useState('');
@@ -48,6 +50,33 @@ export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [incrementPoints, setIncrementPoints] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Define the shape of the JWT payload
+  interface JWTPayload {
+    roles?: {
+      isAdmin: boolean;
+    };
+    [key: string]: any;
+  }
+
+  // Helper to decode JWT payload
+  function parseJwt(token: string | null): JWTPayload | null {
+    if (!token) return null;
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join(''),
+      );
+      return JSON.parse(jsonPayload);
+    } catch {
+      return null;
+    }
+  }
 
   const handleIncrementPointsChange = (e: any) => {
     setIncrementPoints(e.target.value);
@@ -68,6 +97,10 @@ export default function Dashboard() {
   const auth = useAuth();
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
     const querystring = window.location.search;
     const urlParam = new URLSearchParams(querystring);
     const token = urlParam.get('token');
@@ -78,6 +111,18 @@ export default function Dashboard() {
       fetchLoggedInBasicDetails();
     }
   }, [auth]);
+
+  // Admin-only guard: Redirect non-admin users away from admin page
+  useEffect(() => {
+    if (!isMounted) return;
+    const token = localStorage.getItem('token');
+    const payload = parseJwt(token);
+
+    if (!payload?.roles?.isAdmin) {
+      console.error('Only admin can view events');
+      router.push('/user/home');
+    }
+  }, [isMounted, router]);
 
   const pointUpdate = useMutation({
     mutationFn: EditPRPoints,
@@ -177,6 +222,7 @@ export default function Dashboard() {
 
   return (
     <>
+    
       <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
         <Text color={textColor} fontSize="2xl" ms="24px" fontWeight="700">
           Change Points
