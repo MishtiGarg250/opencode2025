@@ -109,7 +109,18 @@ export default function SignIn() {
       }
     }
 
-    const dataToSend = { ...formData, gender: formData.gender.toLowerCase() };
+    if (!formData.gender) {
+      toast({
+        title: 'Gender is required',
+        description: 'Please select your gender.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    const dataToSend = { ...formData, gender: formData.gender.trim().toLowerCase() };
     registerMutation.mutate(dataToSend);
   };
 
