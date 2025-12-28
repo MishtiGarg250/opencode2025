@@ -16,6 +16,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import * as React from "react";
+import { isMaintainer, MAINTAINERS } from "constants/Maintainers";
 
 import { FaTrophy } from "react-icons/fa";
 
@@ -121,22 +122,65 @@ export default function ColumnTable({
 
 
     columnHelper.accessor("githubid", {
-      header: () => (
-        <Text textAlign="left">GITHUB</Text>
-      ),
-      cell: (info) => (
-        <Link href={`/user/profile/${info.getValue()}`}>
-          <Flex align="center" gap="10px">
-            <NextAvatar
-              src={info.row.original.avatarUrl}
-              h="40px"
-              w="40px"
-            />
-            <Text fontWeight="700">{info.getValue()}</Text>
-          </Flex>
-        </Link>
-      ),
+      header: () => <Text textAlign="left">GITHUB</Text>,
+
+      cell: (info) => {
+        const githubId = info.getValue();
+        const isYou = githubId === currentGithubID;
+        const maintainer = isMaintainer(githubId);
+
+        return (
+          <Link href={`/user/profile/${githubId}`}>
+            <Flex align="center" gap="10px">
+
+              <Box position="relative">
+                <NextAvatar
+                  src={info.row.original.avatarUrl}
+                  h="40px"
+                  w="40px"
+                />
+
+                {maintainer && (
+                  <Box
+                    position="absolute"
+                    top="-12px"
+                    right="-25px"
+                    bg="yellow.400"
+                    color="black"
+                    fontSize="9px"
+                    fontWeight="900"
+                    px="6px"
+                    py="2px"
+                    borderRadius="full"
+                  >
+                    MENTOR
+                  </Box>
+                )}
+              </Box>
+
+              <Flex align="center" gap="6px">
+                <Text fontWeight="700">{githubId}</Text>
+
+                {isYou && (
+                  <Box
+                    px="8px"
+                    py="2px"
+                    fontSize="10px"
+                    fontWeight="800"
+                    borderRadius="full"
+                    bg="purple.500"
+                    color="white"
+                  >
+                    YOU
+                  </Box>
+                )}
+              </Flex>
+            </Flex>
+          </Link>
+        );
+      },
     }),
+
 
 
 
@@ -268,7 +312,7 @@ export default function ColumnTable({
           </Button>
         </Flex>
 
-        
+
         {showProgress ? (
           isMobile ? (
             <MobileLeaderboard
@@ -370,7 +414,7 @@ function MobileLeaderboard({
 
   return (
     <Flex direction="column" gap="16px">
-      
+
       {rows.map((row: any) => {
         const user = row.original as RowObj;
         const value = user.position;
@@ -408,18 +452,56 @@ function MobileLeaderboard({
                   )}
                 </Flex>
 
-                <NextAvatar
-                  src={user.avatarUrl}
-                  h="44px"
-                  w="44px"
-                />
+                <Box position="relative">
+                  <NextAvatar
+                    src={user.avatarUrl}
+                    h="44px"
+                    w="44px"
+                  />
+
+                  {MAINTAINERS.has(user.githubid) && (
+                    <Box
+                      position="absolute"
+                      top="-6px"
+                      right="-6px"
+                      bg="yellow.400"
+                      color="black"
+                      fontSize="8px"
+                      fontWeight="900"
+                      px="5px"
+                      py="1px"
+                      borderRadius="full"
+                    >
+                      M
+                    </Box>
+                  )}
+                </Box>
+
 
                 <Box>
-                  <Text fontWeight="700">{user.name}</Text>
+                  <Flex align="center" gap="6px">
+                    <Text fontWeight="700">{user.name}</Text>
+
+                    {user.githubid === currentGithubID && (
+                      <Box
+                        px="6px"
+                        py="1px"
+                        fontSize="9px"
+                        fontWeight="800"
+                        borderRadius="full"
+                        bg="white"
+                        color="purple.600"
+                      >
+                        YOU
+                      </Box>
+                    )}
+                  </Flex>
+
                   <Text fontSize="12px" color="gray.400">
                     @{user.githubid}
                   </Text>
                 </Box>
+
               </Flex>
             </Link>
 
