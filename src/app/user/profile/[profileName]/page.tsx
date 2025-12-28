@@ -66,7 +66,7 @@ export default function ProfileOverviewOther() {
       mx="auto"
     >
 
-      <SearchProfileBanner />
+    
 
       {/* 2. Use the Component here */}
       <DiscordBanner />

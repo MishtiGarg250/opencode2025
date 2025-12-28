@@ -1,17 +1,28 @@
 'use client';
 
-import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import { useMemo, useState } from 'react';
+import { FaSearchMinus } from 'react-icons/fa';
+
+import {
+  Box,
+  Flex,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import LeaderboardLoader from 'components/common/LeaderboardLoader';
 import { useParams } from 'next/navigation';
 import { FaUsers } from 'react-icons/fa';
+
+import LeaderboardLoader from 'components/common/LeaderboardLoader';
 import ColumnsTable, {
   type RowObj,
 } from 'views/admin/dataTables/components/ColumnsTable';
+import SearchProfileBanner from 'views/admin/profile/components/SearchProfileBanner';
 import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
 
 export default function EventName() {
   const { eventName } = useParams<{ eventName: string }>();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const textColor = useColorModeValue('gray.800', 'white');
   const mutedText = useColorModeValue('gray.500', 'gray.400');
@@ -27,10 +38,6 @@ export default function EventName() {
     enabled: !!eventName,
   });
 
-  if (isLoading) {
-    return <LeaderboardLoader />;
-  }
-
   const tableDataColumns: RowObj[] = (LeadData || []).map((item) => ({
     position: String(item.position),
     name: item.name,
@@ -43,6 +50,21 @@ export default function EventName() {
 
   const participantCount = tableDataColumns.length;
 
+  const filteredTableData = useMemo(() => {
+    if (!searchQuery.trim()) return tableDataColumns;
+
+    const q = searchQuery.toLowerCase();
+    return tableDataColumns.filter(
+      (row) =>
+        row.githubid?.toLowerCase().includes(q) ||
+        row.name?.toLowerCase().includes(q),
+    );
+  }, [searchQuery, tableDataColumns]);
+
+  if (isLoading) {
+    return <LeaderboardLoader />;
+  }
+
   return (
     <Box
       pt={{ base: '110px', md: '90px' }}
@@ -50,15 +72,12 @@ export default function EventName() {
       maxW="1400px"
       mx="auto"
     >
-      {/* Header */}
       <Flex
-        justify="space-between"
-        align={{ base: 'flex-start', md: 'center' }}
+        direction="column"
+        gap={{ base: '18px', md: '24px' }}
         mb={{ base: '20px', md: '28px' }}
-        direction={{ base: 'column', md: 'row' }}
-        gap={{ base: '18px', md: '14px' }}
       >
-        {/* Title */}
+
         <Box position="relative" w="fit-content">
           <Text
             fontSize={{ base: '30px', sm: '36px', md: '44px' }}
@@ -87,54 +106,127 @@ export default function EventName() {
           </Flex>
         </Box>
 
-        {/* Participants Card */}
-        <Flex
-          align="center"
-          gap="12px"
-          px={{ base: '14px', md: '18px' }}
-          py={{ base: '10px', md: '12px' }}
-          bg={glassBg}
-          borderRadius="16px"
-          backdropFilter="blur(16px)"
-          boxShadow="0 10px 30px rgba(0,0,0,0.08)"
-          w={{ base: '100%', sm: 'auto' }}
-          justify={{ base: 'center', sm: 'flex-start' }}
-        >
-          <Box
-            p="10px"
-            borderRadius="full"
-            bg="purple.100"
-            color="purple.600"
-            fontSize="14px"
-          >
-            <FaUsers />
-          </Box>
 
-          <Box textAlign={{ base: 'center', sm: 'left' }}>
-            <Text
-              fontSize="11px"
-              color={mutedText}
-              fontWeight="600"
-              letterSpacing="0.6px"
+        <Flex
+          w="100%"
+          align="center"
+          justify="space-between"
+          gap="12px"
+        >
+          <SearchProfileBanner
+            value={searchQuery}
+            onChange={setSearchQuery}
+          />
+
+          <Flex
+            align="center"
+            gap={{ base: '6px', md: '12px' }}
+            px={{ base: '10px', md: '18px' }}
+            py={{ base: '8px', md: '12px' }}
+            bg={glassBg}
+            borderRadius="16px"
+            backdropFilter="blur(16px)"
+            boxShadow="0 10px 30px rgba(0,0,0,0.08)"
+            minW={{ base: 'auto', md: '180px' }}
+            justify="center"
+          >
+            <Box
+              p={{ base: '6px', md: '10px' }}
+              borderRadius="full"
+              bg="purple.100"
+              color="purple.600"
+              fontSize={{ base: '12px', md: '14px' }}
             >
-              TOTAL PARTICIPANTS
-            </Text>
+              <FaUsers />
+            </Box>
+
+
+            <Box display={{ base: 'none', md: 'block' }}>
+              <Text
+                fontSize="11px"
+                color={mutedText}
+                fontWeight="600"
+                letterSpacing="0.6px"
+              >
+                TOTAL
+              </Text>
+            </Box>
+
             <Text
-              fontSize={{ base: '20px', md: '22px' }}
+              fontSize={{ base: '14px', md: '22px' }}
               fontWeight="800"
               color={textColor}
             >
               {participantCount}
             </Text>
-          </Box>
+          </Flex>
+
         </Flex>
       </Flex>
+      {searchQuery && filteredTableData.length === 0 && (
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          py="80px"
+          px="20px"
+          textAlign="center"
+        >
+          {/* Icon */}
+          <Box
+            p="22px"
+            borderRadius="full"
+            bg="purple.100"
+            color="purple.500"
+            mb="18px"
+            boxShadow="0 10px 30px rgba(117,95,255,0.25)"
+          >
+            <FaSearchMinus size={36} />
+          </Box>
 
-      {/* Leaderboard Table */}
+
+          <Text
+            fontSize={{ base: '18px', md: '22px' }}
+            fontWeight="800"
+            color={textColor}
+            mb="6px"
+          >
+            No contributors found
+          </Text>
+
+
+          <Text
+            fontSize="14px"
+            color={mutedText}
+            maxW="360px"
+            lineHeight="1.6"
+          >
+            We searched the leaderboard thoroughly.
+            Either this legend hasn’t joined yet… or the spelling is plotting against you.
+          </Text>
+
+
+          <Text
+            mt="14px"
+            fontSize="13px"
+            color="purple.500"
+            fontWeight="600"
+            cursor="pointer"
+            _hover={{ textDecoration: 'underline' }}
+            onClick={() => setSearchQuery('')}
+          >
+            Clear search & show all participants
+          </Text>
+        </Flex>
+      )}
+
+
+
       <ColumnsTable
-        tableData={tableDataColumns}
+        tableData={filteredTableData}
         eventName={decodeURIComponent(eventName ?? '')}
       />
     </Box>
   );
 }
+

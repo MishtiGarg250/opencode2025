@@ -1,57 +1,71 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import {
+  Box,
+  Flex,
+  Input,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { Search } from 'lucide-react';
 
-export default function SearchProfileBanner() {
-  const [githubID, setGithubID] = useState('');
-  const [error, setError] = useState('');
-  const router = useRouter();
+interface Props {
+  value: string;
+  onChange: (value: string) => void;
+}
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!githubID.trim()) {
-      setError('Please enter a GitHub ID');
-      return;
-    }
+export default function SearchProfileBanner({ value, onChange }: Props) {
+  const glassBg = useColorModeValue(
+    'rgba(255,255,255,0.7)',
+    'rgba(15,23,42,0.7)'
+  );
 
-    setError('');
-    router.push(`/user/profile/${githubID}`);
-  };
+  const borderColor = useColorModeValue(
+    'whiteAlpha.700',
+    'whiteAlpha.200'
+  );
+
+  const textColor = useColorModeValue('gray.800', 'gray.100');
+  const placeholderColor = useColorModeValue('gray.500', 'gray.400');
 
   return (
-    <div className="w-full bg-gradient-to-r py-12 px-6">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold text-[#755FFF] mb-6 text-center">
-          Search User Profile
-        </h1>
+    <Flex
+      align="center"
+      gap="10px"
+      px={{ base: '14px', md: '18px' }}
+      py={{ base: '10px', md: '12px' }}
+      bg={glassBg}
+      borderRadius="16px"
+      border="1px solid"
+      borderColor={borderColor}
+      backdropFilter="blur(16px)"
+      boxShadow="0 10px 30px rgba(0,0,0,0.08)"
+      w={{ base: '65%', sm: '260px', md: '340px' }}
+      transition="all 0.2s ease"
+      _focusWithin={{
+        borderColor: 'purple.600',
         
-        <form onSubmit={handleSearch} className="flex flex-col gap-4">
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Enter GitHub ID..."
-              value={githubID}
-              onChange={(e) => {
-                setGithubID(e.target.value);
-                setError('');
-              }}
-              className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-            />
-            <button
-              type="submit"
-              className="px-8 py-3 bg-[#755FFF] text-white font-semibold rounded-lg hover:bg-white-100 transition-colors duration-200 cursor-pointer"
-            >
-              Search
-            </button>
-          </div>
-          
-          {error && (
-            <p className="text-red-200 text-sm">{error}</p>
-          )}
-        </form>
-      </div>
-    </div>
+      }}
+    >
+      <Box
+        color="purple.500"
+        display="flex"
+        alignItems="center"
+      >
+        <Search size={18} />
+      </Box>
+
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="Search name or GitHub ID"
+        variant="unstyled"
+        fontSize="14px"
+        fontWeight="500"
+        color={textColor}
+        _placeholder={{ color: placeholderColor }}
+      />
+    </Flex>
   );
 }
+
+

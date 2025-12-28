@@ -106,7 +106,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           mx="auto"
           p={{ base: '16px', md: '30px' }}
           minH="100vh"
-          pt={{ base: '120px', md: '110px' }}
+          pt={{ base: '60px', md: '60px' }}
         >
           {children}
         </Box>
