@@ -38,107 +38,17 @@ import { Flip } from "gsap/Flip";
 
 gsap.registerPlugin(Flip);
 export type RowObj = {
-	position: string;
-	name: string;
-    avatarUrl: string;
-	githubid: string;
-	prmerged: number;
-	points: number;
-	prDetailsURL: string;
+  position: string;
+  name: string;
+  avatarUrl: string;
+  githubid: string;
+  prmerged: number;
+  points: number;
+  prDetailsURL: string;
 };
- 
+
 const columnHelper = createColumnHelper<RowObj>();
-
-
-
-function MobileLeaderboard({
-  table,
-}: {
-  table: any;
-}) {
-  if(!table) return null;
-  const rows = table.getPaginationRowModel().rows;
-
-  return (
-    <Flex direction="column" gap="16px">
-      {/* LIST */}
-      {rows.map((row: any) => {
-        const user = row.original as RowObj;
-
-        return (
-          <Flex
-            key={user.githubid}
-            align="center"
-            justify="space-between"
-            p="14px"
-            borderRadius="18px"
-            bg="rgba(255,255,255,0.08)"
-            backdropFilter="blur(14px)"
-          >
-            <Link href={`/user/profile/${user.githubid}`}>
-              <Flex align="center" gap="12px">
-                <Text fontWeight="800">{user.position}</Text>
-
-                <NextAvatar
-                  src={user.avatarUrl}
-                  h="44px"
-                  w="44px"
-                />
-
-                <Box>
-                  <Text fontWeight="700">{user.name}</Text>
-                  <Text fontSize="12px" color="gray.400">
-                    @{user.githubid}
-                  </Text>
-                </Box>
-              </Flex>
-            </Link>
-
-            <Flex align="center" gap="6px">
-              <Text fontWeight="800" color="purple.400">
-                {user.points}
-              </Text>
-              <FaTrophy color="#FFB547" />
-            </Flex>
-          </Flex>
-        );
-      })}
-
-      
-      <Flex direction="column" gap="8px" mt="8px">
-        <Text fontSize="12px" color="gray.400" textAlign="center">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
-        </Text>
-
-        <Flex gap="10px">
-          <Button
-            flex="1"
-            size="sm"
-            onClick={() => table.previousPage()}
-            isDisabled={!table.getCanPreviousPage()}
-            borderRadius="full"
-          >
-            Prev
-          </Button>
-
-          <Button
-            flex="1"
-            size="sm"
-            onClick={() => table.nextPage()}
-            isDisabled={!table.getCanNextPage()}
-            borderRadius="full"
-          >
-            Next
-          </Button>
-        </Flex>
-      </Flex>
-    </Flex>
-  );
-}
-
-
-
+const currentGithubID = JSON.parse(localStorage.getItem('user') ?? '{}')?.githubId;
 
 
 export default function ColumnTable({
@@ -156,6 +66,10 @@ export default function ColumnTable({
     pageSize: 50,
   });
 
+
+  const isCurrentUser = (row: any) =>
+    row.original.githubid === currentGithubID;
+
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const glassBg = useColorModeValue(
@@ -171,7 +85,7 @@ export default function ColumnTable({
 
 
   const columns = [
-    
+
     columnHelper.accessor("position", {
       header: "RANK",
       cell: (info) => {
@@ -192,101 +106,85 @@ export default function ColumnTable({
       },
     }),
 
-    
+
     columnHelper.accessor("name", {
-  header: () => (
-    <Text textAlign="left">NAME</Text>
-  ),
-  cell: (info) => (
-    <Text fontWeight="700" textAlign="left">
-      {info.getValue()}
-    </Text>
-  ),
-}),
+      header: () => (
+        <Text textAlign="left">NAME</Text>
+      ),
+      cell: (info) => (
+        <Text fontWeight="700" textAlign="left">
+          {info.getValue()}
+        </Text>
+      ),
+    }),
 
 
-  
+
     columnHelper.accessor("githubid", {
-  header: () => (
-    <Text textAlign="left">GITHUB</Text>
-  ),
-  cell: (info) => (
-    <Link href={`/user/profile/${info.getValue()}`}>
-      <Flex align="center" gap="10px">
-        <NextAvatar
-          src={info.row.original.avatarUrl}
-          h="40px"
-          w="40px"
-        />
-        <Text fontWeight="700">{info.getValue()}</Text>
-      </Flex>
-    </Link>
-  ),
-}),
+      header: () => (
+        <Text textAlign="left">GITHUB</Text>
+      ),
+      cell: (info) => (
+        <Link href={`/user/profile/${info.getValue()}`}>
+          <Flex align="center" gap="10px">
+            <NextAvatar
+              src={info.row.original.avatarUrl}
+              h="40px"
+              w="40px"
+            />
+            <Text fontWeight="700">{info.getValue()}</Text>
+          </Flex>
+        </Link>
+      ),
+    }),
 
 
-    
+
     columnHelper.accessor("prmerged", {
-  header: () => (
-    <Flex justify="center">
-      <Text>PRS</Text>
-    </Flex>
-  ),
-  cell: (info) => (
-    <Flex justify="center">
-      <Box
-        h="36px"
-        w="36px"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        border="2px solid"
-        borderColor="purple.400"
-        borderRadius="full"
-        fontWeight="800"
-        color="purple.400"
-      >
-        {info.getValue()}
-      </Box>
-    </Flex>
-  ),
-}),
+      header: () => (
+        <Flex justify="center">
+          <Text>PRS</Text>
+        </Flex>
+      ),
+      cell: (info) => (
+        <Flex justify="center">
+          <Box
+            h="36px"
+            w="36px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            border="2px solid"
+            borderColor="purple.400"
+            borderRadius="full"
+            fontWeight="800"
+            color="purple.400"
+          >
+            {info.getValue()}
+          </Box>
+        </Flex>
+      ),
+    }),
 
 
 
     columnHelper.accessor("points", {
-  header: () => (
-    <Flex justify="flex-end">
-      <Text>POINTS</Text>
-    </Flex>
-  ),
-  cell: (info) => (
-    <Flex justify="flex-end" gap="6px">
-      <Text fontWeight="800" color="purple.500">
-        {info.getValue()}
-      </Text>
-      <FaTrophy color="#FFB547" />
-    </Flex>
-  ),
-}),
+      header: () => (
+        <Flex justify="flex-end">
+          <Text>POINTS</Text>
+        </Flex>
+      ),
+      cell: (info) => (
+        <Flex justify="flex-end" gap="6px">
+          <Text fontWeight="800" color="purple.500">
+            {info.getValue()}
+          </Text>
+          <FaTrophy color="#FFB547" />
+        </Flex>
+      ),
+    }),
 
   ];
-
-
-
-  const table = useReactTable({
-    data: tableData,
-    columns,
-    state: { sorting, pagination },
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getRowId: (row) => String(row.githubid),
-  });
-
-  
 
   const tbodyRef = React.useRef<HTMLTableSectionElement | null>(null);
   const prevFlipStateRef = React.useRef<Flip.FlipState | null>(null);
@@ -310,7 +208,33 @@ export default function ColumnTable({
     prevFlipStateRef.current = state;
   }, [pagination.pageIndex, sorting, isMobile, showProgress]);
 
- 
+  const reorderedData = React.useMemo(() => {
+    if (!currentGithubID) return tableData;
+
+    const currentUser = tableData.find(
+      (u) => u.githubid === currentGithubID
+    );
+
+    if (!currentUser) return tableData;
+
+    return [
+      currentUser,
+      ...tableData.filter((u) => u.githubid !== currentGithubID),
+    ];
+  }, [tableData, currentGithubID]);
+  const table = useReactTable({
+    data: reorderedData,
+    columns,
+    state: { sorting, pagination },
+    onSortingChange: setSorting,
+    onPaginationChange: setPagination,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getRowId: (row) => String(row.githubid),
+  });
+
+
 
   return (
     <>
@@ -344,7 +268,7 @@ export default function ColumnTable({
           </Button>
         </Flex>
 
-        {/* CONTENT */}
+        
         {showProgress ? (
           isMobile ? (
             <MobileLeaderboard
@@ -373,8 +297,14 @@ export default function ColumnTable({
                     <Tr
                       key={row.id}
                       data-row-id={row.id}
-                      _hover={{ bg: rowHover }}
+                      bg={isCurrentUser(row) ? "purple.800" : "transparent"}
+                      color={isCurrentUser(row) ? "white" : "inherit"}
+                      boxShadow={isCurrentUser(row) ? "0 0 0 2px rgba(183,148,244,0.6)" : "none"}
+                      _hover={{
+                        bg: isCurrentUser(row) ? "purple.600" : rowHover,
+                      }}
                     >
+
                       {row.getVisibleCells().map((cell) => (
                         <Td key={cell.id}>
                           {flexRender(
@@ -388,7 +318,7 @@ export default function ColumnTable({
                 </Tbody>
               </Table>
 
-              
+
               <Flex mt="16px" justify="space-between" align="center">
                 <Text fontSize="13px" color="gray.400">
                   Page {pagination.pageIndex + 1} of {table.getPageCount()}
@@ -421,11 +351,117 @@ export default function ColumnTable({
         )}
       </Card>
 
-    
+
       <Box position="fixed" inset={0} pointerEvents="none" zIndex={1}>
-  <Snowfall snowflakeCount={110} />
-</Box>
+        <Snowfall snowflakeCount={110} />
+      </Box>
 
     </>
   );
-} 
+}
+
+function MobileLeaderboard({
+  table,
+}: {
+  table: any;
+}) {
+  if (!table) return null;
+  const rows = table.getPaginationRowModel().rows;
+
+  return (
+    <Flex direction="column" gap="16px">
+      
+      {rows.map((row: any) => {
+        const user = row.original as RowObj;
+        const value = user.position;
+        const pos = typeof value === "string" ? parseInt(value, 10) : value;
+        const display = Number.isNaN(Number(pos)) ? value : pos;
+
+        return (
+          <Flex
+            key={user.githubid}
+            align="center"
+            justify="space-between"
+            p="14px"
+            borderRadius="18px"
+            bg={
+              user.githubid === currentGithubID
+                ? "purple.800"
+                : "rgba(255,255,255,0.08)"
+            }
+            color={user.githubid === currentGithubID ? "white" : "inherit"}
+            boxShadow={
+              user.githubid === currentGithubID
+                ? "0 0 0 2px rgba(183,148,244,0.6)"
+                : "none"
+            }
+          >
+            <Link href={`/user/profile/${user.githubid}`}>
+              <Flex align="center" gap="12px">
+                <Flex justify="center">
+                  {typeof pos === "number" && pos <= 3 ? (
+                    <Box bg="#FFB547" p="8px" borderRadius="full">
+                      <FaTrophy size={14} />
+                    </Box>
+                  ) : (
+                    <Text fontWeight="700">{display}</Text>
+                  )}
+                </Flex>
+
+                <NextAvatar
+                  src={user.avatarUrl}
+                  h="44px"
+                  w="44px"
+                />
+
+                <Box>
+                  <Text fontWeight="700">{user.name}</Text>
+                  <Text fontSize="12px" color="gray.400">
+                    @{user.githubid}
+                  </Text>
+                </Box>
+              </Flex>
+            </Link>
+
+            <Flex align="center" gap="6px">
+              <Text fontWeight="800" color="purple.400">
+                {user.points}
+              </Text>
+              <FaTrophy color="#FFB547" />
+            </Flex>
+          </Flex>
+        );
+      })}
+
+
+      <Flex direction="column" gap="8px" mt="8px">
+        <Text fontSize="12px" color="gray.400" textAlign="center">
+          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          {table.getPageCount()}
+        </Text>
+
+        <Flex gap="10px">
+          <Button
+            flex="1"
+            size="sm"
+            onClick={() => table.previousPage()}
+            isDisabled={!table.getCanPreviousPage()}
+            borderRadius="full"
+          >
+            Prev
+          </Button>
+
+          <Button
+            flex="1"
+            size="sm"
+            onClick={() => table.nextPage()}
+            isDisabled={!table.getCanNextPage()}
+            borderRadius="full"
+          >
+            Next
+          </Button>
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+}
