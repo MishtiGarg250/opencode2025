@@ -30,6 +30,7 @@ export default function ProfileOverviewOther() {
   });
 
   const profile = data?.data;
+  console.log(profile);
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
