@@ -16,7 +16,6 @@ import { RingLoader } from 'react-spinners';
 import { getUserProfileByName } from 'api/profile/profile';
 import Banner from 'views/admin/profile/components/Banner';
 import DiscordBanner from 'views/admin/profile/components/DiscordBanner';
-import SearchProfileBanner from 'views/admin/profile/components/SearchProfileBanner';
 import General from 'views/admin/profile/components/General';
 import Projects from 'views/admin/profile/components/Projects';
 import { ProfileData } from '../page';
@@ -31,6 +30,7 @@ export default function ProfileOverviewOther() {
   });
 
   const profile = data?.data;
+  console.log(profile);
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
