@@ -6,68 +6,124 @@ import {
   Link,
   Text,
   useColorModeValue,
+  Badge,
 } from '@chakra-ui/react';
 import { PullRequest } from 'app/user/profile/page';
-// Custom components
 import Card from 'components/card/Card';
-import { FaGithub } from "react-icons/fa";
-// Assets
+import { FaGithub, FaCodeBranch } from 'react-icons/fa';
 
-
-export default function Project({ pr }: {
-  pr: PullRequest;
-  [x: string]: any;
-}) {
-  // Chakra Color Mode
-  const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
-  const textColorSecondary = 'gray.400';
-  const bg = useColorModeValue('white', 'navy.700');
-  const cardShadow = useColorModeValue(
-    '0px 18px 40px rgba(112, 144, 176, 0.12)',
-    'unset',
+export default function Project({ pr }: { pr: PullRequest; [x: string]: any }) {
+  const textPrimary = useColorModeValue('gray.800', 'white');
+  const textSecondary = useColorModeValue('gray.500', 'gray.400');
+  const bg = useColorModeValue(
+    'rgba(255,255,255,0.9)',
+    'rgba(15,23,42,0.8)',
   );
 
+  const status = pr.status.toLowerCase();
+
+const statusColor =
+  status === 'merged'
+    ? 'green'
+    : status === 'open'
+    ? 'purple'
+    : status === 'rejected'
+    ? 'red'
+    : 'gray';
+
+
   return (
-    <Card bg={bg} mb="20px" p="14px" boxShadow={cardShadow}>
-      <Flex align="center" direction={{ base: 'column', md: 'row' }}>
-        <Icon as={FaGithub} color="secondaryGray.500" h="30px" w="30px" mr="10px"/>
-        <Box mt={{ base: '10px', md: '0' }}>
-          <Link textDecorationLine='underline' href={`https://github.com/opencodeiiita/${pr.issue.repoName}/issues/${pr.issue.issueNumber}`} >
+    <Card
+      bg={bg}
+      mb="16px"
+      p="16px"
+      borderRadius="16px"
+      backdropFilter="blur(12px)"
+      transition="all 0.25s ease"
+      _hover={{
+        transform: 'translateY(-2px)',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
+      }}
+      key={pr.prNumber}
+    >
+      <Flex gap="14px" align="flex-start">
+        {/* ICON */}
+        <Box
+          p="10px"
+          borderRadius="full"
+          bg={useColorModeValue('gray.100', 'navy.800')}
+        >
+          <Icon as={FaGithub} h="20px" w="20px" color="gray.500" />
+        </Box>
+
+        {/* CONTENT */}
+        <Box flex="1">
+          {/* ISSUE */}
+          <Link
+            href={`https://github.com/opencodeiiita/${pr.issue.repoName}/issues/${pr.issue.issueNumber}`}
+            isExternal
+          >
             <Text
-              color={textColorPrimary}
-              fontWeight="500"
+              fontWeight="700"
               fontSize="md"
-              mb="4px"
+              color={textPrimary}
+              _hover={{ textDecoration: 'underline' }}
             >
               Issue #{pr.issue.issueNumber}
             </Text>
           </Link>
-          <Flex fontWeight="500"
-              color={textColorSecondary}
-              fontSize="sm"
-              me="4px">
+
+          {/* PR + REPO */}
+          <Flex
+            mt="4px"
+            gap="6px"
+            wrap="wrap"
+            align="center"
+            fontSize="sm"
+            color={textSecondary}
+          >
+            <Icon as={FaCodeBranch} />
+
             <Link
-              mr={2}
-              textDecorationLine='underline'
               href={`https://github.com/opencodeiiita/${pr.issue.repoName}/pull/${pr.prNumber}`}
+              isExternal
+              fontWeight="600"
+              _hover={{ textDecoration: 'underline' }}
             >
               PR #{pr.prNumber}
             </Link>
-            • Repo:
-            <Link className='font-semibold text-sm ml-2' textDecorationLine='underline' color={textColorSecondary} href={`https://github.com/opencodeiiita/${pr.issue.repoName}`} >
+
+            <Text>•</Text>
+
+            <Link
+              href={`https://github.com/opencodeiiita/${pr.issue.repoName}`}
+              isExternal
+              fontWeight="600"
+              _hover={{ textDecoration: 'underline' }}
+            >
               {pr.issue.repoName}
             </Link>
           </Flex>
-            <Text
-              fontWeight="500"
-              color={textColorPrimary}
-              fontSize="sm"
-              me="4px"
-            >
-                Status: {pr.status}
+
+          {/* STATUS */}
+          <Flex mt="8px" align="center" gap="8px">
+            <Text fontSize="sm" color={textSecondary}>
+              Status
             </Text>
+            <Badge
+              colorScheme={statusColor}
+              px="10px"
+              py="2px"
+              borderRadius="full"
+              fontWeight="800"
+              textTransform="capitalize"
+            >
+              {pr.status}
+            </Badge>
+          </Flex>
         </Box>
       </Flex>
     </Card>
   );
 }
+
