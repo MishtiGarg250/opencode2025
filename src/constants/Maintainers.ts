@@ -23,7 +23,7 @@ export const MAINTAINERS = new Set<string>([
   "Aryan-coder06",
   "SaqlainSQX",
   "HGRgamer",
-  "vichanshu",
+  "Vichanshu",
   "Scorchedpearl",
   "yash194",
   "sahilgupta2006",
