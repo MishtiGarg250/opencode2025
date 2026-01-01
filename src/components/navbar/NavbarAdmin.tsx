@@ -89,15 +89,24 @@ export default function AdminNavbar(props: AdminNavbarProps) {
       bgGradient={navbarBg}
     >
       <Flex justify="space-between" align="center">
-        <Box>
-          <Text fontSize="20px">Hi!</Text>
-          <Text fontSize="32px" fontWeight="900" color="purple.500">
-            {name}
-          </Text>
-          <Text fontSize="14px" color={subtitleColor}>
-            Welcome to OPENCODE
-          </Text>
-        </Box>
+        <Text
+  fontSize={{ base: '22px', md: '28px' }}
+  fontWeight="800"
+  lineHeight="1.2"
+  pt="16px"
+>
+  Hi {name},
+  <Text
+    as="span"
+    display={{ base: 'block', md: 'inline' }}
+    color="purple.500"
+    ml={{ base: 0, md: 1 }}
+  >
+    welcome to OPENCODE
+  </Text>
+</Text>
+
+
 
         <Flex align="center" gap="12px">
           <IconButton
