@@ -1,462 +1,69 @@
-const EVENT_NAME = 'OpenCode2024';
+const EVENT_NAME = 'OPENCODE';
+
+import { User } from 'lucide-react';
+import {UserLeaderboardData, week01Leaderboards, week02Leaderboards, week03Leaderboards,week04Leaderboards, week05Leaderboards} from '../../constants/week_wise_Leaderboard_data';
+
+function compileWeekData(data: UserLeaderboardData[]) {
+    const compiled = data.map((user) => ({
+          rank: Number(user.position),            // "1" → 1
+          name: user.name,
+          username: user.githubid,
+          avatar: user.avatarUrl,                 // using GitHub avatar directly
+          score: user.points,
+          prMerged: user.prmerged,
+        }))
+    return compiled
+  }
+
 
 const avatars = [
-  'https://avatars.githubusercontent.com/u/1?v=4',
-  'https://avatars.githubusercontent.com/u/2?v=4',
-  'https://avatars.githubusercontent.com/u/3?v=4',
-  'https://avatars.githubusercontent.com/u/4?v=4',
-  'https://avatars.githubusercontent.com/u/5?v=4',
-  'https://avatars.githubusercontent.com/u/6?v=4',
-  'https://avatars.githubusercontent.com/u/7?v=4',
-  'https://avatars.githubusercontent.com/u/8?v=4',
-  'https://avatars.githubusercontent.com/u/9?v=4',
-  'https://avatars.githubusercontent.com/u/10?v=4',
-];
+  'https://i.pravatar.cc/150?img=3',
+  'https://i.pravatar.cc/150?img=5',
+  'https://i.pravatar.cc/150?img=7',
+  'https://i.pravatar.cc/150?img=9',
+  'https://i.pravatar.cc/150?img=11',
 
-export const demoWeeklyLeaderboards = [
+]
+
+export const weeklyLeaderboards = [
   {
     week: 1,
-    startDate: '2024-01-01',
-    endDate: '2024-01-07',
-    leaderboard: [
-      {
-        rank: 1,
-        name: 'Shubham',
-        username: 'shubham-dev',
-        avatar: avatars[0],
-        score: 120,
-        prMerged: 5,
-      },
-      {
-        rank: 2,
-        name: 'Aman',
-        username: 'aman-opencode',
-        avatar: avatars[1],
-        score: 110,
-        prMerged: 5,
-      },
-      {
-        rank: 3,
-        name: 'Riya',
-        username: 'riya-codes',
-        avatar: avatars[2],
-        score: 100,
-        prMerged: 4,
-      },
-      {
-        rank: 4,
-        name: 'Kunal',
-        username: 'kunal-js',
-        avatar: avatars[3],
-        score: 95,
-        prMerged: 4,
-      },
-      {
-        rank: 5,
-        name: 'Neha',
-        username: 'neha-react',
-        avatar: avatars[4],
-        score: 90,
-        prMerged: 3,
-      },
-      {
-        rank: 6,
-        name: 'Arjun',
-        username: 'arjun-node',
-        avatar: avatars[5],
-        score: 85,
-        prMerged: 3,
-      },
-      {
-        rank: 7,
-        name: 'Simran',
-        username: 'simran-ui',
-        avatar: avatars[6],
-        score: 80,
-        prMerged: 3,
-      },
-      {
-        rank: 8,
-        name: 'Rohit',
-        username: 'rohit-dev',
-        avatar: avatars[7],
-        score: 75,
-        prMerged: 2,
-      },
-      {
-        rank: 9,
-        name: 'Pooja',
-        username: 'pooja-frontend',
-        avatar: avatars[8],
-        score: 70,
-        prMerged: 2,
-      },
-      {
-        rank: 10,
-        name: 'Dev',
-        username: 'dev-backend',
-        avatar: avatars[9],
-        score: 65,
-        prMerged: 2,
-      },
-    ],
+    startDate: '2025-12-26',
+    endDate: '2026-01-02',
+    leaderboard : [...compileWeekData(week01Leaderboards)]
   },
 
   {
     week: 2,
     startDate: '2024-01-08',
     endDate: '2024-01-14',
-    leaderboard: [
-      {
-        rank: 1,
-        name: 'Aman',
-        username: 'aman-opencode',
-        avatar: avatars[1],
-        score: 200,
-        prMerged: 8,
-      },
-      {
-        rank: 2,
-        name: 'Shubham',
-        username: 'shubham-dev',
-        avatar: avatars[0],
-        score: 190,
-        prMerged: 8,
-      },
-      {
-        rank: 3,
-        name: 'Riya',
-        username: 'riya-codes',
-        avatar: avatars[2],
-        score: 170,
-        prMerged: 7,
-      },
-      {
-        rank: 4,
-        name: 'Kunal',
-        username: 'kunal-js',
-        avatar: avatars[3],
-        score: 165,
-        prMerged: 6,
-      },
-      {
-        rank: 5,
-        name: 'Neha',
-        username: 'neha-react',
-        avatar: avatars[4],
-        score: 155,
-        prMerged: 6,
-      },
-      {
-        rank: 6,
-        name: 'Arjun',
-        username: 'arjun-node',
-        avatar: avatars[5],
-        score: 150,
-        prMerged: 6,
-      },
-      {
-        rank: 7,
-        name: 'Simran',
-        username: 'simran-ui',
-        avatar: avatars[6],
-        score: 145,
-        prMerged: 5,
-      },
-      {
-        rank: 8,
-        name: 'Rohit',
-        username: 'rohit-dev',
-        avatar: avatars[7],
-        score: 140,
-        prMerged: 5,
-      },
-      {
-        rank: 9,
-        name: 'Pooja',
-        username: 'pooja-frontend',
-        avatar: avatars[8],
-        score: 135,
-        prMerged: 5,
-      },
-      {
-        rank: 10,
-        name: 'Dev',
-        username: 'dev-backend',
-        avatar: avatars[9],
-        score: 130,
-        prMerged: 5,
-      },
-    ],
+    leaderboard: [...compileWeekData(week02Leaderboards)]
   },
 
   {
     week: 3,
     startDate: '2024-01-15',
     endDate: '2024-01-21',
-    leaderboard: [
-      {
-        rank: 1,
-        name: 'Riya',
-        username: 'riya-codes',
-        avatar: avatars[2],
-        score: 260,
-        prMerged: 10,
-      },
-      {
-        rank: 2,
-        name: 'Aman',
-        username: 'aman-opencode',
-        avatar: avatars[1],
-        score: 255,
-        prMerged: 9,
-      },
-      {
-        rank: 3,
-        name: 'Shubham',
-        username: 'shubham-dev',
-        avatar: avatars[0],
-        score: 250,
-        prMerged: 9,
-      },
-      {
-        rank: 4,
-        name: 'Neha',
-        username: 'neha-react',
-        avatar: avatars[4],
-        score: 235,
-        prMerged: 8,
-      },
-      {
-        rank: 5,
-        name: 'Kunal',
-        username: 'kunal-js',
-        avatar: avatars[3],
-        score: 230,
-        prMerged: 8,
-      },
-      {
-        rank: 6,
-        name: 'Arjun',
-        username: 'arjun-node',
-        avatar: avatars[5],
-        score: 225,
-        prMerged: 8,
-      },
-      {
-        rank: 7,
-        name: 'Simran',
-        username: 'simran-ui',
-        avatar: avatars[6],
-        score: 220,
-        prMerged: 7,
-      },
-      {
-        rank: 8,
-        name: 'Rohit',
-        username: 'rohit-dev',
-        avatar: avatars[7],
-        score: 215,
-        prMerged: 7,
-      },
-      {
-        rank: 9,
-        name: 'Pooja',
-        username: 'pooja-frontend',
-        avatar: avatars[8],
-        score: 210,
-        prMerged: 7,
-      },
-      {
-        rank: 10,
-        name: 'Dev',
-        username: 'dev-backend',
-        avatar: avatars[9],
-        score: 205,
-        prMerged: 7,
-      },
-    ],
+    leaderboard: compileWeekData(week03Leaderboards)
   },
 
   {
     week: 4,
     startDate: '2024-01-22',
     endDate: '2024-01-28',
-    leaderboard: [
-      {
-        rank: 1,
-        name: 'Shubham',
-        username: 'shubham-dev',
-        avatar: avatars[0],
-        score: 320,
-        prMerged: 12,
-      },
-      {
-        rank: 2,
-        name: 'Aman',
-        username: 'aman-opencode',
-        avatar: avatars[1],
-        score: 315,
-        prMerged: 12,
-      },
-      {
-        rank: 3,
-        name: 'Riya',
-        username: 'riya-codes',
-        avatar: avatars[2],
-        score: 310,
-        prMerged: 11,
-      },
-      {
-        rank: 4,
-        name: 'Neha',
-        username: 'neha-react',
-        avatar: avatars[4],
-        score: 295,
-        prMerged: 10,
-      },
-      {
-        rank: 5,
-        name: 'Kunal',
-        username: 'kunal-js',
-        avatar: avatars[3],
-        score: 290,
-        prMerged: 10,
-      },
-      {
-        rank: 6,
-        name: 'Arjun',
-        username: 'arjun-node',
-        avatar: avatars[5],
-        score: 285,
-        prMerged: 10,
-      },
-      {
-        rank: 7,
-        name: 'Simran',
-        username: 'simran-ui',
-        avatar: avatars[6],
-        score: 280,
-        prMerged: 9,
-      },
-      {
-        rank: 8,
-        name: 'Rohit',
-        username: 'rohit-dev',
-        avatar: avatars[7],
-        score: 275,
-        prMerged: 9,
-      },
-      {
-        rank: 9,
-        name: 'Pooja',
-        username: 'pooja-frontend',
-        avatar: avatars[8],
-        score: 270,
-        prMerged: 9,
-      },
-      {
-        rank: 10,
-        name: 'Dev',
-        username: 'dev-backend',
-        avatar: avatars[9],
-        score: 265,
-        prMerged: 9,
-      },
-    ],
+    leaderboard: compileWeekData(week04Leaderboards)
   },
 
   {
-    week: 5,
-    startDate: '2024-01-29',
-    endDate: '2024-02-04',
-    leaderboard: [
-      {
-        rank: 1,
-        name: 'Aman',
-        username: 'aman-opencode',
-        avatar: avatars[1],
-        score: 400,
-        prMerged: 15,
-      },
-      {
-        rank: 2,
-        name: 'Shubham',
-        username: 'shubham-dev',
-        avatar: avatars[0],
-        score: 395,
-        prMerged: 15,
-      },
-      {
-        rank: 3,
-        name: 'Riya',
-        username: 'riya-codes',
-        avatar: avatars[2],
-        score: 390,
-        prMerged: 14,
-      },
-      {
-        rank: 4,
-        name: 'Neha',
-        username: 'neha-react',
-        avatar: avatars[4],
-        score: 375,
-        prMerged: 13,
-      },
-      {
-        rank: 5,
-        name: 'Kunal',
-        username: 'kunal-js',
-        avatar: avatars[3],
-        score: 370,
-        prMerged: 13,
-      },
-      {
-        rank: 6,
-        name: 'Arjun',
-        username: 'arjun-node',
-        avatar: avatars[5],
-        score: 365,
-        prMerged: 13,
-      },
-      {
-        rank: 7,
-        name: 'Simran',
-        username: 'simran-ui',
-        avatar: avatars[6],
-        score: 360,
-        prMerged: 12,
-      },
-      {
-        rank: 8,
-        name: 'Rohit',
-        username: 'rohit-dev',
-        avatar: avatars[7],
-        score: 355,
-        prMerged: 12,
-      },
-      {
-        rank: 9,
-        name: 'Pooja',
-        username: 'pooja-frontend',
-        avatar: avatars[8],
-        score: 350,
-        prMerged: 12,
-      },
-      {
-        rank: 10,
-        name: 'Dev',
-        username: 'dev-backend',
-        avatar: avatars[9],
-        score: 345,
-        prMerged: 12,
-      },
-    ],
+    week: 4,
+    startDate: '2024-01-22',
+    endDate: '2024-01-28',
+    leaderboard: compileWeekData(week05Leaderboards)
   },
 ];
 
 export const demoEventWinners = {
-  'gh-portal-frontend': {
+  'Data Blitz': {
     1: [
       {
         name: 'Aman',
@@ -486,7 +93,7 @@ export const demoEventWinners = {
     ],
   },
 
-  'gh-portal-backend': {
+  'Code Guerra': {
     1: [
       {
         name: 'Shubham',
@@ -524,7 +131,7 @@ export const fetchWeeklyLeaderboards = async () => {
   return Promise.resolve({
     success: true,
     message: 'Weekly leaderboards fetched successfully',
-    data: demoWeeklyLeaderboards,
+    data: weeklyLeaderboards,
   });
 };
 
@@ -539,7 +146,7 @@ export const fetchEventWinners = async () => {
 
 // Fetch specific week leaderboard
 export const fetchWeekLeaderboard = async (week: number) => {
-  const weekData = demoWeeklyLeaderboards.find((item) => item.week === week);
+  const weekData = weeklyLeaderboards.find((item) => item.week === week);
 
   if (!weekData) {
     return Promise.resolve({

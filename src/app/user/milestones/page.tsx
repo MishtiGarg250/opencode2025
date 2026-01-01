@@ -41,6 +41,12 @@ interface EventData {
 export default function Milestones() {
   const [selectedTab, setSelectedTab] = useState(0);
 
+  // Show only first week for now
+
+  
+  const WEEKS_TO_SHOW = [true,true, false, false, false];
+  const SHOW_EVENTS = true;
+  
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const textColor = useColorModeValue('gray.800', 'white');
   const mutedColor = useColorModeValue('gray.600', 'gray.400');
@@ -66,8 +72,8 @@ export default function Milestones() {
   }
 
   const weeks = leaderboardData?.data || {};
+  const weeklyData = Object.values(weeks).filter((_, index) => WEEKS_TO_SHOW[index]);
   const eventWinnersRaw = eventWinnersData?.data || {};
-  const weeklyData = Object.values(weeks);
   const events: EventData[] = Object.entries(eventWinnersRaw).map(
     ([eventName, winners]) => ({
       eventName,

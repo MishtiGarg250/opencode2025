@@ -264,7 +264,7 @@ export default function LeaderboardGraph({ eventName, topN = 10, startDate, endD
 }) {
   const defaultStartDate = process.env.NEXT_PUBLIC_EVENT_START_DATE || '2025-12-15';
   const effectiveStartDate = startDate || defaultStartDate;
-  const effectiveEndDate = endDate || addDays(effectiveStartDate, 29); // 30 days inclusive
+  const effectiveEndDate = endDate || addDays(effectiveStartDate, 34); // 30 days inclusive
 
   const [mode, setMode] = useState<'daily' | 'tenMin'>('daily');
   const [selectedDay, setSelectedDay] = useState(new Date().toISOString().slice(0, 10));
