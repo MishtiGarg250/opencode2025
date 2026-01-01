@@ -54,8 +54,8 @@ const swiperStyles = `
   .swiper-slide-next {
     transform: scale(0.9) translateY(10px) !important;
     z-index: 10;
-    opacity: 0.4;
-    filter: brightness(0.6) grayscale(20%);
+    opacity: 0.8;
+    filter: none;
   }
 
   /* HIDE DISABLED BUTTONS (Start/End of list) */
@@ -78,7 +78,7 @@ export function AutoCarousel({ children }: AutoCarouselProps) {
   if (children.length === 1) {
     return (
       <Box display="flex" justifyContent="center" py="40px">
-        <Box maxW="400px" w="100%">
+        <Box maxW={{ base: '92vw', md: '520px', xl: '640px' }} w="100%">
           {children[0]}
         </Box>
       </Box>

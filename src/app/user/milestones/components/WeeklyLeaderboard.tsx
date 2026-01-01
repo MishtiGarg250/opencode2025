@@ -41,6 +41,7 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
   const podiumContainerBg = useColorModeValue('white', 'gray.900');
 
   const sortedWeeks = [...weeks].sort((a, b) => b.week - a.week);
+  const isSingleWeek = sortedWeeks.length === 1;
 
   // COMPACT PODIUM SIZES
   const getPodiumStyles = (rank: number) => {
@@ -93,15 +94,22 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
             overflow="hidden"
             border="1px solid"
             borderColor={useColorModeValue('gray.100', 'gray.700')}
-            h="540px" // Slightly taller total card to fit more list items
+            h={isSingleWeek ? { base: '600px', md: '620px' } : '540px'}
             display="flex"
             flexDirection="column"
+            w="100%"
+            maxW={
+              isSingleWeek
+                ? { base: '92vw', md: '520px', xl: '620px' }
+                : '100%'
+            }
+            mx={isSingleWeek ? 'auto' : '0'}
           >
             {/* Header */}
             <Flex
               bgGradient="linear(to-r, #4c51bf, #667eea)"
-              py="12px"
-              px="20px" // Reduced vertical padding
+              py={isSingleWeek ? '16px' : '12px'}
+              px={isSingleWeek ? '24px' : '20px'} // Reduced vertical padding
               justify="space-between"
               align="center"
               color="white"
@@ -125,12 +133,12 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
             {/* Podium Section - COMPACT VERSION */}
             <Box
               bg={podiumContainerBg}
-              pt="25px"
-              pb="15px"
-              px="10px"
+              pt={isSingleWeek ? '30px' : '25px'}
+              pb={isSingleWeek ? '20px' : '15px'}
+              px={isSingleWeek ? '16px' : '10px'}
               flexShrink={0}
             >
-              <Flex justify="center" align="flex-end" gap="8px">
+              <Flex justify="center" align="flex-end" gap={isSingleWeek ? '12px' : '8px'}>
                 {podiumDisplay.map((user) => {
                   const style = getPodiumStyles(user.rank);
                   const isFirst = user.rank === 1;
@@ -213,7 +221,15 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
                         <Text
                           color="white"
                           fontWeight="800"
-                          fontSize={isFirst ? '14px' : '12px'}
+                          fontSize={
+                            isSingleWeek
+                              ? isFirst
+                                ? '16px'
+                                : '14px'
+                              : isFirst
+                                ? '14px'
+                                : '12px'
+                          }
                           textAlign="center"
                           lineHeight="1.1"
                           px={1}
@@ -224,7 +240,8 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
                         <Text
                           color="whiteAlpha.900"
                           fontWeight="700"
-                          fontSize="11px"
+                          fontSize={isSingleWeek ? '12px' : '11px'}
+                          mt="4px"
                         >
                           {user.score}
                         </Text>
@@ -250,12 +267,12 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
                 },
               }}
             >
-              <VStack spacing="6px">
-                {rest.map((user) => (
+              <VStack spacing={isSingleWeek ? '10px' : '6px'}>
+                {rest.map((user, index) => (
                   <Flex
-                    key={`${user.userId}-${user.rank}`}
+                    key={`${user.userId || user.username || user.name}-${user.rank}-${user.score}-${index}`}
                     w="full"
-                    p="8px" // Reduced padding for list items
+                    p={isSingleWeek ? '12px' : '8px'} // Reduced padding for list items
                     borderRadius="10px"
                     bg={useColorModeValue('gray.50', 'whiteAlpha.100')}
                     align="center"

@@ -17,7 +17,7 @@ import {
   fetchEventWinners,
   fetchWeeklyLeaderboards,
 } from 'api/milestones/milestones';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FaTrophy } from 'react-icons/fa';
 import { MdEmojiEvents, MdLeaderboard } from 'react-icons/md';
 import { RingLoader } from 'react-spinners';
@@ -41,15 +41,14 @@ interface EventData {
 export default function Milestones() {
   const [selectedTab, setSelectedTab] = useState(0);
 
-  // Show only first week for now
-
-  
-  const WEEKS_TO_SHOW = [true,true, false, false, false];
+  // Toggle visibility of weeks/events from here
+  const WEEKS_TO_SHOW = [true, false, false, false, false];
   const SHOW_EVENTS = true;
   
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const textColor = useColorModeValue('gray.800', 'white');
   const mutedColor = useColorModeValue('gray.600', 'gray.400');
+  const tabListBg = useColorModeValue('white', 'gray.800');
 
   const { data: leaderboardData, isLoading: leaderboardLoading } = useQuery({
     queryKey: ['weeklyLeaderboards'],
@@ -72,14 +71,81 @@ export default function Milestones() {
   }
 
   const weeks = leaderboardData?.data || {};
-  const weeklyData = Object.values(weeks).filter((_, index) => WEEKS_TO_SHOW[index]);
-  const eventWinnersRaw = eventWinnersData?.data || {};
-  const events: EventData[] = Object.entries(eventWinnersRaw).map(
-    ([eventName, winners]) => ({
-      eventName,
-      winners: winners as Record<number, EventWinner[]>,
-    }),
+  const weeklyData = Object.values(weeks).filter(
+    (_, index) => WEEKS_TO_SHOW[index],
   );
+  const eventWinnersRaw = eventWinnersData?.data || {};
+  const events: EventData[] = SHOW_EVENTS
+    ? Object.entries(eventWinnersRaw).map(([eventName, winners]) => ({
+        eventName,
+        winners: winners as Record<number, EventWinner[]>,
+      }))
+    : [];
+
+  const tabs: {
+    key: string;
+    label: React.ReactElement;
+    panel: React.ReactElement;
+    visible: boolean;
+  }[] = [
+    {
+      key: 'weekly',
+      label: (
+        <Tab fontWeight="700" borderRadius="full" px={6}>
+          <Icon as={MdLeaderboard} mr="8px" /> Weekly Leaders
+        </Tab>
+      ),
+      panel: (
+        <TabPanel p="0">
+          {weeklyData.length > 0 ? (
+            <Box
+              w="100%"
+              h="600px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <WeeklyLeaderboardCard
+                weeks={weeklyData.map((weekData: any) => ({
+                  week: weekData.week,
+                  data: weekData.leaderboard.map((user: any) => ({
+                    ...user,
+                    userId:
+                      user.userId || user.id || `${weekData.week}-${user.rank}`,
+                  })),
+                }))}
+              />
+            </Box>
+          ) : (
+            <Text textAlign="center">No data available.</Text>
+          )}
+        </TabPanel>
+      ),
+      visible: weeklyData.length > 0,
+    },
+    {
+      key: 'events',
+      label: (
+        <Tab fontWeight="700" borderRadius="full" px={6}>
+          <Icon as={MdEmojiEvents} mr="8px" /> Event Winners
+        </Tab>
+      ),
+      panel: (
+        <TabPanel p="0">
+          {events.length > 0 ? (
+            <Box w="100%" h="550px" display="flex" alignItems="center">
+              <EventWinnersCard events={events} />
+            </Box>
+          ) : (
+            <Text textAlign="center">No data available.</Text>
+          )}
+        </TabPanel>
+      ),
+      visible: SHOW_EVENTS,
+    },
+  ].filter((tab) => tab.visible);
+
+  const safeTabIndex = Math.min(selectedTab, Math.max(tabs.length - 1, 0));
 
   return (
     <Box
@@ -115,7 +181,7 @@ export default function Milestones() {
         </Box>
         {/* Tabs */}
         <Tabs
-          index={selectedTab}
+          index={safeTabIndex}
           onChange={setSelectedTab}
           variant="soft-rounded"
           colorScheme="purple"
@@ -124,52 +190,21 @@ export default function Milestones() {
         >
           <TabList
             mb="50px"
-            bg={useColorModeValue('white', 'gray.800')}
+            bg={tabListBg}
             p="1"
             borderRadius="full"
             shadow="sm"
             display="inline-flex"
           >
-            <Tab fontWeight="700" borderRadius="full" px={6}>
-              <Icon as={MdLeaderboard} mr="8px" /> Weekly Leaders
-            </Tab>
-            <Tab fontWeight="700" borderRadius="full" px={6}>
-              <Icon as={MdEmojiEvents} mr="8px" /> Event Winners
-            </Tab>
+            {tabs.map((tab) =>
+              React.cloneElement(tab.label, { key: tab.key }),
+            )}
           </TabList>
 
           <TabPanels>
-            <TabPanel p="0">
-              {weeklyData.length > 0 ? (
-                // Wrapper Box to contain the carousel but allow visuals to spill over
-                <Box w="100%" h="600px" display="flex" alignItems="center">
-                  <WeeklyLeaderboardCard
-                    weeks={weeklyData.map((weekData: any) => ({
-                      week: weekData.week,
-                      data: weekData.leaderboard.map((user: any) => ({
-                        ...user,
-                        userId:
-                          user.userId ||
-                          user.id ||
-                          `${weekData.week}-${user.rank}`,
-                      })),
-                    }))}
-                  />
-                </Box>
-              ) : (
-                <Text textAlign="center">No data available.</Text>
-              )}
-            </TabPanel>
-
-            <TabPanel p="0">
-              {events.length > 0 ? (
-                <Box w="100%" h="550px" display="flex" alignItems="center">
-                  <EventWinnersCard events={events} />
-                </Box>
-              ) : (
-                <Text textAlign="center">No data available.</Text>
-              )}
-            </TabPanel>
+            {tabs.map((tab) =>
+              React.cloneElement(tab.panel, { key: tab.key }),
+            )}
           </TabPanels>
         </Tabs>
       </Box>

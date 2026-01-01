@@ -49,6 +49,11 @@ export type RowObj = {
  
 const columnHelper = createColumnHelper<RowObj>();
 
+const trophyColors: Record<number, string> = {
+  1: "#FFB547",
+  2: "#A0AEC0",
+  3: "#ED8936",
+};
 
 
 function MobileLeaderboard({
@@ -58,12 +63,15 @@ function MobileLeaderboard({
 }) {
   if(!table) return null;
   const rows = table.getPaginationRowModel().rows;
+  const rowBorder = useColorModeValue("purple.100", "whiteAlpha.200");
 
   return (
     <Flex direction="column" gap="16px">
       {/* LIST */}
       {rows.map((row: any) => {
         const user = row.original as RowObj;
+        const rank = Number(user.position);
+        const trophyColor = trophyColors[rank as 1 | 2 | 3];
 
         return (
           <Flex
@@ -73,11 +81,18 @@ function MobileLeaderboard({
             p="14px"
             borderRadius="18px"
             bg="rgba(255,255,255,0.08)"
+            border="1px solid"
+            borderColor={rowBorder}
             backdropFilter="blur(14px)"
           >
             <Link href={`/user/profile/${user.githubid}`}>
               <Flex align="center" gap="12px">
-                <Text fontWeight="800">{user.position}</Text>
+                <Flex align="center" gap="6px">
+                  <Text fontWeight="800">{user.position}</Text>
+                  {rank <= 3 && (
+                    <FaTrophy color={trophyColor} size={12} />
+                  )}
+                </Flex>
 
                 <NextAvatar
                   src={user.avatarUrl}
@@ -167,6 +182,7 @@ export default function ColumnTable({
     "rgba(117,81,255,0.15)"
   );
   const prsBorder = useColorModeValue("purple.300", "purple.400");
+  const rowBorder = useColorModeValue("purple.100", "whiteAlpha.200");
 
 
 
@@ -178,12 +194,14 @@ export default function ColumnTable({
         const value = info.getValue();
         const pos = typeof value === "string" ? parseInt(value, 10) : value;
         const display = Number.isNaN(Number(pos)) ? value : pos;
+        const trophyColor = trophyColors[pos as 1 | 2 | 3];
         return (
           <Flex justify="center">
             {typeof pos === "number" && pos <= 3 ? (
-              <Box bg="#FFB547" p="8px" borderRadius="full">
-                <FaTrophy size={14} />
-              </Box>
+              <Flex align="center" gap="6px">
+                <FaTrophy color={trophyColor} size={14} />
+                <Text fontWeight="800">{display}</Text>
+              </Flex>
             ) : (
               <Text fontWeight="700">{display}</Text>
             )}
@@ -374,6 +392,8 @@ export default function ColumnTable({
                       key={row.id}
                       data-row-id={row.id}
                       _hover={{ bg: rowHover }}
+                      borderBottom="1px solid"
+                      borderColor={rowBorder}
                     >
                       {row.getVisibleCells().map((cell) => (
                         <Td key={cell.id}>
