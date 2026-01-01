@@ -32,7 +32,7 @@ export default function Banner(props: {
 
   const textPrimary = useColorModeValue('gray.800', 'white');
   const textSecondary = useColorModeValue('gray.500', 'gray.400');
-  const avatarBorder = useColorModeValue('white', 'navy.700');
+  const avatarBorder = useColorModeValue('white', 'gray.700');
   const hintColor = useColorModeValue('gray.500', 'gray.400');
 
   return (
@@ -41,6 +41,7 @@ export default function Banner(props: {
       alignItems="center"
       textAlign="center"
       {...rest}
+      bg="transparent"
     >
       {/* Avatar */}
       <NextAvatar

@@ -10,7 +10,7 @@ export default function Projects(props: { PRs: PullRequest[] }) {
   const textColorSecondary = 'gray.400';
 
   return (
-    <Card mb={{ base: '0px', '2xl': '20px' }} >
+    <Card mb={{ base: '0px', '2xl': '20px' }} bg="transparent" >
       <Text
         color={textColorPrimary}
         fontWeight="bold"

@@ -36,10 +36,11 @@ export default function GeneralInformation(props: {
     value?: string;
   }) => (
     <Box
-      bg={itemBg}
+      bg="transparent"
       borderRadius="12px"
       px="14px"
       py="12px"
+
     >
       <Text
         fontSize="11px"
@@ -63,13 +64,14 @@ export default function GeneralInformation(props: {
   );
 
   return (
-    <Card p="20px" {...rest}>
+    <Card p="20px" {...rest} bg="transparent">
       {/* Header */}
       <Text
         fontSize="lg"
         fontWeight="800"
         color={titleColor}
         mb="16px"
+      
       >
         General Information
       </Text>

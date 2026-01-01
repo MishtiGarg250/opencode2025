@@ -33,8 +33,8 @@ export default function ProfileOverviewOther() {
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
-  const pageBg = useColorModeValue('gray.50', '#0b1437');
-  const cardBg = useColorModeValue('white', 'navy.800');
+  const pageBg = useColorModeValue('gray.50', 'gray.900');
+  const cardBg = useColorModeValue('white', 'gray.800');
   const muted = useColorModeValue('gray.500', 'gray.400');
 
   const shadowHero = useColorModeValue(
@@ -176,20 +176,24 @@ function StatPill({ label, value }: { label: string; value: number }) {
       px="16px"
       py="10px"
       borderRadius="16px"
-      bg="purple.500"
+    
       color="white"
       minW="110px"
       textAlign="center"
+      border="1px solid"
+      borderColor="purple.300"
+    
     >
-      <Text fontSize="18px" fontWeight="800">
+      <Text fontSize="18px" fontWeight="800" lineHeight="1">
         {value}
       </Text>
-      <Text fontSize="11px" opacity={0.85}>
+      <Text fontSize="11px" opacity={0.85} mt="2px">
         {label}
       </Text>
     </Box>
   );
 }
+
 
 function Info({ label, value }: { label: string; value?: string }) {
   return (

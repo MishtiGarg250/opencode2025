@@ -28,7 +28,8 @@ export default function Project({ pr }: {
   );
 
   return (
-    <Card bg={bg} mb="20px" p="14px" boxShadow={cardShadow}>
+    <Card bg="gray.900" mb="20px" p="14px" boxShadow={cardShadow} border="1px solid"
+      borderColor="navy.800">
       <Flex align="center" direction={{ base: 'column', md: 'row' }}>
         <Icon as={FaGithub} color="secondaryGray.500" h="30px" w="30px" mr="10px"/>
         <Box mt={{ base: '10px', md: '0' }}>
