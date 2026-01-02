@@ -85,6 +85,7 @@ export default function AdminNavbar(props: AdminNavbarProps) {
       right="0"
       px={{ base: '16px', md: '40px' }}
       pt={{ base: '14px', md: '22px' }}
+      pb={{base:"16px", md:"20px"}}
       zIndex="20"
       bgGradient={navbarBg}
     >

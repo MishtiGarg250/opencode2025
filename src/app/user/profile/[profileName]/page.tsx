@@ -59,7 +59,7 @@ export default function ProfileOverviewOther() {
     <Box
       minH="100vh"
       bg={pageBg}
-      pt={{ base: '92px', md: '100px' }}
+      pt={{ base: '76px', md: '100px' }}
       px={{ base: '14px', md: '28px' }}
       pb="40px"
       maxW="1400px"
@@ -180,7 +180,6 @@ function StatPill({ label, value }: { label: string; value: number }) {
       px="16px"
       py="10px"
       borderRadius="16px"
-    
       color="white"
       minW="110px"
       textAlign="center"

@@ -46,7 +46,7 @@ export default function Milestones() {
   const [selectedTab, setSelectedTab] = useState(0);
 
   
-  const WEEKS_TO_SHOW = [true, false, false, false, false];
+  const WEEKS_TO_SHOW = [true, true, false, false, false];
   const SHOW_EVENTS = false;
 
   const bgColor = useColorModeValue('gray.50', 'gray.900');
@@ -95,9 +95,10 @@ export default function Milestones() {
         </Tab>
       ),
       panel: (
-        <TabPanel p="0">
+        <TabPanel p="0" >
+          
           {weeklyData.length ? (
-            <Box bg={cardBg} borderRadius="24px" p="20px" boxShadow="xl">
+            <Box bg={cardBg} borderRadius="24px" p="20px" boxShadow="xl" >
               <WeeklyLeaderboardCard
                 weeks={weeklyData.map((weekData: any) => ({
                   week: weekData.week,

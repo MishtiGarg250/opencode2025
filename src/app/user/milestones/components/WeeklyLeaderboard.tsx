@@ -45,28 +45,24 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
   const isSingleWeek = sortedWeeks.length === 1;
 
   const podiumStyle = (rank: number) => {
-    if (rank === 1)
-      return { bg: '#EAC94B', h: '110px', shadow: 'lg', elevate: true };
-    if (rank === 2)
-      return { bg: '#A0AEC0', h: '82px', shadow: 'md' };
-    if (rank === 3)
-      return { bg: '#ED8936', h: '68px', shadow: 'md' };
+    if (rank === 1) return { bg: '#EAC94B', h: '110px' };
+    if (rank === 2) return { bg: '#A0AEC0', h: '82px' };
+    if (rank === 3) return { bg: '#ED8936', h: '68px' };
     return { bg: 'purple.500', h: '60px' };
   };
 
   return (
     <AutoCarousel>
       {sortedWeeks.map((week) => {
-        if (!week?.data) return null;
+        if (!week?.data?.length) return null;
 
-        const [first, second, third] = [
-          week.data.find((u) => u.rank === 1),
-          week.data.find((u) => u.rank === 2),
-          week.data.find((u) => u.rank === 3),
-        ];
+        const podiumGroups: Record<number, LeaderboardUser[]> = {
+          1: week.data.filter((u) => u.rank === 1),
+          2: week.data.filter((u) => u.rank === 2),
+          3: week.data.filter((u) => u.rank === 3),
+        };
 
-        const podium = [second, first, third].filter(Boolean) as LeaderboardUser[];
-        const rest = week.data.slice(3);
+        const rest = week.data.filter((u) => u.rank > 3);
 
         return (
           <Box
@@ -93,12 +89,7 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
               color="white"
             >
               <Box>
-                <Text
-                  fontSize="10px"
-                  letterSpacing="0.14em"
-                  opacity={0.85}
-                  fontWeight="700"
-                >
+                <Text fontSize="10px" letterSpacing="0.14em" opacity={0.85} fontWeight="700">
                   WEEKLY LEADERBOARD
                 </Text>
                 <Text fontSize="20px" fontWeight="900">
@@ -108,52 +99,49 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
               <Icon as={FaTrophy} color="yellow.400" />
             </Flex>
 
-            {/* Podium */}
+          
             <Box bg={podiumBg} px="16px" pt="28px" pb="20px">
               <Flex justify="center" align="flex-end" gap="12px">
-                {podium.map((user) => {
-                  const style = podiumStyle(user.rank);
-                  const isFirst = user.rank === 1;
+                {[2, 1, 3].map((rank) => {
+                  const users = podiumGroups[rank];
+                  if (!users.length) return null;
+
+                  const style = podiumStyle(rank);
+                  const isFirst = rank === 1;
 
                   return (
-                    <VStack
-                      key={user.rank}
-                      spacing={0}
-                      w="32%"
-                      cursor="pointer"
-                      zIndex={isFirst ? 2 : 1}
-                      onClick={() =>
-                        router.push(`/user/profile/${user.userId}`)
-                      }
-                    >
-                      {/* Avatar */}
+                    <VStack key={`${week.week}-rank-${rank}`} spacing={1} w="32%" zIndex={isFirst ? 2 : 1}>
+                      {/* Avatars */}
                       <Box position="relative" mb="-10px">
+                        <Flex justify="center">
+                          {users.slice(0, 3).map((user, i) => (
+                            <Avatar
+                              key={user.username}
+                              src={user.avatar}
+                              size={isFirst ? 'md' : 'md'}
+                              ml={i === 0 ? 0 : -3}
+                              border="3px solid white"
+                              zIndex={0}
+                              cursor="pointer"
+                              onClick={() =>
+                                router.push(`/user/profile/${user.userId}`)
+                              }
+                            />
+                          ))}
+                        </Flex>
+
                         {isFirst && (
                           <MotionBox
                             animate={{ y: [-2, 2, -2] }}
                             transition={{ repeat: Infinity, duration: 1.6 }}
                             position="absolute"
                             top="-22px"
-                            left="50%"
+                            left="39%"
                             transform="translateX(-50%)"
                           >
-                            <Icon
-                              as={FaCrown}
-                              color="yellow.400"
-                              w={4}
-                              h={4}
-                              filter="drop-shadow(0 2px 2px rgba(0,0,0,0.25))"
-                            />
+                            <Icon as={FaCrown} color="yellow.400" w={4} h={4} />
                           </MotionBox>
                         )}
-
-                        <Avatar
-                          src={user.avatar}
-                          size={isFirst ? 'lg' : 'md'}
-                          border="3px solid white"
-                          boxShadow="md"
-                          zIndex={1}
-                        />
 
                         <Badge
                           position="absolute"
@@ -165,9 +153,9 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
                           bg="white"
                           color="gray.700"
                           px={2}
-                          zIndex={2}
+                          zIndex={1}
                         >
-                          #{user.rank}
+                          #{rank}
                         </Badge>
                       </Box>
 
@@ -180,29 +168,25 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
                         align="center"
                         justify="center"
                         direction="column"
-                        boxShadow={style.shadow}
                         pt="14px"
-                        _hover={{ transform: 'translateY(-2px)' }}
-                        transition="all 0.2s"
+                        boxShadow="md"
                       >
-                        <Text
-                          color="white"
-                          fontWeight="900"
-                          fontSize={isFirst ? '16px' : '14px'}
-                          noOfLines={1}
-                          textAlign="center"
-                          px={1}
-                        >
-                          {user.name.split(' ')[0]}
-                        </Text>
-                        <Text
-                          color="whiteAlpha.900"
-                          fontSize="12px"
-                          fontWeight="700"
-                          mt="4px"
-                        >
-                          {user.score}
-                        </Text>
+                        {users.map((user) => (
+                          <Text
+                            key={user.username}
+                            color="white"
+                            fontWeight="800"
+                            fontSize="13px"
+                            noOfLines={1}
+                          >
+                            {user.name.split(' ')[0]}
+                          </Text>
+                        ))}
+                        {users.length > 3 && (
+                          <Text fontSize="11px" color="whiteAlpha.800">
+                            +{users.length - 3} more
+                          </Text>
+                        )}
                       </Flex>
                     </VStack>
                   );
@@ -210,51 +194,40 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
               </Flex>
             </Box>
 
-            {/* List */}
+            {/* Rest List */}
             <Box
-              flex="1"
-              overflowY="auto"
-              px="14px"
-              py="12px"
-              css={{
-                '&::-webkit-scrollbar': { width: '4px' },
-                '&::-webkit-scrollbar-thumb': {
-                  background: '#CBD5E0',
-                  borderRadius: '4px',
-                },
-              }}
-            >
+  flex="1"
+  overflowY="auto"
+  px="14px"
+  py="12px"
+  sx={{
+  scrollbarWidth: 'none',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+}}
+
+>
+
               <VStack spacing="8px">
-                {rest.map((user, i) => (
+                {rest.map((user) => (
                   <Flex
-                    key={`${user.userId}-${user.rank}-${i}`}
+                    key={user.username}
                     w="full"
                     align="center"
                     p="10px"
                     borderRadius="12px"
                     bg={useColorModeValue('gray.50', 'whiteAlpha.100')}
-                    _hover={{ bg: 'purple.500' }}
+                    _hover={{ bg: 'purple.500', color: 'white' }}
                   >
-                    <Text
-                      w="26px"
-                      fontWeight="800"
-                      fontSize="12px"
-                      color={muted}
-                        _hover={{ bg: 'purple.50' }}
-                    >
+                    <Text w="26px" fontWeight="800" fontSize="12px" color={muted}>
                       #{user.rank}
                     </Text>
                     <Avatar src={user.avatar} size="xs" mr="10px" />
-                    <Text
-                      flex="1"
-                      fontWeight="700"
-                      fontSize="13px"
-                      noOfLines={1}
-                      
-                    >
+                    <Text flex="1" fontWeight="700" fontSize="13px" noOfLines={1}>
                       {user.name}
                     </Text>
-                    <Text fontWeight="800" fontSize="13px" color="purple.600">
+                    <Text fontWeight="800" fontSize="13px">
                       {user.score}
                     </Text>
                   </Flex>
@@ -267,3 +240,4 @@ export function WeeklyLeaderboardCard({ weeks }: WeeklyLeaderboardCardProps) {
     </AutoCarousel>
   );
 }
+

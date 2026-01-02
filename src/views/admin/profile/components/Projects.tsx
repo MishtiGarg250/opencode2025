@@ -14,13 +14,14 @@ import { FaInbox } from 'react-icons/fa';
 export default function Projects(props: { PRs: PullRequest[] }) {
   const textPrimary = useColorModeValue('gray.800', 'white');
   const textSecondary = useColorModeValue('gray.500', 'gray.400');
-  const mutedBg = useColorModeValue('gray.50', 'navy.800');
+  const mutedBg = useColorModeValue('gray.50', 'gray.800');
 
   return (
     <Card
       mb={{ base: '0px', '2xl': '20px' }}
       p="20px"
       borderRadius="20px"
+      bg="gray.800"
     >
       <Box mb="28px">
         <Text
