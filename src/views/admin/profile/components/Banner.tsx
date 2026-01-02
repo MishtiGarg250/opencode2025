@@ -62,18 +62,18 @@ export default function Banner(props: {
         mb="18px"
       />
 
-      {/* Avatar */}
-      <NextAvatar
-        src={avatar}
-        name={name}
-        h="130px"
-        w="130px"
-        mb="14px"
-        ml="185px"
-        border="4px solid"
-        borderColor={avatarBorder}
-        boxShadow={avatarShadow}
-      />
+      <Flex justify="center" mb="14px">
+  <NextAvatar
+    src={avatar}
+    name={name}
+    h="130px"
+    w="130px"
+    border="4px solid"
+    borderColor={avatarBorder}
+    boxShadow={avatarShadow}
+  />
+</Flex>
+
 
       {/* Name */}
       <Text
