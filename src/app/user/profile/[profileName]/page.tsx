@@ -34,8 +34,8 @@ export default function ProfileOverviewOther() {
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
-  const pageBg = useColorModeValue('gray.50', '#0b1437');
-  const cardBg = useColorModeValue('white', 'navy.800');
+  const pageBg = useColorModeValue('gray.50', 'gray.900');
+  const cardBg = useColorModeValue('white', 'gray.800');
   const muted = useColorModeValue('gray.500', 'gray.400');
 
   const shadowHero = useColorModeValue(
@@ -59,7 +59,7 @@ export default function ProfileOverviewOther() {
     <Box
       minH="100vh"
       bg={pageBg}
-      pt={{ base: '92px', md: '100px' }}
+      pt={{ base: '62px', md: '74px' }}
       px={{ base: '14px', md: '28px' }}
       pb="40px"
       maxW="1400px"
@@ -175,35 +175,78 @@ export default function ProfileOverviewOther() {
 }
 
 function StatPill({ label, value }: { label: string; value: number }) {
+  const bg = useColorModeValue('gray.50', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const valueColor = useColorModeValue('purple.600', 'white');
+  const labelColor = useColorModeValue('gray.600', 'gray.400');
+
   return (
     <Box
       px="16px"
       py="10px"
       borderRadius="16px"
-      bg="purple.500"
-      color="white"
       minW="110px"
       textAlign="center"
+      bg={bg}
+      border="1px solid"
+      borderColor={borderColor}
+      transition="all 0.2s ease"
+      _hover={{
+        transform: 'translateY(-1px)',
+        borderColor: 'purple.300',
+        boxShadow: '0 6px 14px rgba(0,0,0,0.08)',
+      }}
     >
-      <Text fontSize="18px" fontWeight="800">
+      <Text fontSize="18px" fontWeight="900" lineHeight="1" color={valueColor}>
         {value}
       </Text>
-      <Text fontSize="11px" opacity={0.85}>
+      <Text fontSize="11px" mt="4px" color={labelColor}>
         {label}
       </Text>
     </Box>
   );
 }
 
+
+
 function Info({ label, value }: { label: string; value?: string }) {
+  const bg = useColorModeValue('gray.50', 'transparent');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const labelColor = useColorModeValue('gray.500', 'gray.400');
+  const valueColor = useColorModeValue('gray.800', 'white');
+
   return (
-    <Box>
-      <Text fontSize="10px" color="gray.400" mb="2px">
-        {label.toUpperCase()}
+    <Box
+      borderRadius="12px"
+      p="12px"
+      bg={bg}
+      border="1px solid"
+      borderColor={borderColor}
+      transition="all 0.2s ease"
+      _hover={{
+        borderColor: 'purple.300',
+        bg: useColorModeValue('white', 'transparent'),
+      }}
+    >
+      <Text
+        fontSize="10px"
+        fontWeight="700"
+        color={labelColor}
+        mb="4px"
+        textTransform="uppercase"
+        letterSpacing="0.6px"
+      >
+        {label}
       </Text>
-      <Text fontSize="14px" fontWeight="600">
+      <Text
+        fontSize="14px"
+        fontWeight="600"
+        color={valueColor}
+        noOfLines={2}
+      >
         {value || '—'}
       </Text>
     </Box>
   );
 }
+

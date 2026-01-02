@@ -5,12 +5,11 @@ import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
 import Footer from 'components/footer/FooterAdmin';
 import Navbar from 'components/navbar/NavbarAdmin';
-import Sidebar from 'components/sidebar/Sidebar';
-// 1. Import the Mobile Menu
 import MobileMenuBar from 'components/sidebar/MobileMenuBar';
+import Sidebar from 'components/sidebar/Sidebar';
 
 import { useAuth } from 'contexts/AuthContext';
-import { MdBarChart, MdHome, MdPerson } from 'react-icons/md';
+import { MdBarChart, MdEmojiEvents, MdHome, MdPerson } from 'react-icons/md';
 import routes from 'routes';
 import { IRoute } from 'types/navigation';
 import {
@@ -55,6 +54,12 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           icon: <Icon as={MdBarChart} w="20px" h="20px" />,
         },
         {
+          name: 'Milestones',
+          layout: '/user',
+          path: '/milestones',
+          icon: <Icon as={MdEmojiEvents} w="20px" h="20px" />,
+        },
+        {
           name: 'Profile',
           layout: '/user',
           path: '/profile',
@@ -69,13 +74,10 @@ export default function AdminLayout(props: DashboardLayoutProps) {
 
   return (
     <Box minH="100vh" w="100%" bg={bg}>
-      {/* 2. PC SIDEBAR (Hidden on mobile via CSS inside component) */}
       <Sidebar routes={Droutes} {...rest} />
 
-      {/* 3. MOBILE BOTTOM MENU (Visible only on mobile) */}
       <MobileMenuBar routes={Droutes} />
 
-      {/* Main Content */}
       <Box
         float="right"
         minHeight="100vh"

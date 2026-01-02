@@ -7,6 +7,68 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
+:root {
+  /* Light theme */
+  --bg: #f7f8fb; /* light grey */
+  --text: #0b1437; /* dark navy */
+  --muted: #6b7280; /* gray */
+  --card-bg: #ffffff;
+  --card-text: #0f172a;
+  --navy-500: #1b3bbb;
+  --purple-400: #7c3aed;
+  --purple-500: #6d28d9;
+  --gray-50: #f7f8fb;
+  --gray-100: #f1f3f8;
+  --gray-200: #e6e9f2;
+  --gray-300: #dfe6f6;
+  --gray-400: #cfd8ea;
+  --gray-500: #9aa4b8;
+  --gray-600: #6b7280;
+  --gray-700: #4b5563;
+  --gray-800: #111827;
+  --gray-900: #0b1220;
+}
+
+/* Dark theme scope used in app */
+.chakra-ui-dark, .dark {
+  --bg: #07132a; /* deep navy */
+  --text: #e6eef8; /* pale text */
+  --muted: #94a3b8;
+  --card-bg: #0f172a;
+  --card-text: #e6eef8;
+  --navy-500: #172355;
+  --purple-400: #8b5cf6;
+  --purple-500: #7c3aed;
+  --gray-50: #0b1220;
+  --gray-100: #0f172a;
+  --gray-200: #111c44;
+  --gray-300: #17234a;
+  --gray-400: #243657;
+  --gray-500: #4b5563;
+  --gray-600: #6b7280;
+  --gray-700: #94a3b8;
+  --gray-800: #cbd5e1;
+  --gray-900: #e6eef8;
+}
+
+/* apply base colors */
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Make common 'white' card backgrounds follow theme */
+.bg-white { background-color: var(--card-bg) !important; }
+.text-black, .text-gray-900 { color: var(--text) !important; }
+.text-gray-600, .text-gray-700 { color: var(--muted) !important; }
+.border-gray-200 { border-color: var(--gray-200) !important; }
+.bg-gray-50 { background-color: var(--gray-50) !important; }
+.bg-gray-900 { background-color: var(--gray-900) !important; }
+
+/* Accent helper */
+.accent-purple { background-color: var(--purple-500); color: white; }
+.accent-navy { background-color: var(--navy-500); color: white; }
+
 .page-transition-overlay {
   left: 0;
   width: 100%;

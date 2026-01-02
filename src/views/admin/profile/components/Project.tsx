@@ -1,4 +1,3 @@
-// Chakra imports
 import {
   Box,
   Flex,
@@ -12,48 +11,50 @@ import { PullRequest } from 'app/user/profile/page';
 import Card from 'components/card/Card';
 import { FaGithub, FaCodeBranch } from 'react-icons/fa';
 
-export default function Project({ pr }: { pr: PullRequest; [x: string]: any }) {
+export default function Project({ pr }: { pr: PullRequest }) {
   const textPrimary = useColorModeValue('gray.800', 'white');
-  const textSecondary = useColorModeValue('gray.500', 'gray.400');
-  const bg = useColorModeValue(
-    'rgba(255,255,255,0.9)',
-    'rgba(15,23,42,0.8)',
-  );
+  const textSecondary = useColorModeValue('gray.600', 'gray.400');
+
+  const cardBg = useColorModeValue('gray.50', 'rgba(15,23,42,0.8)');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const iconBg = useColorModeValue('purple.50', 'navy.800');
+  const iconColor = useColorModeValue('purple.500', 'gray.300');
 
   const status = pr.status.toLowerCase();
-
-const statusColor =
-  status === 'merged'
-    ? 'green'
-    : status === 'open'
-    ? 'purple'
-    : status === 'rejected'
-    ? 'red'
-    : 'gray';
-
+  const statusColor =
+    status === 'merged'
+      ? 'green'
+      : status === 'open'
+      ? 'purple'
+      : status === 'rejected'
+      ? 'red'
+      : 'gray';
 
   return (
     <Card
-      bg={bg}
-      mb="16px"
+      bg={cardBg}
       p="16px"
       borderRadius="16px"
-      backdropFilter="blur(12px)"
+      border="1px solid"
+      borderColor={borderColor}
       transition="all 0.25s ease"
       _hover={{
         transform: 'translateY(-2px)',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
+        boxShadow: '0 12px 24px rgba(0,0,0,0.08)',
+        borderColor: 'purple.300',
+        bg: useColorModeValue('white', 'rgba(15,23,42,0.9)'),
       }}
-      key={pr.prNumber}
     >
       <Flex gap="14px" align="flex-start">
         {/* ICON */}
         <Box
           p="10px"
-          borderRadius="full"
-          bg={useColorModeValue('gray.100', 'navy.800')}
+          borderRadius="12px"
+          bg={iconBg}
+          border="1px solid"
+          borderColor={useColorModeValue('purple.100', 'transparent')}
         >
-          <Icon as={FaGithub} h="20px" w="20px" color="gray.500" />
+          <Icon as={FaGithub} h="20px" w="20px" color={iconColor} />
         </Box>
 
         {/* CONTENT */}
@@ -64,7 +65,7 @@ const statusColor =
             isExternal
           >
             <Text
-              fontWeight="700"
+              fontWeight="800"
               fontSize="md"
               color={textPrimary}
               _hover={{ textDecoration: 'underline' }}
@@ -82,7 +83,7 @@ const statusColor =
             fontSize="sm"
             color={textSecondary}
           >
-            <Icon as={FaCodeBranch} />
+            <Icon as={FaCodeBranch} opacity={0.7} />
 
             <Link
               href={`https://github.com/opencodeiiita/${pr.issue.repoName}/pull/${pr.prNumber}`}
@@ -106,7 +107,7 @@ const statusColor =
           </Flex>
 
           {/* STATUS */}
-          <Flex mt="8px" align="center" gap="8px">
+          <Flex mt="10px" align="center" gap="8px">
             <Text fontSize="sm" color={textSecondary}>
               Status
             </Text>

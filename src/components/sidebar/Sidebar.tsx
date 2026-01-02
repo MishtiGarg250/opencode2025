@@ -8,10 +8,6 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import Content from 'components/sidebar/components/Content';
 import { IRoute } from 'types/navigation';
 
-/* -------------------------------------------------------------------------- */
-/* DESKTOP SIDEBAR                             */
-/* -------------------------------------------------------------------------- */
-
 interface SidebarProps {
   routes: IRoute[];
 }

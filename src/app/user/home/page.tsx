@@ -14,9 +14,15 @@ import { RingLoader } from 'react-spinners';
 export default function Dashboard() {
   const router = useRouter();
 
-  const handleLeaderboardclick = (eventName: string) => {
-    router.push(`/user/leaderboard/${encodeURIComponent(eventName)}`);
-  };
+  /*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * Handles a click on the leaderboard button and redirects the user to the leaderboard page for the given event.
+   * @param {string} eventName - The name of the event to show the leaderboard for.
+   */
+  /*******  e394e68b-41d7-401d-96dd-393b660aff41  *******/ const handleLeaderboardclick =
+    (eventName: string) => {
+      router.push(`/user/leaderboard/${encodeURIComponent(eventName)}`);
+    };
 
   const auth = useAuth();
 

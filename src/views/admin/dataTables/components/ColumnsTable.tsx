@@ -51,6 +51,112 @@ export type RowObj = {
 const columnHelper = createColumnHelper<RowObj>();
 const currentGithubID = JSON.parse(localStorage.getItem('user') ?? '{}')?.githubId;
 
+const trophyColors: Record<number, string> = {
+  1: "#FFB547",
+  2: "#A0AEC0",
+  3: "#ED8936",
+};
+
+
+function MobileLeaderboard({
+  table,
+}: {
+  table: any;
+}) {
+  if(!table) return null;
+  const rows = table.getPaginationRowModel().rows;
+  const rowBorder = useColorModeValue("purple.100", "whiteAlpha.200");
+
+  return (
+    <Flex direction="column" gap="16px">
+      {/* LIST */}
+      {rows.map((row: any) => {
+        const user = row.original as RowObj;
+        const rank = Number(user.position);
+        const trophyColor = trophyColors[rank as 1 | 2 | 3];
+
+        return (
+          <Flex
+            key={user.githubid}
+            align="center"
+            justify="space-between"
+            p="14px"
+            borderRadius="18px"
+            bg="rgba(255,255,255,0.08)"
+            border="1px solid"
+            borderColor={rowBorder}
+            backdropFilter="blur(14px)"
+          >
+            <Link href={`/user/profile/${user.githubid}`}>
+              <Flex align="center" gap="12px">
+                <Flex align="center" gap="6px">
+                  <Text fontWeight="800">{user.position}</Text>
+                  {rank <= 3 && (
+                    <FaTrophy color={trophyColor} size={12} />
+                  )}
+                </Flex>
+
+                <NextAvatar
+                  src={user.avatarUrl}
+                  h="44px"
+                  w="44px"
+                />
+
+                <Box>
+                  <Text fontWeight="700">{user.name}</Text>
+                  <Text fontSize="12px" color="gray.400">
+                    @{user.githubid}
+                  </Text>
+                </Box>
+              </Flex>
+            </Link>
+
+            <Flex align="center" gap="6px">
+              <Text fontWeight="800" color="purple.400">
+                {user.points}
+              </Text>
+              <FaTrophy color="#FFB547" />
+            </Flex>
+          </Flex>
+        );
+      })}
+
+      
+      <Flex direction="column" gap="8px" mt="8px">
+        <Text fontSize="12px" color="gray.400" textAlign="center">
+          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          {table.getPageCount()}
+        </Text>
+
+        <Flex gap="10px">
+          <Button
+            flex="1"
+            size="sm"
+            onClick={() => table.previousPage()}
+            isDisabled={!table.getCanPreviousPage()}
+            borderRadius="full"
+          >
+            Prev
+          </Button>
+
+          <Button
+            flex="1"
+            size="sm"
+            onClick={() => table.nextPage()}
+            isDisabled={!table.getCanNextPage()}
+            borderRadius="full"
+          >
+            Next
+          </Button>
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+}
+
+
+
+
 
 export default function ColumnTable({
   tableData,
@@ -82,6 +188,7 @@ export default function ColumnTable({
     "rgba(117,81,255,0.15)"
   );
   const prsBorder = useColorModeValue("purple.300", "purple.400");
+  const rowBorder = useColorModeValue("purple.100", "whiteAlpha.200");
 
 
 
@@ -93,12 +200,14 @@ export default function ColumnTable({
         const value = info.getValue();
         const pos = typeof value === "string" ? parseInt(value, 10) : value;
         const display = Number.isNaN(Number(pos)) ? value : pos;
+        const trophyColor = trophyColors[pos as 1 | 2 | 3];
         return (
           <Flex justify="center">
             {typeof pos === "number" && pos <= 3 ? (
-              <Box bg="#FFB547" p="8px" borderRadius="full">
-                <FaTrophy size={14} />
-              </Box>
+              <Flex align="center" gap="6px">
+                <FaTrophy color={trophyColor} size={14} />
+                <Text fontWeight="800">{display}</Text>
+              </Flex>
             ) : (
               <Text fontWeight="700">{display}</Text>
             )}
@@ -347,6 +456,8 @@ export default function ColumnTable({
                       _hover={{
                         bg: isCurrentUser(row) ? "purple.600" : rowHover,
                       }}
+                      borderBottom="1px solid"
+                      borderColor={rowBorder}
                     >
 
                       {row.getVisibleCells().map((cell) => (
@@ -402,148 +513,4 @@ export default function ColumnTable({
 
     </>
   );
-}
-
-function MobileLeaderboard({
-  table,
-}: {
-  table: any;
-}) {
-  if (!table) return null;
-  const rows = table.getPaginationRowModel().rows;
-
-  return (
-    <Flex direction="column" gap="16px">
-
-      {rows.map((row: any) => {
-        const user = row.original as RowObj;
-        const value = user.position;
-        const pos = typeof value === "string" ? parseInt(value, 10) : value;
-        const display = Number.isNaN(Number(pos)) ? value : pos;
-
-        return (
-          <Flex
-            key={user.githubid}
-            align="center"
-            justify="space-between"
-            p="14px"
-            borderRadius="18px"
-            bg={
-              user.githubid === currentGithubID
-                ? "purple.800"
-                : "rgba(255,255,255,0.08)"
-            }
-            color={user.githubid === currentGithubID ? "white" : "inherit"}
-            boxShadow={
-              user.githubid === currentGithubID
-                ? "0 0 0 2px rgba(183,148,244,0.6)"
-                : "none"
-            }
-          >
-            <Link href={`/user/profile/${user.githubid}`}>
-              <Flex align="center" gap="12px">
-                <Flex justify="center">
-                  {typeof pos === "number" && pos <= 3 ? (
-                    <Box bg="#FFB547" p="8px" borderRadius="full">
-                      <FaTrophy size={14} />
-                    </Box>
-                  ) : (
-                    <Text fontWeight="700">{display}</Text>
-                  )}
-                </Flex>
-
-                <Box position="relative">
-                  <NextAvatar
-                    src={user.avatarUrl}
-                    h="44px"
-                    w="44px"
-                  />
-
-                  {MAINTAINERS.has(user.githubid) && (
-                    <Box
-                      position="absolute"
-                      top="-6px"
-                      right="-6px"
-                      bg="yellow.400"
-                      color="black"
-                      fontSize="8px"
-                      fontWeight="900"
-                      px="5px"
-                      py="1px"
-                      borderRadius="full"
-                    >
-                      M
-                    </Box>
-                  )}
-                </Box>
-
-
-                <Box>
-                  <Flex align="center" gap="6px">
-                    <Text fontWeight="700">{user.name}</Text>
-
-                    {user.githubid === currentGithubID && (
-                      <Box
-                        px="6px"
-                        py="1px"
-                        fontSize="9px"
-                        fontWeight="800"
-                        borderRadius="full"
-                        bg="white"
-                        color="purple.600"
-                      >
-                        YOU
-                      </Box>
-                    )}
-                  </Flex>
-
-                  <Text fontSize="12px" color="gray.400">
-                    @{user.githubid}
-                  </Text>
-                </Box>
-
-              </Flex>
-            </Link>
-
-            <Flex align="center" gap="6px">
-              <Text fontWeight="800" color="purple.400">
-                {user.points}
-              </Text>
-              <FaTrophy color="#FFB547" />
-            </Flex>
-          </Flex>
-        );
-      })}
-
-
-      <Flex direction="column" gap="8px" mt="8px">
-        <Text fontSize="12px" color="gray.400" textAlign="center">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
-        </Text>
-
-        <Flex gap="10px">
-          <Button
-            flex="1"
-            size="sm"
-            onClick={() => table.previousPage()}
-            isDisabled={!table.getCanPreviousPage()}
-            borderRadius="full"
-          >
-            Prev
-          </Button>
-
-          <Button
-            flex="1"
-            size="sm"
-            onClick={() => table.nextPage()}
-            isDisabled={!table.getCanNextPage()}
-            borderRadius="full"
-          >
-            Next
-          </Button>
-        </Flex>
-      </Flex>
-    </Flex>
-  );
-}
+} 

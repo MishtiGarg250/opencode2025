@@ -121,7 +121,6 @@ export default function MobileMenuBar(props: MobileMenuBarProps) {
                   transition="transform 0.2s ease"
                   mb="4px"
                 >
-                  {/* FIX: If route.icon is a valid React Element (like <Icon />), clone it and override styles */}
                   {isValidElement(route.icon) ? (
                     cloneElement(
                       route.icon as ReactElement,

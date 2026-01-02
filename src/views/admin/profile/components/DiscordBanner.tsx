@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { FaDiscord } from 'react-icons/fa';
 
 export default function DiscordBanner() {
-  const bgColor = useColorModeValue('white', 'navy.800');
+  const bgColor = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('navy.700', 'white');
   const subtitleColor = useColorModeValue('gray.500', 'gray.400');
 

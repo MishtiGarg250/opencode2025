@@ -1,13 +1,11 @@
 'use client';
 
-// Chakra imports
 import {
   Box,
   Grid,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-// Custom components
 import Card from 'components/card/Card';
 
 export default function GeneralInformation(props: {
@@ -20,13 +18,18 @@ export default function GeneralInformation(props: {
   year?: string;
   [x: string]: any;
 }) {
-  const { name, githubId, discordId, college, email, gender, year, ...rest } = props;
+  const { name, githubId, discordId, college, email, gender, year, ...rest } =
+    props;
 
   const titleColor = useColorModeValue('gray.800', 'white');
   const labelColor = useColorModeValue('gray.500', 'gray.400');
   const valueColor = useColorModeValue('gray.800', 'white');
-  const itemBg = useColorModeValue('gray.50', 'rgba(255,255,255,0.04)');
-  
+
+  const cardBg = useColorModeValue('white', 'gray.800');
+  const cardBorder = useColorModeValue('gray.200', 'gray.700');
+
+  const itemBg = useColorModeValue('gray.50', 'transparent');
+  const itemBorder = useColorModeValue('gray.200', 'transparent');
 
   const Item = ({
     label,
@@ -37,16 +40,19 @@ export default function GeneralInformation(props: {
   }) => (
     <Box
       bg={itemBg}
-      borderRadius="12px"
+      
+      border="1px solid"
+      borderColor="gray.500"
+      borderRadius="14px"
       px="14px"
       py="12px"
     >
       <Text
-        fontSize="11px"
-        fontWeight="600"
+        fontSize="10px"
+        fontWeight="700"
         color={labelColor}
         textTransform="uppercase"
-        letterSpacing="0.6px"
+        letterSpacing="0.8px"
         mb="4px"
       >
         {label}
@@ -63,17 +69,23 @@ export default function GeneralInformation(props: {
   );
 
   return (
-    <Card p="20px" {...rest}>
+    <Card
+      p="20px"
+      bg={cardBg}
+    
+      borderColor={cardBorder}
+      borderRadius="20px"
+      {...rest}
+    >
       {/* Header */}
       <Text
         fontSize="lg"
         fontWeight="800"
         color={titleColor}
-        mb="16px"
+        mb="18px"
       >
         General Information
       </Text>
-    
 
       {/* Grid */}
       <Grid
@@ -81,13 +93,14 @@ export default function GeneralInformation(props: {
           base: '1fr',
           sm: 'repeat(2, 1fr)',
         }}
-        gap="12px"
+        gap="14px"
       >
-       
         <Item label="Name" value={name} />
-        <Item label="GitHub" value={githubId} />
+        <Item label="GitHub" value={`@${githubId}`} />
         {college && <Item label="College" value={college} />}
-        {gender && <Item label="Gender" value={(gender == 'male')? 'Male': 'Female'} />}
+        {gender && (
+          <Item label="Gender" value={gender === 'male' ? 'Male' : 'Female'} />
+        )}
         {year && <Item label="Year" value={year} />}
         {discordId && <Item label="Discord ID" value={discordId} />}
         {email && <Item label="Email" value={email} />}
