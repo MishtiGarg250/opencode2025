@@ -8,53 +8,46 @@ export interface UserLeaderboardData {
     avatarUrl: string;
 }
 
-const week01Leaderboards : UserLeaderboardData[] = [{
-        "position": "1",
-        "name": "Apoorv Mittal",
-        "prmerged": 62,
-        "githubid": "Apoorv012",
-        "points": 1080,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/51785749?v=4"
-    },
+const week01Leaderboards : UserLeaderboardData[] = [
     {
         "position": "1",
-        "name": "PRASHANT KUMAR DWIVEDI",
-        "prmerged": 50,
-        "githubid": "dwivediprashant",
-        "points": 1080,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/189514117?v=4"
+        "name": "Apoorv Mittal",
+        "prmerged": 64,
+        "githubid": "Apoorv012",
+        "points": 1150,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/51785749?v=4"
     },
     {
         "position": "2",
         "name": "PRASHANT KUMAR DWIVEDI",
-        "prmerged": 50,
+        "prmerged": 55,
         "githubid": "dwivediprashant",
-        "points": 1000,
+        "points": 1120,
         "avatarUrl": "https://avatars.githubusercontent.com/u/189514117?v=4"
     },
     {
         "position": "3",
         "name": "Khushi Shorey",
-        "prmerged": 49,
+        "prmerged": 52,
         "githubid": "khushishorey",
-        "points": 860,
+        "points": 960,
         "avatarUrl": "https://avatars.githubusercontent.com/u/184863355?v=4"
     },
     {
         "position": "4",
-        "name": "Ibrahim Raza Beg ",
-        "prmerged": 46,
-        "githubid": "PHOX-9",
-        "points": 800,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/184629271?v=4"
+        "name": "Sujal Kshatri ",
+        "prmerged": 51,
+        "githubid": "suzzzal",
+        "points": 940,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/184505804?v=4"
     },
     {
         "position": "5",
-        "name": "Sujal Kshatri ",
-        "prmerged": 42,
-        "githubid": "suzzzal",
-        "points": 770,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/184505804?v=4"
+        "name": "Ibrahim Raza Beg ",
+        "prmerged": 47,
+        "githubid": "PHOX-9",
+        "points": 850,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/184629271?v=4"
     },
     {
         "position": "6",
@@ -73,44 +66,52 @@ const week01Leaderboards : UserLeaderboardData[] = [{
         "avatarUrl": "https://avatars.githubusercontent.com/u/170751582?v=4"
     },
     {
-        "position": "7",
+        "position": "6",
         "name": "Vishva Modh ",
-        "prmerged": 45,
+        "prmerged": 46,
         "githubid": "ViMo018",
-        "points": 710,
+        "points": 740,
         "avatarUrl": "https://avatars.githubusercontent.com/u/184776627?v=4"
+    },
+    {
+        "position": "7",
+        "name": "Siddhant Shekhar",
+        "prmerged": 30,
+        "githubid": "sshekhar563",
+        "points": 690,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/173538652?v=4"
     },
     {
         "position": "8",
         "name": "Omdeep",
-        "prmerged": 39,
+        "prmerged": 40,
         "githubid": "omicoded19",
-        "points": 630,
+        "points": 660,
         "avatarUrl": "https://avatars.githubusercontent.com/u/224392176?v=4"
+    },
+    {
+        "position": "8",
+        "name": "BEESA MANISH",
+        "prmerged": 37,
+        "githubid": "MANISH-BEESA",
+        "points": 660,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/169640269?v=4"
     },
     {
         "position": "9",
         "name": "Himansh",
-        "prmerged": 35,
+        "prmerged": 37,
         "githubid": "Humanshere",
-        "points": 610,
+        "points": 640,
         "avatarUrl": "https://avatars.githubusercontent.com/u/95287877?v=4"
     },
     {
-        "position": "9",
-        "name": "Siddhant Shekhar",
-        "prmerged": 28,
-        "githubid": "sshekhar563",
-        "points": 610,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/173538652?v=4"
-    },
-    {
         "position": "10",
-        "name": "BEESA MANISH",
-        "prmerged": 34,
-        "githubid": "MANISH-BEESA",
+        "name": "Aaryan Degama",
+        "prmerged": 36,
+        "githubid": "Aaryan-Degama",
         "points": 570,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/169640269?v=4"
+        "avatarUrl": "https://avatars.githubusercontent.com/u/105071514?v=4"
     }]
 
 const week02Leaderboards : UserLeaderboardData[] = [{

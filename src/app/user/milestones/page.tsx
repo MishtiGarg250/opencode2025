@@ -46,7 +46,7 @@ export default function Milestones() {
   const [selectedTab, setSelectedTab] = useState(0);
 
   
-  const WEEKS_TO_SHOW = [true, true, false, false, false];
+  const WEEKS_TO_SHOW = [true, false, false, false, false];
   const SHOW_EVENTS = false;
 
   const bgColor = useColorModeValue('gray.50', 'gray.900');
