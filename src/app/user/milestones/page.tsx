@@ -47,7 +47,7 @@ export default function Milestones() {
 
   
   const WEEKS_TO_SHOW = [true, true, false, false, false];
-  const SHOW_EVENTS = false;
+  const SHOW_EVENTS = true;
 
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const cardBg = useColorModeValue('white', 'gray.800');

@@ -2,7 +2,7 @@ const EVENT_NAME = 'OPENCODE';
 
 import { User } from 'lucide-react';
 import {UserLeaderboardData, week01Leaderboards, week02Leaderboards, week03Leaderboards,week04Leaderboards, week05Leaderboards} from '../../constants/week_wise_Leaderboard_data';
-
+import { EventWinners } from 'constants/event_winners_data';
 function compileWeekData(data: UserLeaderboardData[]) {
     const compiled = data.map((user) => ({
           rank: Number(user.position),            // "1" → 1
@@ -140,7 +140,7 @@ export const fetchEventWinners = async () => {
   return Promise.resolve({
     success: true,
     message: 'Event winners fetched successfully',
-    data: demoEventWinners,
+    data: EventWinners,
   });
 };
 
