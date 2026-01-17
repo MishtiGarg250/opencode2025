@@ -1,8 +1,5 @@
-const EVENT_NAME = 'OPENCODE';
-
-import { User } from 'lucide-react';
 import {UserLeaderboardData, week01Leaderboards, week02Leaderboards, week03Leaderboards,week04Leaderboards, week05Leaderboards} from '../../constants/week_wise_Leaderboard_data';
-
+import { EventWinners } from 'constants/event_winners_data';
 function compileWeekData(data: UserLeaderboardData[]) {
     const compiled = data.map((user) => ({
           rank: Number(user.position),            // "1" → 1
@@ -15,15 +12,6 @@ function compileWeekData(data: UserLeaderboardData[]) {
     return compiled
   }
 
-
-const avatars = [
-  'https://i.pravatar.cc/150?img=3',
-  'https://i.pravatar.cc/150?img=5',
-  'https://i.pravatar.cc/150?img=7',
-  'https://i.pravatar.cc/150?img=9',
-  'https://i.pravatar.cc/150?img=11',
-
-]
 
 export const weeklyLeaderboards = [
   {
@@ -62,66 +50,6 @@ export const weeklyLeaderboards = [
   },
 ];
 
-export const demoEventWinners = {
-  'Data Blitz': {
-    1: [
-      {
-        name: 'Aman',
-        username: 'aman-opencode',
-        avatar: avatars[1],
-        score: 620,
-        date: '2024-02-10',
-      },
-    ],
-    2: [
-      {
-        name: 'Shubham',
-        username: 'shubham-dev',
-        avatar: avatars[0],
-        score: 600,
-        date: '2024-02-10',
-      },
-    ],
-    3: [
-      {
-        name: 'Riya',
-        username: 'riya-codes',
-        avatar: avatars[2],
-        score: 580,
-        date: '2024-02-10',
-      },
-    ],
-  },
-
-  'Code Guerra': {
-    1: [
-      {
-        name: 'Shubham',
-        username: 'shubham-dev',
-        avatar: avatars[0],
-        score: 650,
-        date: '2024-02-10',
-      },
-      {
-        name: 'Aman',
-        username: 'aman-opencode',
-        avatar: avatars[1],
-        score: 650,
-        date: '2024-02-10',
-      },
-    ],
-    2: [
-      {
-        name: 'Neha',
-        username: 'neha-react',
-        avatar: avatars[4],
-        score: 610,
-        date: '2024-02-10',
-      },
-    ],
-  },
-};
-
 // =====================
 // DEMO API FUNCTIONS
 // =====================
@@ -140,7 +68,7 @@ export const fetchEventWinners = async () => {
   return Promise.resolve({
     success: true,
     message: 'Event winners fetched successfully',
-    data: demoEventWinners,
+    data: EventWinners,
   });
 };
 
@@ -165,7 +93,7 @@ export const fetchWeekLeaderboard = async (week: number) => {
 
 // Fetch specific event winners by repo name
 export const fetchEventWinnersByName = async (repoName: string) => {
-  const repoData = demoEventWinners[repoName as keyof typeof demoEventWinners];
+  const repoData = EventWinners[repoName as keyof typeof EventWinners];
 
   if (!repoData) {
     return Promise.resolve({

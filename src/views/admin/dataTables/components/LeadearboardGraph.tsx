@@ -249,7 +249,7 @@ function SingleDayGraph({ data, dayIso }:{ data: ParticipantSeries[]; dayIso: st
     },
     scales: {
       x: { title: { display: false } },
-      y: { beginAtZero: true, ticks: { precision: 0 } }
+      y: { beginAtZero: false, ticks: { precision: 0 } }
     }
   };
 
