@@ -67,24 +67,24 @@ export const EventWinners = {
         date: '2026-01-16',
       },
     ],
-    4: [
-      {
-        name: 'Aditi',
-        username: 'IIIT Allahabad',
-        avatar: "https://placehold.co/600x400/orange/white?text=A",
-        score: 29700,
-        date: '2026-01-15',
-      },
-    ],
-    5: [
-      {
-        name: 'Tarun Panthi',
-        username: 'IIIT Allahabad',
-        avatar: "https://placehold.co/600x400/orange/white?text=T",
-        score: 26300,
-        date: '2026-01-15',
-      },
-    ],
+    // 4: [
+    //   {
+    //     name: 'Aditi',
+    //     username: 'IIIT Allahabad',
+    //     avatar: "https://placehold.co/600x400/orange/white?text=A",
+    //     score: 29700,
+    //     date: '2026-01-15',
+    //   },
+    // ],
+    // 5: [
+    //   {
+    //     name: 'Tarun Panthi',
+    //     username: 'IIIT Allahabad',
+    //     avatar: "https://placehold.co/600x400/orange/white?text=T",
+    //     score: 26300,
+    //     date: '2026-01-15',
+    //   },
+    // ],
   },
 
   '(Type)cast': {
@@ -112,24 +112,24 @@ export const EventWinners = {
         date: '2026-01-15',
       },
     ],
-    4: [
-      {
-        name: 'Hardik Rana',
-        username: 'IIIT Allahabad',
-        avatar: "https://placehold.co/600x400/orange/white?text=H",
-        score: 61,
-        date: '2026-01-15',
-      },
-    ],
-    5: [
-      {
-        name: 'Neel Ghule',
-        username: 'IIIT Allahabad',
-        avatar: "https://placehold.co/600x400/orange/white?text=N",
-        score: 59,
-        date: '2026-01-15',
-      },
-    ],
+    // 4: [
+    //   {
+    //     name: 'Hardik Rana',
+    //     username: 'IIIT Allahabad',
+    //     avatar: "https://placehold.co/600x400/orange/white?text=H",
+    //     score: 61,
+    //     date: '2026-01-15',
+    //   },
+    // ],
+    // 5: [
+    //   {
+    //     name: 'Neel Ghule',
+    //     username: 'IIIT Allahabad',
+    //     avatar: "https://placehold.co/600x400/orange/white?text=N",
+    //     score: 59,
+    //     date: '2026-01-15',
+    //   },
+    // ],
   },
 
   'Code Decode (Offline Only)': {

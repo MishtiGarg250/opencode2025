@@ -31,8 +31,9 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
   const mutedText = useColorModeValue('gray.600', 'gray.400');
   const labelText = useColorModeValue('purple.600', 'purple.300');
   const headerBorder = useColorModeValue('gray.200', 'whiteAlpha.300');
+
   const cardShadow = useColorModeValue(
-    '0 24px 60px rgba(15,23,42,0.10)',
+    '0 20px 55px rgba(15,23,42,0.12)',
     '0 30px 70px rgba(0,0,0,0.45)',
   );
 
@@ -42,8 +43,6 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
       border: useColorModeValue('yellow.200', 'rgba(234,201,75,0.4)'),
       icon: 'yellow.400',
       label: 'Gold',
-      avatarBg: '#F6C343',
-      avatarColor: '#1A202C',
       badgeBg: useColorModeValue('yellow.100', 'rgba(234,201,75,0.2)'),
     },
     2: {
@@ -51,8 +50,6 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
       border: useColorModeValue('gray.200', 'rgba(160,174,192,0.4)'),
       icon: 'gray.400',
       label: 'Silver',
-      avatarBg: '#CBD5E0',
-      avatarColor: '#1A202C',
       badgeBg: useColorModeValue('gray.100', 'rgba(160,174,192,0.2)'),
     },
     3: {
@@ -60,8 +57,6 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
       border: useColorModeValue('orange.200', 'rgba(237,137,54,0.4)'),
       icon: 'orange.400',
       label: 'Bronze',
-      avatarBg: '#ED8936',
-      avatarColor: '#1A202C',
       badgeBg: useColorModeValue('orange.100', 'rgba(237,137,54,0.2)'),
     },
     default: {
@@ -69,8 +64,6 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
       border: useColorModeValue('purple.100', 'rgba(128,90,213,0.35)'),
       icon: 'purple.400',
       label: 'Winner',
-      avatarBg: useColorModeValue('purple.500', 'purple.400'),
-      avatarColor: 'white',
       badgeBg: useColorModeValue('purple.100', 'rgba(128,90,213,0.2)'),
     },
   };
@@ -78,193 +71,147 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
   const getRankStyle = (rank: number) =>
     rankStyles[rank as 1 | 2 | 3] ?? rankStyles.default;
 
-  const renderCard = (event: Event, eventIdx: number) => (
+  const renderCard = (event: Event, idx: number) => (
     <Box
-      key={`${event.eventName}-${eventIdx}`}
+      key={`${event.eventName}-${idx}`}
       bg={cardBg}
-      p={{ base: '20px', md: '26px' }}
-      borderRadius="30px"
+      p={{ base: '18px', md: '22px' }}
+      borderRadius="28px"
       boxShadow={cardShadow}
       border="1px solid"
       borderColor={borderColor}
-      minH={{ base: '420px', md: '500px' }}
+      minH="500px"
+      minW={{ md: '420px' }}
       display="flex"
       flexDirection="column"
-      position="relative"
-      overflow="hidden"
+      transition="all 0.3s"
+      _hover={{ transform: 'translateY(-6px)', boxShadow: 'xl' }}
     >
       {/* Header */}
       <Flex
         align="center"
-        mb="22px"
-        pb="16px"
+        mb="18px"
+        pb="14px"
         borderBottom="1px dashed"
         borderColor={headerBorder}
       >
         <Flex
-          w="40px"
-          h="40px"
+          w="42px"
+          h="42px"
           bg={useColorModeValue('purple.100', 'whiteAlpha.200')}
-          borderRadius="12px"
+          borderRadius="14px"
           align="center"
           justify="center"
           mr="14px"
-          flexShrink={0}
         >
-          <Icon
-            as={MdEmojiEvents}
-            color={useColorModeValue('purple.600', 'purple.300')}
-            w={6}
-            h={6}
-          />
+          <Icon as={MdEmojiEvents} color={labelText} boxSize={6} />
         </Flex>
         <Box overflow="hidden">
-          <Text
-            fontSize="10px"
-            fontWeight="bold"
-            color={labelText}
-            textTransform="uppercase"
-            letterSpacing="1px"
-          >
-            Event Champion
+          <Text fontSize="10px" fontWeight="800" color={labelText} letterSpacing="1px">
+            EVENT CHAMPION
           </Text>
-          <Text
-            fontSize={{ base: '18px', md: '20px' }}
-            fontWeight="800"
-            lineHeight="1.1"
-            noOfLines={1}
-            title={event.eventName}
-          >
+          <Text fontSize="20px" fontWeight="800" noOfLines={1}>
             {event.eventName}
           </Text>
         </Box>
       </Flex>
 
-      {/* Content */}
-      <Box
-        flex="1"
-        overflowY="auto"
-        pr="4px"
-        css={{
-          '&::-webkit-scrollbar': { width: '4px' },
-          '&::-webkit-scrollbar-thumb': {
-            background: '#E2E8F0',
-            borderRadius: '4px',
-          },
-        }}
-      >
+      {/* Winners */}
+      <Box flex="1" overflowY="auto" pr="4px">
         {Object.entries(event.winners).map(([rank, users]) => {
           const styles = getRankStyle(Number(rank));
 
           return (
             <Box
               key={rank}
-              mb="18px"
-              p={{ base: '12px', md: '14px' }}
+              mb="16px"
+              p="12px"
               borderRadius="18px"
               bg={styles.bg}
               border="1px solid"
               borderColor={styles.border}
             >
-              <Flex align="center" mb="10px" gap="8px">
+              <Flex align="center" gap="8px" mb="10px">
                 <Icon as={MdStar} color={styles.icon} />
-                <Text
-                  fontWeight="700"
-                  fontSize="12px"
-                  color={useColorModeValue('gray.600', 'gray.300')}
-                  textTransform="uppercase"
-                  letterSpacing="0.6px"
-                >
+                <Text fontSize="12px" fontWeight="700" textTransform="uppercase">
                   {styles.label}
                 </Text>
               </Flex>
 
-              {users.map((u, i) => (
+              {users.map((u: any, i: number) => (
                 <Box
-                  key={u.userId ? `${u.userId}-${i}` : `user-${rank}-${i}`}
-                  p={{ base: '12px', md: '14px' }}
+                  key={`${u.userId ?? 'user'}-${i}`}
+                  p="12px"
+                  mb="8px"
                   borderRadius="16px"
                   bg={surfaceBg}
                   border="1px solid"
                   borderColor={surfaceBorder}
-                  boxShadow="sm"
-                  mb="10px"
                   cursor="pointer"
+                  transition="all 0.25s"
+                  _hover={{
+                    transform: 'translateY(-3px)',
+                    boxShadow: 'md',
+                    borderColor: styles.border,
+                  }}
                   onClick={() =>
                     u.userId && router.push(`/user/profile/${u.userId}`)
                   }
-                  _hover={{
-                    borderColor: styles.border,
-                    transform: 'translateY(-3px)',
-                    boxShadow: 'md',
-                  }}
-                  transition="all 0.2s"
                 >
-                  <Flex align="center" gap="12px" mb="8px">
+                  <Flex align="center" gap="10px">
                     <Avatar
+                      size="sm"
                       src={u.avatar}
                       name={u.name}
-                      size="sm"
-                      ring={2}
-                      ringColor={styles.icon}
-                      bg={styles.avatarBg}
-                      color={styles.avatarColor}
                       border="2px solid"
                       borderColor={styles.border}
                     />
+
                     <Box flex="1" overflow="hidden">
-                      <Text
-                        fontWeight="700"
-                        fontSize={{ base: '14px', md: '15px' }}
-                        noOfLines={1}
-                      >
+                      <Text fontSize="14px" fontWeight="700" noOfLines={1}>
                         {u.name}
                       </Text>
-                      <Text
-                        fontSize="13px"
-                        color={mutedText}
-                        fontWeight="600"
-                        noOfLines={1}
-                      >
-                        {u.college ? u.college : `@${u.username}`}
+                      <Text fontSize="12px" color={mutedText} noOfLines={1}>
+                        {u.college ?? `@${u.username}`}
                       </Text>
                     </Box>
+
                     {u.score && (
                       <Box
-                        px="10px"
-                        py="4px"
-                        borderRadius="full"
+                        px="12px"
+                        py="6px"
+                        borderRadius="999px"
                         bg={styles.badgeBg}
-                        color={useColorModeValue('gray.700', 'white')}
-                        fontSize="12px"
-                        fontWeight="700"
+                        fontSize="13px"
+                        fontWeight="800"
                         border="1px solid"
                         borderColor={styles.border}
-                        minW="72px"
-                        textAlign="center"
+                        boxShadow={
+                          Number(rank) === 1
+                            ? '0 0 0 2px rgba(234,201,75,0.25)'
+                            : 'sm'
+                        }
                       >
-                        {u.score}
+                        {u.score} pts
                       </Box>
                     )}
                   </Flex>
 
-                  {!isMobile && u.score && (
-                    <Box mt="6px">
-                      <Progress
-                        value={Math.min((u.score % 100) + 40, 100)}
-                        size="xs"
-                        colorScheme={
-                          Number(rank) === 1
-                            ? 'yellow'
-                            : Number(rank) === 2
-                              ? 'gray'
-                              : 'orange'
-                        }
-                        borderRadius="full"
-                        hasStripe={Number(rank) === 1}
-                        isAnimated={Number(rank) === 1}
-                      />
-                    </Box>
+                  {!isMobile && u.score && Number(rank) <= 3 && (
+                    <Progress
+                      mt="8px"
+                      value={Math.min((u.score % 100) + 40, 100)}
+                      size="xs"
+                      borderRadius="999px"
+                      colorScheme={
+                        Number(rank) === 1
+                          ? 'yellow'
+                          : Number(rank) === 2
+                            ? 'gray'
+                            : 'orange'
+                      }
+                      bg="blackAlpha.100"
+                    />
                   )}
                 </Box>
               ))}
@@ -276,11 +223,7 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
   );
 
   if (isMobile) {
-    return (
-      <Flex direction="column" gap="16px">
-        {events.map(renderCard)}
-      </Flex>
-    );
+    return <Flex direction="column" gap="16px">{events.map(renderCard)}</Flex>;
   }
 
   return <AutoCarousel>{events.map(renderCard)}</AutoCarousel>;
