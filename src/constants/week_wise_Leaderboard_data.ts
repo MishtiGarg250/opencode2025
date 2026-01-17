@@ -216,98 +216,82 @@ const week02Leaderboards : UserLeaderboardData[] = [
 const week03Leaderboards : UserLeaderboardData[] = [{
         "position": "1",
         "name": "Apoorv Mittal",
-        "prmerged": 62,
+        "prmerged": 127,
         "githubid": "Apoorv012",
-        "points": 1080,
+        "points": 2895,
         "avatarUrl": "https://avatars.githubusercontent.com/u/51785749?v=4"
     },
     {
         "position": "2",
-        "name": "PRASHANT KUMAR DWIVEDI",
-        "prmerged": 50,
-        "githubid": "dwivediprashant",
-        "points": 1020,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/189514117?v=4"
+        "name": "Ishan Raj Singh",
+        "prmerged": 128,
+        "githubid": "ishanrajsingh",
+        "points": 2762,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/225340945?v=4"
     },
     {
         "position": "3",
-        "name": "Khushi Shorey",
-        "prmerged": 49,
-        "githubid": "khushishorey",
-        "points": 860,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/184863355?v=4"
+        "name": "PRASHANT KUMAR DWIVEDI",
+        "prmerged": 107,
+        "githubid": "dwivediprashant",
+        "points": 2230,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/189514117?v=4"
     },
     {
         "position": "4",
-        "name": "Ibrahim Raza Beg ",
-        "prmerged": 46,
-        "githubid": "PHOX-9",
-        "points": 800,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/184629271?v=4"
-    },
-    {
-        "position": "5",
         "name": "Sujal Kshatri ",
-        "prmerged": 42,
+        "prmerged": 91,
         "githubid": "suzzzal",
-        "points": 770,
+        "points": 1965,
         "avatarUrl": "https://avatars.githubusercontent.com/u/184505804?v=4"
     },
     {
-        "position": "6",
-        "name": "Satwik Santosh",
-        "prmerged": 50,
-        "githubid": "DeadlySatwik",
-        "points": 740,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/179852114?v=4"
+        "position": "5",
+        "name": "Krishna Sikheriya",
+        "prmerged": 77,
+        "githubid": "Krishna200608",
+        "points": 1832,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/149170011?v=4"
     },
     {
         "position": "6",
-        "name": "Sourish Awasthi",
-        "prmerged": 48,
-        "githubid": "LooninS",
-        "points": 740,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/170751582?v=4"
+        "name": "Chithra R",
+        "prmerged": 78,
+        "githubid": "Chithra582",
+        "points": 1625,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/180492492?v=4"
     },
     {
         "position": "7",
-        "name": "Vishva Modh ",
-        "prmerged": 45,
-        "githubid": "ViMo018",
-        "points": 710,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/184776627?v=4"
+        "name": "Ibrahim Raza Beg ",
+        "prmerged": 74,
+        "githubid": "PHOX-9",
+        "points": 1595,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/184629271?v=4"
     },
     {
         "position": "8",
-        "name": "Omdeep",
-        "prmerged": 39,
-        "githubid": "omicoded19",
-        "points": 630,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/224392176?v=4"
+        "name": "BEESA MANISH",
+        "prmerged": 70,
+        "githubid": "MANISH-BEESA",
+        "points": 1580,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/169640269?v=4"
     },
     {
         "position": "9",
-        "name": "Himansh",
-        "prmerged": 35,
-        "githubid": "Humanshere",
-        "points": 610,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/95287877?v=4"
-    },
-    {
-        "position": "9",
-        "name": "Siddhant Shekhar",
-        "prmerged": 28,
-        "githubid": "sshekhar563",
-        "points": 610,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/173538652?v=4"
+        "name": "YOGESH M",
+        "prmerged": 77,
+        "githubid": "yogesh4216",
+        "points": 1565,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/172981653?v=4"
     },
     {
         "position": "10",
-        "name": "BEESA MANISH",
-        "prmerged": 34,
-        "githubid": "MANISH-BEESA",
-        "points": 570,
-        "avatarUrl": "https://avatars.githubusercontent.com/u/169640269?v=4"
+        "name": "Vishva Modh ",
+        "prmerged": 79,
+        "githubid": "ViMo018",
+        "points": 1545,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/184776627?v=4"
     }]
 
 const week04Leaderboards : UserLeaderboardData[] = [{

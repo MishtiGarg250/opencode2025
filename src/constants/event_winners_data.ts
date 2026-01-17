@@ -12,7 +12,7 @@ export const EventWinners = {
   'Data Blitz': {
     1: [
       {
-        name: 'AmanArjun Deshwal',
+        name: 'Aman Arjun Deshwal',
         username: 'IIIT Allahabad (IIITA)',
         avatar: "https://placehold.co/600x400/orange/white?text=A",
         score: 1,
