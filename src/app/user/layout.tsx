@@ -9,7 +9,7 @@ import MobileMenuBar from 'components/sidebar/MobileMenuBar';
 import Sidebar from 'components/sidebar/Sidebar';
 
 import { useAuth } from 'contexts/AuthContext';
-import { MdBarChart, MdEmojiEvents, MdHome, MdPerson } from 'react-icons/md';
+import { MdBarChart, MdEmojiEvents, MdHome, MdPerson, MdWorkspacePremium } from 'react-icons/md';
 import routes from 'routes';
 import { IRoute } from 'types/navigation';
 import {
@@ -52,6 +52,12 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           layout: '/user',
           path: '/leaderboard',
           icon: <Icon as={MdBarChart} w="20px" h="20px" />,
+        },
+        {
+          name: 'Winners',
+          layout: '/user',
+          path: '/winners',
+          icon: <Icon as={MdWorkspacePremium} w="20px" h="20px" />,
         },
         {
           name: 'Milestones',
