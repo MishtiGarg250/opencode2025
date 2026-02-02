@@ -18,6 +18,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
+  FaCrown,
+  FaTrophy,
+  FaMedal,
+  FaStar,
+  FaAward,
+} from 'react-icons/fa';
+
+import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
@@ -38,7 +46,6 @@ ChartJS.register(
   Filler,
 );
 
-/* ================= TYPES ================= */
 
 type Winner = {
   position: number;
@@ -54,48 +61,117 @@ type RawPoint = {
   points: number;
 };
 
-/* ================= SOFT, PREMIUM COLORS ================= */
-/*
-  Designed to look good on dark + light backgrounds
-  Rank 1 → Gold-Pink
-  Rank 2 → Royal Purple
-  Rank 3 → Calm Blue
-  Rank 4 → Emerald Green
-  Rank 5 → Warm Orange
-*/
+
+
 
 const OVERALL_COLORS = [
-  '#c65eaf', // soft green
-  '#b4aea2', // silver
-  '#3e3b40', // bronze
+  '#F5C542', 
+  '#b4aea2',
+  '#3e3b40', 
 
 ];
 
 const COLLEGE_COLORS = [
-  '#4ADE80', // soft green
-  '#C0C7D1', // silver
-  '#8a32cd', // violet
-  '#F5C542', // yellow
+  '#4ADE80', 
+  '#C0C7D1', 
+  '#8a32cd', 
+  '#F5C542',
 
 ];
+const RANK_COLORS = [
+  '#F5C542',
+  '#4ADE80', 
+  '#C0C7D1',
+  '#8a32cd', 
+  '#F5C542', 
+]
 
-/* ================= MOCK DATA ================= */
 
 const OVERALL_WINNERS: Winner[] = [
   { position: 1, name: 'Ishan Raj Singh', githubid: 'ishanrajsingh', points: 5110, prmerged: 195, color: OVERALL_COLORS[0] },
-  { position: 2, name: 'Apoorv Mittal', githubid: 'Apoorv012', points: 4585, prmerged: 177 , color: OVERALL_COLORS[1]},
-  { position: 3, name: 'Prashant Kumar Dwivedi', githubid: 'dwivediprashant', points: 4485, prmerged: 171 , color: OVERALL_COLORS[2]},
+  { position: 2, name: 'Apoorv Mittal', githubid: 'Apoorv012', points: 4585, prmerged: 177, color: OVERALL_COLORS[1] },
+  { position: 3, name: 'Prashant Kumar Dwivedi', githubid: 'dwivediprashant', points: 4485, prmerged: 171, color: OVERALL_COLORS[2] },
 ];
 
 const COLLEGE_WINNERS: Winner[] = [
-  { position: 1, name: 'Krishna Sikheriya', githubid: 'Krishna200608', points: 3095, prmerged: 48 , color: COLLEGE_COLORS[0]},
-  { position: 2, name: 'Vishva Modh', githubid: 'ViMo018', points: 2590, prmerged: 41 ,color: COLLEGE_COLORS[1]},
-  { position: 2, name: 'Ibrahim Raza Beg', githubid: 'PHOX-9', points: 2590, prmerged: 36 ,color: COLLEGE_COLORS[1]},
-  { position: 3, name: 'Omdeep', githubid: 'omicoded19', points: 1160, prmerged: 29 , color: COLLEGE_COLORS[2]},
-  { position: 4, name: 'Khushi Shorey', githubid: 'khushishorey', points: 1100, prmerged: 22 , color: COLLEGE_COLORS[3]},
+  { position: 1, name: 'Krishna Sikheriya', githubid: 'Krishna200608', points: 3095, prmerged: 48, color: COLLEGE_COLORS[0] },
+  { position: 2, name: 'Vishva Modh', githubid: 'ViMo018', points: 2590, prmerged: 41, color: COLLEGE_COLORS[1] },
+  { position: 2, name: 'Ibrahim Raza Beg', githubid: 'PHOX-9', points: 2590, prmerged: 36, color: COLLEGE_COLORS[1] },
+  { position: 3, name: 'Omdeep', githubid: 'omicoded19', points: 1160, prmerged: 29, color: COLLEGE_COLORS[2] },
+  { position: 4, name: 'Khushi Shorey', githubid: 'khushishorey', points: 1100, prmerged: 22, color: COLLEGE_COLORS[3] },
 ];
 
-/* ================= API ================= */
+function WinnersBackground() {
+  return (
+    <Box
+      position="absolute"
+      inset={0}
+      zIndex={0}
+      pointerEvents="none"
+      display={{ base: 'none', lg: 'block' }}
+      bgImage="url('/Logo/opencodelogo.png')"
+      bgRepeat="no-repeat"
+      bgSize="500px"
+      bgPosition="center"
+      opacity={0.1}
+      filter="blur(1px)"
+
+
+    />
+  );
+}
+
+function VictorySideIcons() {
+  const color = useColorModeValue(
+    'blackAlpha.300',
+    'whiteAlpha.300',
+  );
+
+  const Icon = ({
+    IconComp,
+    top,
+    side,
+    size = 64,
+  }: {
+    IconComp: any;
+    top: string;
+    side: 'left' | 'right';
+    size?: number;
+  }) => (
+    <Box
+      position="absolute"
+      top={top}
+      {...(side === 'left'
+        ? { left: '48px' }
+        : { right: '48px' })}
+      fontSize={`${size}px`}
+      opacity={0.22}
+      color={color}
+      pointerEvents="none"
+      userSelect="none"
+      display={{ base: 'none', lg: 'block' }}
+      filter="blur(0.4px)"
+    >
+      <IconComp />
+    </Box>
+  );
+
+  return (
+    <>
+      {/* LEFT SIDE */}
+      <Icon IconComp={FaCrown} top="18%" side="left" size={70} />
+      <Icon IconComp={FaStar} top="45%" side="left" size={58} />
+      <Icon IconComp={FaAward} top="70%" side="left" size={64} />
+
+      {/* RIGHT SIDE */}
+      <Icon IconComp={FaTrophy} top="20%" side="right" size={72} />
+      <Icon IconComp={FaMedal} top="48%" side="right" size={60} />
+      <Icon IconComp={FaStar} top="74%" side="right" size={56} />
+    </>
+  );
+}
+
+
 
 function TopThreeCards({ winners }: { winners: Winner[] }) {
   const bg = useColorModeValue('white', 'gray.900');
@@ -125,7 +201,7 @@ function TopThreeCards({ winners }: { winners: Winner[] }) {
             gap="6px"
             fontSize="32px"
           >
-          
+
             <span>{medals[i]}</span>
           </Flex>
 
@@ -172,6 +248,108 @@ function TopThreeCards({ winners }: { winners: Winner[] }) {
   );
 }
 
+import { FaCodeBranch, FaUsers } from 'react-icons/fa';
+
+function OverallSideStats() {
+  const glass = useColorModeValue(
+    'rgba(255,255,255,0.6)',
+    'rgba(255,255,255,0.08)',
+  );
+  const text = useColorModeValue('gray.800', 'white');
+  const muted = useColorModeValue('gray.600', 'gray.400');
+
+  const Circle = ({
+    icon: Icon,
+    title,
+    stats,
+    side,
+  }: {
+    icon: any;
+    title: string;
+    stats: { value: string; label: string }[];
+    side: 'left' | 'right';
+  }) => (
+    <Box
+      position="absolute"
+      top="50%"
+      transform="translateY(-50%)"
+      {...(side === 'left' ? { left: '48px' } : { right: '48px' })}
+      display={{ base: 'none', lg: 'flex' }}
+      w="200px"
+      h="200px"
+      borderRadius="50%"
+      bg={glass}
+      backdropFilter="blur(14px)"
+      border="1px solid rgba(255,255,255,0.25)"
+      boxShadow="0 20px 40px rgba(0,0,0,0.08)"
+      flexDir="column"
+      alignItems="center"
+      justifyContent="center"
+      gap="10px"
+      textAlign="center"
+      zIndex={1}
+    >
+
+      <Box
+        fontSize="30px"
+        color="#F5C542"
+        mb="6px"
+        filter="drop-shadow(0 0 12px rgba(245,197,66,0.35))"
+      >
+        <Icon />
+      </Box>
+
+  
+      <Text
+        fontSize="11px"
+        letterSpacing="0.14em"
+        textTransform="uppercase"
+        color={muted}
+      >
+        {title}
+      </Text>
+
+    
+      {stats.map((s) => (
+        <Box key={s.label}>
+          <Text fontSize="22px" fontWeight="900" color={text}>
+            {s.value}
+          </Text>
+          <Text fontSize="11px" color={muted}>
+            {s.label}
+          </Text>
+        </Box>
+      ))}
+    </Box>
+  );
+
+  return (
+    <>
+    
+      <Circle
+        icon={FaCodeBranch}
+        title="Contributions"
+        side="left"
+        stats={[
+          { value: '3,768', label: 'Pull Requests Raised' },
+      
+        ]}
+      />
+
+    
+      <Circle
+        icon={FaUsers}
+        title="Community"
+        side="right"
+        stats={[
+          { value: '1,000+', label: 'Total Registrations' },
+        ]}
+      />
+    </>
+  );
+}
+
+
 
 
 async function fetchProgress(githubId: string) {
@@ -209,75 +387,119 @@ function normalizeProgress(raw: RawPoint[], labels: string[]) {
 }
 
 
-/* ================= PODIUM ================= */
 
 function Podium({ winners, colors }: { winners: Winner[]; colors: string[] }) {
   const text = useColorModeValue('gray.800', 'white');
   const muted = useColorModeValue('gray.500', 'gray.400');
+  const glass = useColorModeValue(
+    'rgba(255,255,255,0.7)',
+    'rgba(0,0,0,0.45)',
+  );
 
-  const order = winners.length === 3
-    ? [winners[1], winners[0], winners[2]]
-    : [winners[3], winners[1], winners[0], winners[2], winners[4]];
+  const order =
+    winners.length === 3
+      ? [winners[1], winners[0], winners[2]]
+      : [winners[3], winners[1], winners[0], winners[2], winners[4]];
 
-  const heights = winners.length === 3
-    ? ['160px', '210px', '140px']
-    : ['120px', '170px', '230px', '160px', '130px'];
+  const heights =
+    winners.length === 3
+      ? ['160px', '210px', '140px']
+      : ['120px', '170px', '230px', '160px', '130px'];
 
   return (
     <Box
-  width="100vw"
-  position="relative"
-  left="50%"
-  right="50%"
-  marginLeft="-50vw"
-  marginRight="-50vw"
->
-    <Box  display="flex"  justifyContent="center">
-     <Box
-      display="grid"
+      width="100vw"
+      position="relative"
+      left="50%"
+      marginLeft="-50vw"
+    >
+      <Box display="flex" justifyContent="center">
+        <Box
+          display="grid"
+          gridTemplateColumns={`repeat(${order.length}, 120px)`}
+          justifyContent="center"
+          alignItems="end"
+          columnGap="18px"
+          mt="32px"
+        >
+          {order.map((w, i) => (
+            <Box key={w.githubid} textAlign="center">
+              <Avatar
+                src={`https://github.com/${w.githubid}.png`}
+                size={w.position === 1 ? 'xl' : 'lg'}
+                border={`4px solid ${w.color}`}
+                mb="8px"
+              />
 
-     gridTemplateColumns={`repeat(${order.length}, 120px)`}
-      justifyContent="center"
-      alignItems="end"
-      columnGap="18px"
+              <Text fontWeight="800" color={text}>
+                {w.name}
+              </Text>
+              <Text fontSize="12px" color={muted} mb="8px">
+                @{w.githubid}
+              </Text>
 
-      mt="32px">
-      {order.map((w, i) => (
-        <Box key={w.githubid} textAlign="center">
-          <Avatar
-            src={`https://github.com/${w.githubid}.png`}
-            size={w.position === 1 ? 'xl' : 'lg'}
-            border={`4px solid ${w.color}`}
-            mb="8px"
-          />
-          <Text fontWeight="800" color={text}>
-            {w.name}
-          </Text>
-          <Text fontSize="12px" color={muted} mb="8px">
-            @{w.githubid}
-          </Text>
-          <Box
-            h={heights[i]}
-            w="110px"
-            bg={w.color}
-            borderRadius="16px 16px 0 0"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            fontSize="22px"
-            fontWeight="900"
-            color="white"
-            boxShadow="xl"
-          >
-            #{w.position}
-          </Box>
+              <Box
+                h={heights[i]}
+                w="110px"
+                bg={w.color}
+                borderRadius="16px 16px 0 0"
+                boxShadow="xl"
+                position="relative"
+                overflow="hidden"
+                role="group"
+              >
+            
+                <Flex
+                  h="100%"
+                  align="center"
+                  justify="center"
+                  fontSize="22px"
+                  fontWeight="900"
+                  color="white"
+                  transition="opacity 0.2s ease"
+                  _groupHover={{ opacity: 0.15 }}
+                >
+                  #{w.position}
+                </Flex>
+
+              
+                <Flex
+                  position="absolute"
+                  inset={0}
+                  direction="column"
+                  align="center"
+                  justify="center"
+                  bg={glass}
+                  backdropFilter="blur(8px)"
+                  opacity={0}
+                  transition="opacity 0.25s ease"
+                  _groupHover={{ opacity: 1 }}
+                >
+                  <Text fontSize="12px" color={muted}>
+                    POINTS
+                  </Text>
+                  <Text fontSize="20px" fontWeight="900" color={text}>
+                    {w.points}
+                  </Text>
+
+                  <Box h="8px" />
+
+                  <Text fontSize="12px" color={muted}>
+                    PRs MERGED
+                  </Text>
+                  <Text fontSize="20px" fontWeight="900" color={text}>
+                    {w.prmerged}
+                  </Text>
+                </Flex>
+              </Box>
+            </Box>
+          ))}
         </Box>
-      ))}
-    </Box>
-    </Box>
+      </Box>
     </Box>
   );
 }
+
 
 function WinnersHeader() {
   const titleColor = useColorModeValue('gray.900', 'white');
@@ -287,7 +509,7 @@ function WinnersHeader() {
   return (
     <Stack spacing="12px" align="center" mt="20px">
 
-      
+
 
       <Text
         fontSize={{ base: '32px', md: '40px' }}
@@ -299,7 +521,7 @@ function WinnersHeader() {
         Winners
       </Text>
 
-    
+
       <Text
         fontSize="14px"
         color={subtitleColor}
@@ -320,7 +542,6 @@ function WinnersHeader() {
 }
 
 
-/* ================= PAGE ================= */
 
 export default function WinnersPodiumComparisonPage() {
   const [tab, setTab] = useState(0);
@@ -357,45 +578,62 @@ export default function WinnersPodiumComparisonPage() {
   }, [query.data, users, labels]);
 
   return (
-    <Box minH="100vh" pt="40px">
-      <Stack spacing="36px">
-        <WinnersHeader />
+    <Box minH="100vh" pt="40px" position="relative" overflow="hidden">
+      <WinnersBackground />
+      <Box position="relative" zIndex={1}>
 
-         <TopThreeCards
-    winners={tab === 0 ? OVERALL_WINNERS : COLLEGE_WINNERS}
-  />
+        <Stack spacing="36px">
+          <WinnersHeader />
 
-        <Tabs index={tab} onChange={setTab} variant="soft-rounded" colorScheme="purple">
-          <TabList>
-            <Tab>Overall</Tab>
-            <Tab>IIIT A</Tab>
-          </TabList>
+          <TopThreeCards
+            winners={tab === 0 ? OVERALL_WINNERS : COLLEGE_WINNERS}
+          />
 
-          <TabPanels>
-            <TabPanel>
-              <Podium winners={OVERALL_WINNERS.slice(0, 3)} colors={OVERALL_COLORS} />
-            </TabPanel>
-            <TabPanel>
-              <Podium winners={COLLEGE_WINNERS.slice(0, 5)} colors={COLLEGE_COLORS} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+          <Tabs index={tab} onChange={setTab} variant="soft-rounded" colorScheme="purple">
+            <TabList>
+              <Tab>Overall</Tab>
+              <Tab>IIIT A</Tab>
+            </TabList>
 
-        <Box h="380px">
-          {query.isLoading && <Skeleton h="100%" />}
-          {!query.isLoading && chartData && (
-            <Line
-              data={chartData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom' } },
-                scales: { x: { ticks: { maxTicksLimit: 8 } } },
-              }}
-            />
-          )}
-        </Box>
-      </Stack>
+
+
+            <TabPanels>
+              <TabPanel>
+                <Box position="relative">
+                  <OverallSideStats />
+                  <Podium
+                    winners={OVERALL_WINNERS.slice(0, 3)}
+                    colors={OVERALL_COLORS}
+                  />
+                </Box>
+              </TabPanel>
+
+              <TabPanel>
+                <Box position="relative">
+                  <OverallSideStats />
+                  <Podium winners={COLLEGE_WINNERS.slice(0, 5)} colors={COLLEGE_COLORS} />
+                </Box>
+
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+
+          <Box h="380px">
+            {query.isLoading && <Skeleton h="100%" />}
+            {!query.isLoading && chartData && (
+              <Line
+                data={chartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: { legend: { position: 'bottom' } },
+                  scales: { x: { ticks: { maxTicksLimit: 8 } } },
+                }}
+              />
+            )}
+          </Box>
+        </Stack>
+      </Box>
     </Box>
   );
 }
