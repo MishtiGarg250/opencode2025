@@ -165,7 +165,7 @@ const OpenCodeHero = () => {
             <div className="flex-1 p-3 rounded-lg bg-white/5 text-center">
               <div className="text-xs text-white/70">Repos</div>
               <div className="mt-1 font-semibold flex items-center justify-center gap-2">
-                <Github className="w-4 h-4" /> 420
+                <Github className="w-4 h-4" /> 165
               </div>
             </div>
           </div>

@@ -46,6 +46,7 @@ type Winner = {
   githubid: string;
   points: number;
   prmerged: number;
+  color?: string
 };
 
 type RawPoint = {
@@ -63,29 +64,35 @@ type RawPoint = {
   Rank 5 → Warm Orange
 */
 
-const RANK_COLORS = [
-     '#F5C542', // gold
-  '#C0C7D1', // silver
-   '#CD7F32', // bronze
+const OVERALL_COLORS = [
+  '#c65eaf', // soft green
+  '#b4aea2', // silver
+  '#3e3b40', // bronze
+
+];
+
+const COLLEGE_COLORS = [
   '#4ADE80', // soft green
-   '#60A5FA', // soft blue
+  '#C0C7D1', // silver
+  '#8a32cd', // violet
+  '#F5C542', // yellow
 
 ];
 
 /* ================= MOCK DATA ================= */
 
 const OVERALL_WINNERS: Winner[] = [
-  { position: 1, name: 'Ishan Raj Singh', githubid: 'ishanrajsingh', points: 5110, prmerged: 195 },
-  { position: 2, name: 'Apoorv Mittal', githubid: 'Apoorv012', points: 4585, prmerged: 177 },
-  { position: 3, name: 'Prashant Kumar Dwivedi', githubid: 'dwivediprashant', points: 4485, prmerged: 171 },
+  { position: 1, name: 'Ishan Raj Singh', githubid: 'ishanrajsingh', points: 5110, prmerged: 195, color: OVERALL_COLORS[0] },
+  { position: 2, name: 'Apoorv Mittal', githubid: 'Apoorv012', points: 4585, prmerged: 177 , color: OVERALL_COLORS[1]},
+  { position: 3, name: 'Prashant Kumar Dwivedi', githubid: 'dwivediprashant', points: 4485, prmerged: 171 , color: OVERALL_COLORS[2]},
 ];
 
 const COLLEGE_WINNERS: Winner[] = [
-  { position: 1, name: 'Krishna Sikheriya', githubid: 'Krishna200608', points: 3095, prmerged: 48 },
-  { position: 2, name: 'Vishva Modh', githubid: 'ViMo018', points: 2590, prmerged: 41 },
-  { position: 2, name: 'Ibrahim Raza Beg', githubid: 'PHOX-9', points: 2590, prmerged: 36 },
-  { position: 3, name: 'Omdeep', githubid: 'amicoded19', points: 1160, prmerged: 29 },
-  { position: 4, name: 'Khushi Shorey', githubid: 'khushishorey', points: 1100, prmerged: 22 },
+  { position: 1, name: 'Krishna Sikheriya', githubid: 'Krishna200608', points: 3095, prmerged: 48 , color: COLLEGE_COLORS[0]},
+  { position: 2, name: 'Vishva Modh', githubid: 'ViMo018', points: 2590, prmerged: 41 ,color: COLLEGE_COLORS[1]},
+  { position: 2, name: 'Ibrahim Raza Beg', githubid: 'PHOX-9', points: 2590, prmerged: 36 ,color: COLLEGE_COLORS[1]},
+  { position: 3, name: 'Omdeep', githubid: 'omicoded19', points: 1160, prmerged: 29 , color: COLLEGE_COLORS[2]},
+  { position: 4, name: 'Khushi Shorey', githubid: 'khushishorey', points: 1100, prmerged: 22 , color: COLLEGE_COLORS[3]},
 ];
 
 /* ================= API ================= */
@@ -204,7 +211,7 @@ function normalizeProgress(raw: RawPoint[], labels: string[]) {
 
 /* ================= PODIUM ================= */
 
-function Podium({ winners }: { winners: Winner[] }) {
+function Podium({ winners, colors }: { winners: Winner[]; colors: string[] }) {
   const text = useColorModeValue('gray.800', 'white');
   const muted = useColorModeValue('gray.500', 'gray.400');
 
@@ -240,7 +247,7 @@ function Podium({ winners }: { winners: Winner[] }) {
           <Avatar
             src={`https://github.com/${w.githubid}.png`}
             size={w.position === 1 ? 'xl' : 'lg'}
-            border={`4px solid ${RANK_COLORS[w.position - 1]}`}
+            border={`4px solid ${w.color}`}
             mb="8px"
           />
           <Text fontWeight="800" color={text}>
@@ -252,7 +259,7 @@ function Podium({ winners }: { winners: Winner[] }) {
           <Box
             h={heights[i]}
             w="110px"
-            bg={RANK_COLORS[w.position - 1]}
+            bg={w.color}
             borderRadius="16px 16px 0 0"
             display="flex"
             alignItems="center"
@@ -299,7 +306,7 @@ function WinnersHeader() {
         textAlign="center"
         maxW="420px"
       >
-        Celebrating the top performers and their journey through Opencode
+        Top Performers and their Journey through Opencode
       </Text>
       <Box
         h="2px"
@@ -331,17 +338,21 @@ export default function WinnersPodiumComparisonPage() {
 
   const chartData = useMemo(() => {
     if (!query.data) return null;
+    const colors = tab === 0 ? OVERALL_COLORS : COLLEGE_COLORS;
     return {
       labels,
-      datasets: users.map((u, i) => ({
-        label: u.name,
-        data: normalizeProgress(query.data[i], labels),
-        borderColor: RANK_COLORS[i],
-        backgroundColor: `${RANK_COLORS[i]}33`,
-        fill: true,
-        tension: 0.35,
-        pointRadius: 2,
-      })),
+      datasets: users.map((u, i) => {
+        const col = u.color ?? colors[i];
+        return ({
+          label: u.name,
+          data: normalizeProgress(query.data[i], labels),
+          borderColor: col,
+          backgroundColor: `${col}33`,
+          fill: true,
+          tension: 0.35,
+          pointRadius: 2,
+        });
+      }),
     };
   }, [query.data, users, labels]);
 
@@ -357,15 +368,15 @@ export default function WinnersPodiumComparisonPage() {
         <Tabs index={tab} onChange={setTab} variant="soft-rounded" colorScheme="purple">
           <TabList>
             <Tab>Overall</Tab>
-            <Tab>College</Tab>
+            <Tab>IIIT A</Tab>
           </TabList>
 
           <TabPanels>
             <TabPanel>
-              <Podium winners={OVERALL_WINNERS.slice(0, 3)} />
+              <Podium winners={OVERALL_WINNERS.slice(0, 3)} colors={OVERALL_COLORS} />
             </TabPanel>
             <TabPanel>
-              <Podium winners={COLLEGE_WINNERS.slice(0, 5)} />
+              <Podium winners={COLLEGE_WINNERS.slice(0, 5)} colors={COLLEGE_COLORS} />
             </TabPanel>
           </TabPanels>
         </Tabs>
