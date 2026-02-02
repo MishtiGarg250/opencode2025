@@ -1,0 +1,42 @@
+const COLLEGE_WINNERS = [
+  {
+    position: 1,
+    name: 'Aarav Singh',
+    githubid: 'aaravsingh',
+    points: 1240,
+    prmerged: 48,
+    avatarUrl: 'https://avatars.githubusercontent.com/u/1',
+  },
+  {
+    position: 2,
+    name: 'Neha Verma',
+    githubid: 'nehaverma',
+    points: 1100,
+    prmerged: 41,
+    avatarUrl: 'https://avatars.githubusercontent.com/u/2',
+  },
+  {
+    position: 3,
+    name: 'Rohit Sharma',
+    githubid: 'rohitcodes',
+    points: 980,
+    prmerged: 36,
+    avatarUrl: 'https://avatars.githubusercontent.com/u/3',
+  },
+  {
+    position: 4,
+    name: 'Isha Patel',
+    githubid: 'ishapatel',
+    points: 870,
+    prmerged: 29,
+    avatarUrl: 'https://avatars.githubusercontent.com/u/4',
+  },
+  {
+    position: 5,
+    name: 'Kunal Mehta',
+    githubid: 'kunalmehta',
+    points: 760,
+    prmerged: 22,
+    avatarUrl: 'https://avatars.githubusercontent.com/u/5',
+  },
+];
