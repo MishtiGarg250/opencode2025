@@ -21,7 +21,7 @@ import ColumnsTable, {
 import { fetchOpencodeLeaderboardFromCsv } from 'constants/opencodeLeaderboard';
 
 export default function EventName() {
-  const { eventName } = useParams<{ eventName: string }>();
+  const eventName  = "opencode";
   const [searchQuery, setSearchQuery] = useState('');
 
   const textColor = useColorModeValue('gray.800', 'white');
