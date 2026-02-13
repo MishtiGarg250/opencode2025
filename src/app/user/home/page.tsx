@@ -1,111 +1,60 @@
 'use client';
 
 import { Box, Button, Image } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
-import { FetchedEvents } from 'api/events/events';
-import { fetchLoggedInBasicDetails } from 'api/profile/profile';
-import axios from 'axios';
-import { useAuth } from 'contexts/AuthContext';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { RingLoader } from 'react-spinners';
 
 export default function Dashboard() {
   const router = useRouter();
 
-  /*************  ✨ Windsurf Command ⭐  *************/
-  /**
-   * Handles a click on the leaderboard button and redirects the user to the leaderboard page for the given event.
-   * @param {string} eventName - The name of the event to show the leaderboard for.
-   */
-  /*******  e394e68b-41d7-401d-96dd-393b660aff41  *******/ const handleLeaderboardclick =
-    (eventName: string) => {
-      router.push(`/user/leaderboard/${encodeURIComponent(eventName)}`);
-    };
-  const { data: eventData, isLoading } = useQuery({
-    queryKey: ['EventInfo'],
-    queryFn: FetchedEvents,
-  });
-
-  const events = eventData?.data;
-  // console.log(events);
-
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <RingLoader color="#36d7b7" />
-      </div>
-    );
-  }
+  const handleLeaderboardClick = () => {
+    router.push('/user/leaderboard/opencode');
+  };
 
   return (
-    <>
-      {events?.map((event: any, index: number) => (
-        <Box pt={{ base: '90px', md: '80px', xl: '80px' }} key={index}>
-          <Box
-            key={event.name}
-            position="relative"
-            minH={{ base: '37vh', md: '80vh' }}
-            overflow="hidden"
-            borderRadius={{ base: '16px', md: '20px' }}
+    <Box pt={{ base: '90px', md: '80px', xl: '80px' }}>
+      <Box
+        position="relative"
+        minH={{ base: '37vh', md: '80vh' }}
+        overflow="hidden"
+        borderRadius={{ base: '16px', md: '20px' }}
+      >
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          w="100%"
+          h="100%"
+          bgGradient="linear(to-b, rgba(0,0,0,0.1), rgba(0,0,0.3,0.9))"
+        />
+        <Image
+          src="/img/dashboards/opencodeBG.png"
+          alt="OpenCode"
+          objectFit="cover"
+          width="100%"
+          height="100%"
+        />
+        <Box
+          position="absolute"
+          bottom={{ base: '3', md: '8' }}
+          left="50%"
+          transform="translateX(-50%)"
+          zIndex="2"
+          textAlign="center"
+          w={{ base: '100%', sm: 'auto' }}
+          px={{ base: '16px', sm: '0' }}
+        >
+          <Button
+            w={{ base: '100%', sm: 'auto' }}
+            colorScheme="teal"
+            onClick={handleLeaderboardClick}
+            bg="linear-gradient(to right, #001f3f, #003366)"
+            _hover={{ bg: 'linear-gradient(to right, #001a33, #001f3f)' }}
+            color="white"
           >
-            <Box
-              position="absolute"
-              top="0"
-              left="0"
-              w="100%"
-              h="100%"
-              bgGradient="linear(to-b, rgba(0,0,0,0.1), rgba(0,0,0.3,0.9))"
-            />
-            <Image
-              src="/img/dashboards/opencodeBG.png"
-              alt={event.name}
-              objectFit="cover"
-              width="100%"
-              height="100%"
-            />
-            <Box
-              position="absolute"
-              top={{ base: '62%', md: '70%' }}
-              left="50%"
-              transform="translate(-50%, -50%)"
-              textAlign="center"
-              zIndex="2"
-              color="white"
-              px={{ base: '16px', md: '0' }}
-              maxW={{ base: '320px', md: '600px' }}
-            >
-              {/* <Text fontSize={{ base: '2xl', md: '4xl' }} fontWeight="bold" mb="3">
-            {event.name}
-          </Text>
-          <Text fontSize={{ base: 'sm', md: 'xl' }}>{event.description}</Text> */}
-            </Box>
-            <Box
-              position="absolute"
-              bottom={{ base: '3', md: '8' }}
-              left="50%"
-              transform="translateX(-50%)"
-              zIndex="2"
-              textAlign="center"
-              w={{ base: '100%', sm: 'auto' }}
-              px={{ base: '16px', sm: '0' }}
-            >
-              <Button
-                w={{ base: '100%', sm: 'auto' }}
-                colorScheme="teal"
-                onClick={() => handleLeaderboardclick(event.name)}
-                bg="linear-gradient(to right, #001f3f, #003366)"
-                _hover={{ bg: 'linear-gradient(to right, #001a33, #001f3f)' }}
-                color="white"
-              >
-                Leaderboard
-              </Button>
-            </Box>
-          </Box>
+            OpenCode Leaderboard
+          </Button>
         </Box>
-      ))}
-    </>
+      </Box>
+    </Box>
   );
 }

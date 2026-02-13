@@ -87,7 +87,11 @@ function MobileLeaderboard({
             borderColor={rowBorder}
             backdropFilter="blur(14px)"
           >
-            <Link href={`/user/profile/${user.githubid}`}>
+            <Link
+              href={`https://github.com/${user.githubid}`}
+              isExternal
+              rel="noopener noreferrer"
+            >
               <Flex align="center" gap="12px">
                 <Flex align="center" gap="6px">
                   <Text fontWeight="800">{user.position}</Text>
@@ -239,7 +243,11 @@ export default function ColumnTable({
         const maintainer = isMaintainer(githubId);
 
         return (
-          <Link href={`/user/profile/${githubId}`}>
+          <Link
+            href={`https://github.com/${githubId}`}
+            isExternal
+            rel="noopener noreferrer"
+          >
             <Flex align="center" gap="10px">
 
               <Box position="relative">

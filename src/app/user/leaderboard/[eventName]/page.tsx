@@ -18,7 +18,7 @@ import ColumnsTable, {
   type RowObj,
 } from 'views/admin/dataTables/components/ColumnsTable';
 import SearchProfileBanner from 'views/admin/profile/components/SearchProfileBanner';
-import { FetchedLeaderboard } from '../../../../api/leaderboard/leaderboard';
+import { fetchOpencodeLeaderboardFromCsv } from 'constants/opencodeLeaderboard';
 
 export default function EventName() {
   const { eventName } = useParams<{ eventName: string }>();
@@ -33,8 +33,7 @@ export default function EventName() {
 
   const { data: LeadData, isLoading } = useQuery({
     queryKey: ['LeadInfo', eventName],
-    queryFn: () => FetchedLeaderboard(eventName),
-    refetchInterval: 10000,
+    queryFn: fetchOpencodeLeaderboardFromCsv,
     enabled: !!eventName,
   });
 

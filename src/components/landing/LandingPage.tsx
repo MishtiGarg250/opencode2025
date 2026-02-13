@@ -89,7 +89,7 @@ const OpenCodeHero = () => {
             {/* <Link href="/auth/sign-in">
 
             </Link> */}
-            <Link href="/home">
+            <Link href="/user/leaderboard/opencode">
             <button
   className="
     flex items-center justify-center gap-2

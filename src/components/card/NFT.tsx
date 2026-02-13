@@ -13,19 +13,16 @@ import {
 import Card from 'components/card/Card';
 
 import { Image } from 'components/image/Image';
-// Assets
-import { useState } from 'react';
 
 export default function NFT(props: {
   image: string;
   name: string;
   des: string;
   download: string;
+  ctaLabel?: string;
 }) {
-  const { image, name, des, download } = props;
-  const [like, setLike] = useState(false);
+  const { image, name, des, download, ctaLabel = 'Leaderboard' } = props;
   const textColor = useColorModeValue('navy.700', 'white');
-  const textColorBid = useColorModeValue('brand.500', 'white');
 
   return (
     <Card
@@ -85,7 +82,7 @@ export default function NFT(props: {
                 px="26px"
                 py="6px"
               >
-                Leaderboard
+                {ctaLabel}
               </Button>
             </Link>
           </Flex>

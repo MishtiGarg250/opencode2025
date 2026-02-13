@@ -9,7 +9,7 @@ import MobileMenuBar from 'components/sidebar/MobileMenuBar';
 import Sidebar from 'components/sidebar/Sidebar';
 
 import { useAuth } from 'contexts/AuthContext';
-import { MdBarChart, MdEmojiEvents, MdHome, MdPerson, MdWorkspacePremium } from 'react-icons/md';
+import { MdBarChart, MdEmojiEvents, MdHome, MdWorkspacePremium } from 'react-icons/md';
 import routes from 'routes';
 import { IRoute } from 'types/navigation';
 import {
@@ -36,39 +36,33 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   }, [auth]);
 
   const Droutes: IRoute[] = useMemo(() => {
-    const baseRoutes: IRoute[] = [
+    return [
       {
         name: 'Events',
         layout: '/user',
         path: '/home',
         icon: <Icon as={MdHome} w="20px" h="20px" />,
       },
+      {
+        name: 'Leaderboard',
+        layout: '/user',
+        path: '/leaderboard',
+        icon: <Icon as={MdBarChart} w="20px" h="20px" />,
+      },
+      {
+        name: 'Winners',
+        layout: '/user',
+        path: '/winners',
+        icon: <Icon as={MdWorkspacePremium} w="20px" h="20px" />,
+      },
+      {
+        name: 'Milestones',
+        layout: '/user',
+        path: '/milestones',
+        icon: <Icon as={MdEmojiEvents} w="20px" h="20px" />,
+      },
     ];
-
-    if (auth.isLoggedIn) {
-      baseRoutes.push(
-        {
-          name: 'Leaderboard',
-          layout: '/user',
-          path: '/leaderboard',
-          icon: <Icon as={MdBarChart} w="20px" h="20px" />,
-        },
-        {
-          name: 'Winners',
-          layout: '/user',
-          path: '/winners',
-          icon: <Icon as={MdWorkspacePremium} w="20px" h="20px" />,
-        },
-        {
-          name: 'Milestones',
-          layout: '/user',
-          path: '/milestones',
-          icon: <Icon as={MdEmojiEvents} w="20px" h="20px" />,
-        }
-      );
-    }
-    return baseRoutes;
-  }, [auth.isLoggedIn]);
+  }, []);
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
 
