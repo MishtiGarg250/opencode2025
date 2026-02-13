@@ -17,7 +17,7 @@ import LeaderboardLoader from 'components/common/LeaderboardLoader';
 import ColumnsTable, {
   type RowObj,
 } from 'views/admin/dataTables/components/ColumnsTable';
-import SearchProfileBanner from 'views/admin/profile/components/SearchProfileBanner';
+// import SearchProfileBanner from 'views/admin/profile/components/SearchProfileBanner';
 import { fetchOpencodeLeaderboardFromCsv } from 'constants/opencodeLeaderboard';
 
 export default function EventName() {
@@ -114,10 +114,10 @@ export default function EventName() {
           justify="space-between"
           gap="12px"
         >
-          <SearchProfileBanner
+          {/* <SearchProfileBanner
             value={searchQuery}
             onChange={setSearchQuery}
-          />
+          /> */}
 
           <Flex
             align="center"
