@@ -20,6 +20,16 @@ interface Event {
   eventImage?: string;
 }
 
+const getUserSubtitle = (user: any) => {
+  const college =
+    typeof user?.college === 'string' ? user.college.trim() : '';
+  if (college) return college;
+
+  const username =
+    typeof user?.username === 'string' ? user.username.trim() : '';
+  return username ? `@${username}` : 'Participant';
+};
+
 export function EventWinnersCard({ events }: { events: Event[] }) {
   const router = useRouter();
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -138,9 +148,14 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
                 </Text>
               </Flex>
 
-              {users.map((u: any, i: number) => (
+              {(Array.isArray(users) ? users : []).map((rawUser: any, i: number) => {
+                const user = rawUser ?? {};
+                const score =
+                  typeof user.score === 'number' ? user.score : undefined;
+
+                return (
                 <Box
-                  key={`${u.userId ?? 'user'}-${i}`}
+                  key={`${user.userId ?? 'user'}-${i}`}
                   p="12px"
                   mb="8px"
                   borderRadius="16px"
@@ -155,28 +170,28 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
                     borderColor: styles.border,
                   }}
                   onClick={() =>
-                    u.userId && router.push(`/user/profile/${u.userId}`)
+                    user.userId && router.push(`/user/profile/${user.userId}`)
                   }
                 >
                   <Flex align="center" gap="10px">
                     <Avatar
                       size="sm"
-                      src={u.avatar}
-                      name={u.name}
+                      src={user.avatar}
+                      name={user.name}
                       border="2px solid"
                       borderColor={styles.border}
                     />
 
                     <Box flex="1" overflow="hidden">
                       <Text fontSize="14px" fontWeight="700" noOfLines={1}>
-                        {u.name}
+                        {user.name ?? 'Anonymous'}
                       </Text>
                       <Text fontSize="12px" color={mutedText} noOfLines={1}>
-                        {u.college ?? `@${u.username}`}
+                        {getUserSubtitle(user)}
                       </Text>
                     </Box>
 
-                    {u.score && (
+                    {score !== undefined && (
                       <Box
                         px="12px"
                         py="6px"
@@ -192,15 +207,15 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
                             : 'sm'
                         }
                       >
-                        {u.score} pts
+                        {score} pts
                       </Box>
                     )}
                   </Flex>
 
-                  {!isMobile && u.score && Number(rank) <= 3 && (
+                  {!isMobile && score !== undefined && Number(rank) <= 3 && (
                     <Progress
                       mt="8px"
-                      value={Math.min((u.score % 100) + 40, 100)}
+                      value={Math.min((score % 100) + 40, 100)}
                       size="xs"
                       borderRadius="999px"
                       colorScheme={
@@ -214,7 +229,8 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
                     />
                   )}
                 </Box>
-              ))}
+                );
+              })}
             </Box>
           );
         })}
