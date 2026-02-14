@@ -167,11 +167,18 @@ const createLiquidEffect = (
   });
 };
 
-const SHAPE_MAP: Record<PixelBlastVariant, number> = {
-  square: 0,
-  circle: 1,
-  triangle: 2,
-  diamond: 3,
+const shapeTypeForVariant = (variant: PixelBlastVariant): number => {
+  switch (variant) {
+    case 'circle':
+      return 1;
+    case 'triangle':
+      return 2;
+    case 'diamond':
+      return 3;
+    case 'square':
+    default:
+      return 0;
+  }
 };
 
 const VERTEX_SRC = `
@@ -454,7 +461,7 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
           ),
         },
         uClickTimes: { value: new Float32Array(MAX_CLICKS) },
-        uShapeType: { value: SHAPE_MAP[variant] ?? 0 },
+        uShapeType: { value: shapeTypeForVariant(variant) },
         uPixelSize: { value: pixelSize * renderer.getPixelRatio() },
         uScale: { value: patternScale },
         uDensity: { value: patternDensity },
@@ -625,7 +632,7 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       };
     } else {
       const t = threeRef.current!;
-      t.uniforms.uShapeType.value = SHAPE_MAP[variant] ?? 0;
+      t.uniforms.uShapeType.value = shapeTypeForVariant(variant);
       t.uniforms.uPixelSize.value = pixelSize * t.renderer.getPixelRatio();
       t.uniforms.uColor.value.set(color);
       t.uniforms.uScale.value = patternScale;
