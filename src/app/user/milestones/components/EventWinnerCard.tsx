@@ -22,11 +22,11 @@ interface Event {
 
 const getUserSubtitle = (user: any) => {
   const college =
-    typeof user?.college === 'string' ? user.college.trim() : '';
+    user && typeof user.college === 'string' ? user.college.trim() : '';
   if (college) return college;
 
   const username =
-    typeof user?.username === 'string' ? user.username.trim() : '';
+    user && typeof user.username === 'string' ? user.username.trim() : '';
   return username ? `@${username}` : 'Participant';
 };
 
@@ -79,7 +79,7 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
   };
 
   const getRankStyle = (rank: number) =>
-    rankStyles[rank as 1 | 2 | 3] ?? rankStyles.default;
+    rankStyles[rank as 1 | 2 | 3] || rankStyles.default;
 
   const renderCard = (event: Event, idx: number) => (
     <Box
@@ -149,86 +149,88 @@ export function EventWinnersCard({ events }: { events: Event[] }) {
               </Flex>
 
               {(Array.isArray(users) ? users : []).map((rawUser: any, i: number) => {
-                const user = rawUser ?? {};
+                const user = rawUser || {};
                 const score =
                   typeof user.score === 'number' ? user.score : undefined;
+                const userId = user.userId ? user.userId : 'user';
+                const userName = user.name ? user.name : 'Anonymous';
 
                 return (
-                <Box
-                  key={`${user.userId ?? 'user'}-${i}`}
-                  p="12px"
-                  mb="8px"
-                  borderRadius="16px"
-                  bg={surfaceBg}
-                  border="1px solid"
-                  borderColor={surfaceBorder}
-                  cursor="pointer"
-                  transition="all 0.25s"
-                  _hover={{
-                    transform: 'translateY(-3px)',
-                    boxShadow: 'md',
-                    borderColor: styles.border,
-                  }}
-                  onClick={() =>
-                    user.userId && router.push(`/user/profile/${user.userId}`)
-                  }
-                >
-                  <Flex align="center" gap="10px">
-                    <Avatar
-                      size="sm"
-                      src={user.avatar}
-                      name={user.name}
-                      border="2px solid"
-                      borderColor={styles.border}
-                    />
-
-                    <Box flex="1" overflow="hidden">
-                      <Text fontSize="14px" fontWeight="700" noOfLines={1}>
-                        {user.name ?? 'Anonymous'}
-                      </Text>
-                      <Text fontSize="12px" color={mutedText} noOfLines={1}>
-                        {getUserSubtitle(user)}
-                      </Text>
-                    </Box>
-
-                    {score !== undefined && (
-                      <Box
-                        px="12px"
-                        py="6px"
-                        borderRadius="999px"
-                        bg={styles.badgeBg}
-                        fontSize="13px"
-                        fontWeight="800"
-                        border="1px solid"
+                  <Box
+                    key={`${userId}-${i}`}
+                    p="12px"
+                    mb="8px"
+                    borderRadius="16px"
+                    bg={surfaceBg}
+                    border="1px solid"
+                    borderColor={surfaceBorder}
+                    cursor="pointer"
+                    transition="all 0.25s"
+                    _hover={{
+                      transform: 'translateY(-3px)',
+                      boxShadow: 'md',
+                      borderColor: styles.border,
+                    }}
+                    onClick={() =>
+                      user.userId && router.push(`/user/profile/${user.userId}`)
+                    }
+                  >
+                    <Flex align="center" gap="10px">
+                      <Avatar
+                        size="sm"
+                        src={user.avatar}
+                        name={user.name}
+                        border="2px solid"
                         borderColor={styles.border}
-                        boxShadow={
-                          Number(rank) === 1
-                            ? '0 0 0 2px rgba(234,201,75,0.25)'
-                            : 'sm'
-                        }
-                      >
-                        {score} pts
-                      </Box>
-                    )}
-                  </Flex>
+                      />
 
-                  {!isMobile && score !== undefined && Number(rank) <= 3 && (
-                    <Progress
-                      mt="8px"
-                      value={Math.min((score % 100) + 40, 100)}
-                      size="xs"
-                      borderRadius="999px"
-                      colorScheme={
-                        Number(rank) === 1
-                          ? 'yellow'
-                          : Number(rank) === 2
-                            ? 'gray'
-                            : 'orange'
-                      }
-                      bg="blackAlpha.100"
-                    />
-                  )}
-                </Box>
+                      <Box flex="1" overflow="hidden">
+                        <Text fontSize="14px" fontWeight="700" noOfLines={1}>
+                          {userName}
+                        </Text>
+                        <Text fontSize="12px" color={mutedText} noOfLines={1}>
+                          {getUserSubtitle(user)}
+                        </Text>
+                      </Box>
+
+                      {score !== undefined && (
+                        <Box
+                          px="12px"
+                          py="6px"
+                          borderRadius="999px"
+                          bg={styles.badgeBg}
+                          fontSize="13px"
+                          fontWeight="800"
+                          border="1px solid"
+                          borderColor={styles.border}
+                          boxShadow={
+                            Number(rank) === 1
+                              ? '0 0 0 2px rgba(234,201,75,0.25)'
+                              : 'sm'
+                          }
+                        >
+                          {score} pts
+                        </Box>
+                      )}
+                    </Flex>
+
+                    {!isMobile && score !== undefined && Number(rank) <= 3 && (
+                      <Progress
+                        mt="8px"
+                        value={Math.min((score % 100) + 40, 100)}
+                        size="xs"
+                        borderRadius="999px"
+                        colorScheme={
+                          Number(rank) === 1
+                            ? 'yellow'
+                            : Number(rank) === 2
+                              ? 'gray'
+                              : 'orange'
+                        }
+                        bg="blackAlpha.100"
+                      />
+                    )}
+                  </Box>
                 );
               })}
             </Box>
