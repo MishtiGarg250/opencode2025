@@ -59,10 +59,6 @@ export default function AdminNavbar(props: AdminNavbarProps) {
     }
   }, []);
 
-  const handleLogout = async () => {
-    await auth.logout();
-    router.push('/auth/sign-in');
-  };
 
   useLayoutEffect(() => {
     if (!navRef.current) return;
@@ -121,15 +117,6 @@ export default function AdminNavbar(props: AdminNavbarProps) {
             <MenuButton>
               <Avatar size="sm" name={name} src={avatarUrl} bg="purple.500" />
             </MenuButton>
-
-            <MenuList>
-              <MenuItem onClick={() => router.push('/user/profile')}>
-                Profile Settings
-              </MenuItem>
-              <MenuItem color="red.400" onClick={handleLogout}>
-                Log out
-              </MenuItem>
-            </MenuList>
           </Menu>
         </Flex>
       </Flex>
